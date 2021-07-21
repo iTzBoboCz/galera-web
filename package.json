@@ -25,7 +25,7 @@
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@intlify/vite-plugin-vue-i18n": "^2.3.2",
-    "@types/node": "^16.3.1",
+    "@types/node": "^16.4.0",
     "@typescript-eslint/eslint-plugin": "^4.28.3",
     "@typescript-eslint/parser": "^4.28.3",
     "@vitejs/plugin-vue": "^1.2.5",
