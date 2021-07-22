@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
 import App from "./app.vue";
 import router from "./router";
+import { store, key } from "./store/index";
 import messages from "@intlify/vite-plugin-vue-i18n/messages";
 
 const app = createApp(App);
@@ -18,5 +19,6 @@ const i18n = createI18n({
 
 app.use(i18n);
 app.use(router);
+app.use(store, key);
 
 app.mount("#app");

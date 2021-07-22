@@ -27,7 +27,7 @@
     <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
   </p>
 
-  <button type="button" @click="count++">count is: {{ count }}</button>
+  <button type="button" @click="increment()">count is: {{ count }}</button>
   <p>
     Edit
     <code>components/HelloWorld.vue</code> to test hot module replacement.
@@ -36,6 +36,10 @@
 
 <script lang="ts">
 import { ref, defineComponent } from "vue";
+import { useState, useActions } from "vuex-composition-helpers";
+
+// TODO: add window.addEventListener("storage", (event) => {}); to watch for changes when having multiple tabs of Galera opened at the same time.
+
 export default defineComponent({
   name: "HelloWorld",
   props: {
@@ -44,9 +48,11 @@ export default defineComponent({
       required: true,
     },
   },
-  setup: () => {
-    const count = ref(0);
-    return { count };
+  setup() {
+    const { count } = useState(["count"]);
+    const { increment } = useActions(["increment"]);
+
+    return { increment, count };
   },
 });
 </script>

@@ -5,6 +5,7 @@
         v-for="locale in $i18n.availableLocales"
         :key="`locale-${locale}`"
         :value="locale"
+        @click="setLocale({ locale })"
       >
         {{ getNativeLanguageName(locale) }}
       </option>
@@ -14,12 +15,21 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
 import ISO6391 from "iso-639-1";
-
-console.log(ISO6391.getNativeName("cs"));
+import { useStore } from "../store/";
 
 export default defineComponent({
   name: "LocaleSwitcher",
+  setup() {
+    const store = useStore();
+
+    const { useActions } = createNamespacedHelpers(store, "userPreferences");
+
+    const { setLocale } = useActions(["setLocale"]);
+
+    return { setLocale, store };
+  },
   methods: {
     /**
      * Gets native language name from passed language_code.
