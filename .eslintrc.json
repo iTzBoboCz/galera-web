@@ -48,5 +48,13 @@
       }
     },
     "import/extensions": [".ts", ".tsx", ".vue"]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/locales/*.json"],
+      "rules": {
+        "unicorn/filename-case": "off"
+      }
+    }
+  ]
 }
