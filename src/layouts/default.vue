@@ -1,5 +1,6 @@
 <script lang="ts">
 import { RouteRecordNormalized } from "vue-router";
+
 import router from "~/router";
 
 export default {

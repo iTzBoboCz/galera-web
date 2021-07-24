@@ -1,16 +1,17 @@
 import { InjectionKey } from "vue";
 import {
   ActionTree,
-  createStore,
   createLogger,
-  useStore as baseUseStore,
-  Store,
+  createStore,
   MutationTree,
+  Store,
+  useStore as baseUseStore,
 } from "vuex";
+import createPersistedState from "vuex-persistedstate";
+
 import userPreferences, {
   UserPreferencesState,
 } from "./modules/user-preferences";
-import createPersistedState from "vuex-persistedstate";
 
 export interface RootState {
   count: number;

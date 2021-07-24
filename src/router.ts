@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from "vue-router";
 import { setupLayouts } from "virtual:generated-layouts";
 import generatedRoutes from "virtual:generated-pages";
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = generatedRoutes;
 console.dir(routes);

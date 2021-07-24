@@ -1,4 +1,5 @@
 import { ActionTree, MutationTree } from "vuex";
+
 import { RootState } from "..";
 
 export interface UserPreferencesState {

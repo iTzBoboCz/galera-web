@@ -1,7 +1,7 @@
+import VueI18n from "@intlify/vite-plugin-vue-i18n";
+import Vue from "@vitejs/plugin-vue";
 import path from "path";
 import { defineConfig } from "vite";
-import Vue from "@vitejs/plugin-vue";
-import VueI18n from "@intlify/vite-plugin-vue-i18n";
 import Pages from "vite-plugin-pages";
 import Layouts from "vite-plugin-vue-layouts";
 

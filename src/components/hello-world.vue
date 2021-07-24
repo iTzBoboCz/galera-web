@@ -35,8 +35,8 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from "vue";
-import { useState, useActions } from "vuex-composition-helpers";
+import { defineComponent } from "vue";
+import { useActions, useState } from "vuex-composition-helpers";
 
 // TODO: add window.addEventListener("storage", (event) => {}); to watch for changes when having multiple tabs of Galera opened at the same time.
 

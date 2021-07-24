@@ -14,9 +14,10 @@
 </template>
 
 <script lang="ts">
+import ISO6391 from "iso-639-1";
 import { defineComponent } from "vue";
 import { createNamespacedHelpers } from "vuex-composition-helpers";
-import ISO6391 from "iso-639-1";
+
 import { useStore } from "../store/";
 
 export default defineComponent({

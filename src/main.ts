@@ -1,9 +1,10 @@
+import messages from "@intlify/vite-plugin-vue-i18n/messages";
 import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
+
 import App from "./app.vue";
 import router from "./router";
-import { store, key } from "./store/index";
-import messages from "@intlify/vite-plugin-vue-i18n/messages";
+import { key, store } from "./store/index";
 
 const app = createApp(App);
 // eslint-disable-next-line unicorn/prevent-abbreviations

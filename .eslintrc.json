@@ -20,7 +20,12 @@
   ],
   "rules": {
     // https://github.com/hannoeru/vite-plugin-pages/issues/41
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
     "import/no-unresolved": "off",
+    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": "error",
     "unicorn/prefer-node-protocol": "off"
   },
   "plugins": [
@@ -29,6 +34,7 @@
     "prettier",
     "promise",
     "unicorn",
+    "simple-import-sort",
     "vue"
   ],
   "parserOptions": {
