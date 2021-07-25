@@ -28,8 +28,8 @@ export const state = (): UserPreferencesState => ({
 const getters = {};
 
 const actions: ActionTree<UserPreferencesState, RootState> = {
-  setLocale({ commit }, { locale }: { locale: string }) {
-    commit("setLocale", { locale });
+  setLocale({ commit }, { $i18n, locale }: { $i18n: any; locale: string }) {
+    commit("setLocale", { $i18n, locale });
   },
   toggleDarkMode({ commit }) {
     commit("toggleDarkMode");
@@ -37,8 +37,9 @@ const actions: ActionTree<UserPreferencesState, RootState> = {
 };
 
 const mutations: MutationTree<UserPreferencesState> = {
-  setLocale(state, { locale }: { locale: string }) {
+  setLocale(state, { $i18n, locale }: { $i18n: any; locale: string }) {
     state.locale = locale;
+    $i18n.value = locale;
   },
   toggleDarkMode(state) {
     state.darkMode = !state.darkMode;

@@ -5,7 +5,7 @@
         v-for="locale in $i18n.availableLocales"
         :key="`locale-${locale}`"
         :value="locale"
-        @click="setLocale({ locale })"
+        @click="setLocale({ $i18n, locale })"
       >
         {{ getNativeLanguageName(locale) }}
       </option>
