@@ -9,6 +9,7 @@
       :src="logo"
     />
     <HelloWorld :msg="t('gallery')" />
+    <ThemeToggler />
     <LocaleSwitcher />
     <router-view />
   </v-app>
@@ -24,12 +25,14 @@ import { useStore } from "~/store/index";
 
 import HelloWorld from "./components/hello-world.vue";
 import LocaleSwitcher from "./components/locale-switcher.vue";
+import ThemeToggler from "./components/theme-toggler.vue";
 
 export default defineComponent({
   name: "App",
   components: {
     HelloWorld,
     LocaleSwitcher,
+    ThemeToggler,
   },
   setup() {
     const { t } = useI18n();
