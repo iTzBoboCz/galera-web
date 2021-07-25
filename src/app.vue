@@ -1,13 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld :msg="t('gallery')" />
-  <LocaleSwitcher />
-  <router-view />
+  <v-app :theme="darkMode ? 'dark' : 'light'">
+    <v-img
+      id="logo"
+      :width="200"
+      alt="Vue logo"
+      class="my-3"
+      contain
+      :src="logo"
+    />
+    <HelloWorld :msg="t('gallery')" />
+    <LocaleSwitcher />
+    <router-view />
+  </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
+
+import logo from "~/assets/logo.png";
+import { useStore } from "~/store/index";
 
 import HelloWorld from "./components/hello-world.vue";
 import LocaleSwitcher from "./components/locale-switcher.vue";
@@ -19,10 +32,19 @@ export default defineComponent({
     LocaleSwitcher,
   },
   setup() {
-    const { locale, t } = useI18n();
+    const { t } = useI18n();
 
-    return { locale, t };
+    const store = useStore();
+
+    const { useState } = createNamespacedHelpers(store, "userPreferences");
+
+    const { darkMode } = useState(["darkMode"]);
+
+    return { darkMode, t };
   },
+  data: () => ({
+    logo,
+  }),
 });
 </script>
 
@@ -34,5 +56,9 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#logo {
+  margin: 0 auto;
 }
 </style>

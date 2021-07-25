@@ -3,7 +3,7 @@
     <div class="w-1/4 m-auto text-center text-gray-300 bg-teal-800">
       Error Layout
     </div>
-    <button @click="$router.back()">Go back</button>
+    <v-btn @click="$router.back()">Go back</v-btn>
     <router-view />
   </main>
 </template>

@@ -3,6 +3,7 @@ import { createApp } from "vue";
 import { createI18n } from "vue-i18n";
 
 import App from "./app.vue";
+import Vuetify from "./plugins/vuetify";
 import router from "./router";
 import { key, store } from "./store/index";
 
@@ -18,6 +19,7 @@ const i18n = createI18n({
 // TODO: add inheritLocale: true to components
 // TODO: find out what scope is better - global or local??
 
+app.use(Vuetify);
 app.use(i18n);
 app.use(router);
 app.use(store, key);
