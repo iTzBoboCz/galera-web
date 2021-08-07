@@ -1,4 +1,6 @@
+import axios from "axios";
 import { createApp } from "vue";
+import VueAxios from "vue-axios";
 
 import App from "./app.vue";
 // eslint-disable-next-line unicorn/prevent-abbreviations
@@ -15,5 +17,6 @@ app.use(Vuetify);
 app.use(i18n);
 app.use(router);
 app.use(store, key);
+app.use(VueAxios, axios);
 
 app.mount("#app");

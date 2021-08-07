@@ -16,8 +16,10 @@
     "*.{css,scss,vue}": "stylelint"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "iso-639-1": "^2.1.9",
     "vue": "^3.0.5",
+    "vue-axios": "^3.2.5",
     "vue-i18n": "^9.1.7",
     "vue-router": "^4.0.10",
     "vuetify": "3.0.0-alpha.10",
