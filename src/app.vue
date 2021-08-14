@@ -1,16 +1,5 @@
 <template>
   <v-app :theme="darkMode ? 'dark' : 'light'">
-    <v-img
-      id="logo"
-      :width="200"
-      alt="Vue logo"
-      class="my-3"
-      contain
-      :src="logo"
-    />
-    <HelloWorld :msg="t('gallery')" />
-    <ThemeToggler />
-    <LocaleSwitcher />
     <NavigationMenu />
     <router-view />
   </v-app>
@@ -21,20 +10,13 @@ import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
 import { createNamespacedHelpers } from "vuex-composition-helpers";
 
-import logo from "~/assets/logo.png";
 import { useStore } from "~/store/index";
 
-import HelloWorld from "./components/hello-world.vue";
-import LocaleSwitcher from "./components/locale-switcher.vue";
 import NavigationMenu from "./components/navigation-menu.vue";
-import ThemeToggler from "./components/theme-toggler.vue";
 
 export default defineComponent({
   name: "App",
   components: {
-    HelloWorld,
-    LocaleSwitcher,
-    ThemeToggler,
     NavigationMenu,
   },
   setup() {
@@ -48,9 +30,6 @@ export default defineComponent({
 
     return { darkMode, t };
   },
-  data: () => ({
-    logo,
-  }),
 });
 </script>
 
