@@ -1,7 +1,12 @@
 {
+  "albums": "Albums",
   "gallery": "Gallery",
   "home": "Home",
   "media": "Media",
+  "more": "More",
   "photo": "Photo",
+  "photos": "Photos",
+  "places": "Places",
+  "sharedAlbums": "Shared albums",
   "video": "Video"
 }

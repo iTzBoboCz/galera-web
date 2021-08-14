@@ -11,6 +11,7 @@
     <HelloWorld :msg="t('gallery')" />
     <ThemeToggler />
     <LocaleSwitcher />
+    <NavigationMenu />
     <router-view />
   </v-app>
 </template>
@@ -25,6 +26,7 @@ import { useStore } from "~/store/index";
 
 import HelloWorld from "./components/hello-world.vue";
 import LocaleSwitcher from "./components/locale-switcher.vue";
+import NavigationMenu from "./components/navigation-menu.vue";
 import ThemeToggler from "./components/theme-toggler.vue";
 
 export default defineComponent({
@@ -33,6 +35,7 @@ export default defineComponent({
     HelloWorld,
     LocaleSwitcher,
     ThemeToggler,
+    NavigationMenu,
   },
   setup() {
     const { t } = useI18n();

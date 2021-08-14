@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-btn @click="toggleDarkMode"
+    <v-btn color="primary" @click="toggleDarkMode"
       >switch to {{ darkMode ? "light" : "dark" }} theme</v-btn
     >
   </v-container>

@@ -1,7 +1,12 @@
 {
+  "albums": "Alba",
   "gallery": "Galerie",
   "home": "Domov",
   "media": "Media",
+  "more": "Více",
   "photo": "Fotka",
+  "photos": "Fotky",
+  "places": "Místa",
+  "sharedAlbums": "Sdílená alba",
   "video": "Video"
 }
