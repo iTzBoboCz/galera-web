@@ -16,6 +16,7 @@
     "*.{css,scss,vue}": "stylelint"
   },
   "dependencies": {
+    "@galera/client-axios": "git+https://github.com/galera-org/galera-client-axios.git",
     "axios": "^0.21.1",
     "iso-639-1": "^2.1.9",
     "vue": "^3.0.5",
