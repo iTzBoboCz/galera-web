@@ -125,8 +125,8 @@ export default defineComponent({
       menuMoreItems: [
         {
           title: "places",
-          icon: "mdi-place",
-          to: "/",
+          icon: "mdi-map-marker",
+          to: "/places",
         },
       ],
     };
