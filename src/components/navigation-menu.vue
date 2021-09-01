@@ -60,7 +60,20 @@
     <v-btn v-if="menuMoreItems.length > 0" @click="drawer = !drawer">
       <v-icon>mdi-menu</v-icon>
       <span>{{ t("more") }}</span>
-      <!-- TODO: add v-menu when it's implemented -->
+      <v-menu activator="parent" anchor="bottom end">
+        <v-sheet>
+          <v-list>
+            <v-list-item
+              v-for="menuItem in menuMoreItems"
+              :key="menuItem.title"
+              :link="menuItem.to"
+            >
+              <v-icon>{{ menuItem.icon }}</v-icon>
+              <span>{{ t(menuItem.title) }}</span>
+            </v-list-item>
+          </v-list>
+        </v-sheet>
+      </v-menu>
     </v-btn>
   </v-bottom-navigation>
 </template>
