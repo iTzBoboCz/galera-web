@@ -79,10 +79,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-// https://github.com/vuetifyjs/vuetify/pull/13955
-// import { useDisplay } from "vuetify/lib/composables/display";
+import { useDisplay } from "vuetify/composables";
 
 interface MenuItem {
   title: string;
@@ -93,13 +92,9 @@ interface MenuItem {
 export default defineComponent({
   name: "NavigationMenu",
   setup() {
-    // Doesn't seem to work yet
-    // const display = useDisplay();
-    const display = { mobile: ref(false) };
+    const display = useDisplay();
 
     const { t } = useI18n();
-
-    console.log(display.mobile.value); // false
 
     return { display, t };
   },
