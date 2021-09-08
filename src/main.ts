@@ -3,7 +3,6 @@ import { createApp } from "vue";
 import VueAxios from "vue-axios";
 
 import App from "./app.vue";
-// eslint-disable-next-line unicorn/prevent-abbreviations
 import i18n from "./i18n";
 import Vuetify from "./plugins/vuetify";
 import router from "./router";

@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prevent-abbreviations */
 import messages from "@intlify/vite-plugin-vue-i18n/messages";
 import { createI18n } from "vue-i18n";
 
