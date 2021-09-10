@@ -52,11 +52,15 @@
 
 <script lang="ts">
 import { MediaResponse as Media } from "@galera/client-axios";
+import { AxiosResponse } from "axios";
 import { defineComponent, PropType, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
 
 import api from "~/composables/api";
 import rfc3339 from "~/rfc3339";
+
+import { useStore } from "../store";
 
 export default defineComponent({
   name: "MediaContainer",
@@ -72,9 +76,15 @@ export default defineComponent({
     },
   },
   setup() {
+    const store = useStore();
+    const { useActions } = createNamespacedHelpers(store, "selectedMedia");
+    const { setMediaModal } = useActions(["setMediaModal"]);
+
     const { d } = useI18n();
+
     const liked = ref(false);
-    return { d, liked };
+
+    return { d, liked, setMediaModal };
   },
   data() {
     return {
@@ -125,7 +135,7 @@ export default defineComponent({
         });
     },
     showImage(media_uuid: string) {
-      console.log(media_uuid);
+      this.setMediaModal({ mediaModal: media_uuid });
     },
   },
 });
