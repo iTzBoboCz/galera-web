@@ -9,6 +9,7 @@ import {
 } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
+import selectedMedia, { SelectedMediaState } from "./modules/selected-media";
 import userPreferences, {
   UserPreferencesState,
 } from "./modules/user-preferences";
@@ -23,6 +24,7 @@ export const state: RootState = {
 
 export interface AppState extends RootState {
   userPreferences: UserPreferencesState;
+  selectedMedia: SelectedMediaState;
 }
 
 // TODO: reset all store states on logout with vuex-extensions
@@ -46,6 +48,7 @@ export const store = createStore({
   mutations,
   modules: {
     userPreferences,
+    selectedMedia,
   },
   plugins: [createLogger(), createPersistedState()],
 });
