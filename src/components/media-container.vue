@@ -2,33 +2,49 @@
   <div class="media">
     <img :loading="loading" />
     <div class="image-inner">
-      <div class="image-inner-relative">
+      <div class="image-inner-relative" @click="showImage(media.uuid)">
         <span style="display: none">{{
           getLocalizedDate(new Date(media.date_taken), media.date_taken)
         }}</span>
-        <v-icon
-          v-if="liked"
+        <!-- TODO: fix later; absolute prop doesn't seem to work yet -->
+        <v-btn
+          icon
+          absolute
+          bottom="1.5vh"
+          left="1.5vh"
           color="red"
-          class="mb-2 like"
-          @click="
-            like(media.uuid);
-            liked = !liked;
-          "
-          >mdi-heart</v-icon
+          variant="default"
+          style="position: absolute"
+          @click.stop="like(media.uuid)"
         >
-        <v-icon
-          v-if="!liked"
+          <v-icon v-if="liked" color="red">mdi-heart</v-icon>
+          <v-icon v-if="!liked" color="grey">mdi-heart-outline</v-icon>
+        </v-btn>
+        <v-btn
+          icon="mdi-information-outline"
+          absolute
+          top="1.5vh"
+          right="1.5vh"
           color="grey"
-          class="mb-2 like"
-          @click="
-            like(media.uuid);
-            liked = !liked;
-          "
-          >mdi-heart-outline</v-icon
+          variant="default"
+          style="position: absolute"
+          @click.stop="toggleInfo()"
+        />
+        <v-btn
+          icon
+          absolute
+          bottom="1.5vh"
+          right="1.5vh"
+          color="blue"
+          variant="default"
+          style="position: absolute"
+          @click.stop=""
         >
-        <v-icon color="grey" class="mb-2 info" @click="toggleInfo()">
-          mdi-information-outline
-        </v-icon>
+          <v-icon v-if="!liked" color="grey"
+            >mdi-checkbox-blank-circle-outline</v-icon
+          >
+          <v-icon v-if="liked" color="blue">mdi-checkbox-blank-circle</v-icon>
+        </v-btn>
       </div>
     </div>
   </div>
@@ -77,17 +93,22 @@ export default defineComponent({
       return this.d(date_taken, "datetime");
     },
     like(media_id: string) {
+      this.liked = !this.liked;
       console.log(media_id);
     },
     toggleInfo() {
-      let info = this.$el.querySelector("span");
-
+      let info: HTMLSpanElement = this.$el.querySelector("span");
+      let img: HTMLImageElement = this.$el.querySelector("img");
       switch (info.style.display) {
         case "none":
           info.style.display = "unset";
+          img.style.filter = "brightness(75%) blur(5px)";
+          img.style.opacity = "0.5";
           break;
         default:
           info.style.display = "none";
+          img.style.filter = "";
+          img.style.opacity = "";
       }
     },
     async getMediaByUuid(media_uuid: string) {
@@ -103,6 +124,9 @@ export default defineComponent({
           // return window.URL.createObjectURL(response.data);
         });
     },
+    showImage(media_uuid: string) {
+      console.log(media_uuid);
+    },
   },
 });
 </script>
@@ -112,6 +136,10 @@ div.image-inner {
   visibility: hidden;
   position: absolute;
   inset: 0;
+}
+
+.img-overlay {
+  background-color: rgba(128, 128, 128, 0.75);
 }
 
 div.image-inner-relative {
