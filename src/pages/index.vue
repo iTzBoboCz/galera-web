@@ -7,7 +7,6 @@
       loading="lazy"
     />
   </div>
-  <MediaModal />
 </template>
 
 <script lang="ts">
@@ -16,13 +15,11 @@ import axios, { AxiosResponse } from "axios";
 import { defineComponent } from "vue";
 
 import MediaContainer from "~/components/media-container.vue";
-import MediaModal from "~/components/media-modal.vue";
 import api from "~/composables/api";
 
 export default defineComponent({
   components: {
     MediaContainer,
-    MediaModal,
   },
   data(): { media: Media[] } {
     return {

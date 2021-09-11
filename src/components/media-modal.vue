@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isShown()" id="media-modal" @click="setMediaModal({})">
+  <div id="media-modal" @click="setMediaModal({})">
     <v-btn
       size="large"
       class="arrow"
@@ -8,8 +8,8 @@
       variant="default"
       @click.stop
     />
-    <img :src="getMediaByUuid(mediaModal)" @click.stop />
-    <v-text-field @click.stop v-text="mediaModal" />
+    <img @click.stop />
+    <v-text-field v-text="mediaModal" />
     <v-btn
       size="large"
       class="arrow"
@@ -43,16 +43,12 @@ export default defineComponent({
 
     return { mediaModal, setMediaModal };
   },
+  created() {
+    this.getMediaByUuid(this.mediaModal);
+  },
   methods: {
-    isShown(): boolean {
-      if (!this.mediaModal) {
-        return false;
-      }
-
-      return true;
-    },
     async getMediaByUuid(media_uuid: string) {
-      api
+      return api
         .routesGetMediaByUuid(
           { mediaUuid: media_uuid },
           { responseType: "blob" }
@@ -72,7 +68,7 @@ export default defineComponent({
 
 <style scoped>
 #media-modal {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   background-color: grey;
@@ -82,6 +78,8 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   top: 0;
+  overflow: hidden;
+  z-index: 1000;
 }
 
 img {
