@@ -9,12 +9,11 @@
         <!-- TODO: fix later; absolute prop doesn't seem to work yet -->
         <v-btn
           icon
-          absolute
+          position="absolute"
           bottom="1.5vh"
           left="1.5vh"
           color="red"
-          variant="default"
-          style="position: absolute"
+          variant="text"
           @click.stop="like(media.uuid)"
         >
           <v-icon v-if="liked" color="red">mdi-heart</v-icon>
@@ -22,22 +21,20 @@
         </v-btn>
         <v-btn
           icon="mdi-information-outline"
-          absolute
+          position="absolute"
           top="1.5vh"
           right="1.5vh"
           color="grey"
-          variant="default"
-          style="position: absolute"
+          variant="text"
           @click.stop="toggleInfo()"
         />
         <v-btn
           icon
-          absolute
+          position="absolute"
           bottom="1.5vh"
           right="1.5vh"
           color="blue"
-          variant="default"
-          style="position: absolute"
+          variant="text"
           @click.stop=""
         >
           <v-icon v-if="!liked" color="grey"
@@ -158,20 +155,6 @@ div.image-inner-relative {
   height: 100%;
 }
 
-i {
-  position: absolute; /* absolute prop doesn't seem to work */
-  background-color: transparent;
-}
-
-i.info {
-  top: 2vh;
-  right: 2vh;
-}
-
-i.like {
-  bottom: 2vh;
-  left: 2vh;
-}
 .media {
   position: relative;
 }
