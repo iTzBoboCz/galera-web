@@ -1,12 +1,5 @@
 <template>
-  <div class="media-container">
-    <MediaContainer
-      v-for="m in media"
-      :key="m.filename"
-      :media="m"
-      loading="lazy"
-    />
-  </div>
+  <MosaicView :mediaList="media" />
 </template>
 
 <script lang="ts">
@@ -14,12 +7,12 @@ import { MediaResponse as Media } from "@galera/client-axios";
 import axios, { AxiosResponse } from "axios";
 import { defineComponent } from "vue";
 
-import MediaContainer from "~/components/media-container.vue";
+import MosaicView from "~/components/views/mosaic-view.vue";
 import api from "~/composables/api";
 
 export default defineComponent({
   components: {
-    MediaContainer,
+    MosaicView,
   },
   data(): { media: Media[] } {
     return {
