@@ -9,7 +9,7 @@
       @click.stop
     />
     <img @click.stop />
-    <v-text-field v-text="mediaModal" />
+    <span>{{ mediaModal }}</span>
     <v-btn
       size="large"
       class="arrow"
@@ -84,6 +84,8 @@ export default defineComponent({
 
 img {
   margin: 0 auto;
+  max-height: 80vh;
+  max-width: 80vw;
 }
 
 /* TODO: use absolute prop when it is implemented */

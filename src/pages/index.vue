@@ -32,17 +32,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style>
-img {
-  height: 200px;
-  float: left;
-}
-.media-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin: 2rem auto;
-  width: calc(95% - 0.5rem);
-}
-</style>
