@@ -7,5 +7,8 @@
   "photo": "Photo",
   "photos": "Photos",
   "favorite": "Favorite",
-  "sharedAlbums": "Shared albums"
+  "sharedAlbums": "Shared albums",
+  "album": {
+    "create": "Create a new album"
+  }
 }
