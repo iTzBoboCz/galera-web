@@ -1,21 +1,23 @@
 <template>
   <div id="media-modal" @click="setMediaModal({})">
     <v-btn
+      position="absolute"
       size="large"
       class="arrow"
-      style="left: 2vh"
+      left="2vh"
       icon="mdi-arrow-left"
-      variant="default"
+      variant="text"
       @click.stop
     />
     <img @click.stop />
     <span>{{ mediaModal }}</span>
     <v-btn
+      position="absolute"
       size="large"
       class="arrow"
-      style="right: 2vh"
+      right="2vh"
       icon="mdi-arrow-right"
-      variant="default"
+      variant="text"
       @click.stop
     />
   </div>
@@ -86,10 +88,5 @@ img {
   margin: 0 auto;
   max-height: 80vh;
   max-width: 80vw;
-}
-
-/* TODO: use absolute prop when it is implemented */
-.arrow {
-  position: absolute;
 }
 </style>
