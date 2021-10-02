@@ -116,9 +116,9 @@ export default defineComponent({
       ],
       menuMoreItems: [
         {
-          title: "places",
-          icon: "mdi-map-marker",
-          to: "/places",
+          title: "favorite",
+          icon: "mdi-heart",
+          to: "/favorite",
         },
       ],
     };
