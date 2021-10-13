@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@galera/client-axios": "git+https://github.com/galera-org/galera-client-axios.git",
-    "axios": "^0.21.1",
+    "axios": "^0.23.0",
     "iso-639-1": "^2.1.9",
     "vue": "^3.2.11",
     "vue-axios": "^3.2.5",
