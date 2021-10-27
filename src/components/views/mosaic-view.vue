@@ -64,8 +64,8 @@
 </template>
 
 <script lang="ts">
-import { MediaResponse as Media } from "@galera/client-axios";
-import { defineComponent, PropType, ref } from "vue";
+import { MediaResponse } from "@galera/client-axios";
+import { defineComponent, PropType } from "vue";
 import { useI18n } from "vue-i18n";
 import { createNamespacedHelpers } from "vuex-composition-helpers";
 
@@ -80,7 +80,7 @@ export default defineComponent({
   components: { ImageWrapper },
   props: {
     mediaList: {
-      type: Object as PropType<Media[]>,
+      type: Object as PropType<MediaResponse[]>,
       required: true,
     },
     loading: {
@@ -92,13 +92,12 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const { useActions } = createNamespacedHelpers(store, "selectedMedia");
+
     const { setMediaModal } = useActions(["setMediaModal"]);
 
     const { d } = useI18n();
 
-    const liked = ref(false);
-
-    return { d, liked, setMediaModal };
+    return { d, setMediaModal };
   },
 
   data(): {
@@ -139,6 +138,8 @@ export default defineComponent({
       if (this.isLiked(mediaUuid)) {
         const index = this.likedMedia.indexOf(mediaUuid);
 
+        // TODO: fix CORS and add .then() and .catch()
+        // https://stackoverflow.com/questions/54540881/why-does-my-instance-of-axios-not-return-the-response-in-a-caught-error
         api.routesMediaUnlike({ mediaUuid });
         this.likedMedia.splice(index, 1);
         return;
