@@ -1,33 +1,36 @@
 <template>
-  <MosaicView :media-list="mediaList" />
+  <MosaicView :media-list="likedMedia" />
 </template>
 
 <script lang="ts">
-import { MediaResponse } from "@galera/client-axios";
-import { AxiosResponse } from "axios";
 import { defineComponent } from "vue";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
 
 import MosaicView from "~/components/views/mosaic-view.vue";
-import api from "~/composables/api";
+import { useStore } from "~/store/index";
 
 export default defineComponent({
   components: {
     MosaicView,
   },
-  data(): { mediaList: MediaResponse[] } {
-    return {
-      mediaList: [],
-    };
+  setup() {
+    const store = useStore();
+
+    const { useActions, useGetters, useState } = createNamespacedHelpers(
+      store,
+      "fetchedMedia"
+    );
+
+    const { likedMedia } = useState(["likedMedia"]);
+
+    const { numberOfLikedMedia } = useGetters(["numberOfLikedMedia"]);
+
+    const { getLikedMedia } = useActions(["getLikedMedia"]);
+
+    return { likedMedia, getLikedMedia, numberOfLikedMedia };
   },
-  async created() {
-    this.mediaList = await this.getPictureList().then((response) => {
-      return response.data;
-    });
-  },
-  methods: {
-    async getPictureList(): Promise<AxiosResponse<MediaResponse[]>> {
-      return api.routesGetMediaLikedList();
-    },
+  created() {
+    this.getLikedMedia();
   },
 });
 </script>

@@ -1,34 +1,36 @@
 <template>
-  <MosaicView :mediaList="media" />
+  <MosaicView :mediaList="allMedia" />
 </template>
 
 <script lang="ts">
-import { MediaResponse as Media } from "@galera/client-axios";
-import axios, { AxiosResponse } from "axios";
 import { defineComponent } from "vue";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
 
 import MosaicView from "~/components/views/mosaic-view.vue";
-import api from "~/composables/api";
+import { useStore } from "~/store/index";
 
 export default defineComponent({
   components: {
     MosaicView,
   },
-  data(): { media: Media[] } {
-    return {
-      media: [],
-    };
+  setup() {
+    const store = useStore();
+
+    const { useActions, useGetters, useState } = createNamespacedHelpers(
+      store,
+      "fetchedMedia"
+    );
+
+    const { allMedia } = useState(["allMedia"]);
+
+    const { numberOfAllMedia } = useGetters(["numberOfAllMedia"]);
+
+    const { getAllMedia } = useActions(["getAllMedia"]);
+
+    return { allMedia, getAllMedia, numberOfAllMedia };
   },
-  async created() {
-    this.media = await this.getPictureList().then((response) => {
-      return response.data;
-    });
-  },
-  methods: {
-    async getPictureList(): Promise<AxiosResponse<Media[]>> {
-      return api.routesMediaStructure();
-      // return this.axios.get<Media[]>("/api/media/");
-    },
+  created() {
+    this.getAllMedia();
   },
 });
 </script>
