@@ -6,7 +6,9 @@
   "more": "More",
   "photo": "Photo",
   "photos": "Photos",
-  "places": "Places",
+  "favorite": "Favorite",
   "sharedAlbums": "Shared albums",
-  "video": "Video"
+  "album": {
+    "create": "Create a new album"
+  }
 }

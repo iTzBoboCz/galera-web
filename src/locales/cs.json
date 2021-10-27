@@ -6,7 +6,9 @@
   "more": "Více",
   "photo": "Fotka",
   "photos": "Fotky",
-  "places": "Místa",
+  "favorite": "Oblíbené",
   "sharedAlbums": "Sdílená alba",
-  "video": "Video"
+  "album": {
+    "create": "Vytvořit nové album"
+  }
 }

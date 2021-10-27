@@ -1,5 +1,5 @@
 <template>
-  <MosaicView :mediaList="allMedia" />
+  <MosaicView :media-list="likedMedia" />
 </template>
 
 <script lang="ts">
@@ -21,16 +21,16 @@ export default defineComponent({
       "fetchedMedia"
     );
 
-    const { allMedia } = useState(["allMedia"]);
+    const { likedMedia } = useState(["likedMedia"]);
 
-    const { numberOfAllMedia } = useGetters(["numberOfAllMedia"]);
+    const { numberOfLikedMedia } = useGetters(["numberOfLikedMedia"]);
 
-    const { getAllMedia } = useActions(["getAllMedia"]);
+    const { getLikedMedia } = useActions(["getLikedMedia"]);
 
-    return { allMedia, getAllMedia, numberOfAllMedia };
+    return { likedMedia, getLikedMedia, numberOfLikedMedia };
   },
   created() {
-    this.getAllMedia();
+    this.getLikedMedia();
   },
 });
 </script>

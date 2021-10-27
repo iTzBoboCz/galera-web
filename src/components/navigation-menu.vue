@@ -14,12 +14,8 @@
         router
         exact
       >
-        <v-list-item-action>
-          <v-icon>{{ menuItem.icon }}</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title v-text="t(menuItem.title)" />
-        </v-list-item-content>
+        <v-icon>{{ menuItem.icon }}</v-icon>
+        <v-list-item-title v-text="t(menuItem.title)" />
       </v-list-item>
       <v-divider />
       <v-list-item
@@ -29,12 +25,8 @@
         router
         exact
       >
-        <v-list-item-action>
-          <v-icon>{{ menuItem.icon }}</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title v-text="t(menuItem.title)" />
-        </v-list-item-content>
+        <v-icon>{{ menuItem.icon }}</v-icon>
+        <v-list-item-title v-text="t(menuItem.title)" />
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -44,7 +36,7 @@
       @click="drawer = !drawer"
     />
 
-    <v-toolbar-title>Application</v-toolbar-title>
+    <v-app-bar-title>Application</v-app-bar-title>
     <v-spacer />
     <v-avatar color="teal" size="56"></v-avatar>
   </v-app-bar>
@@ -124,9 +116,9 @@ export default defineComponent({
       ],
       menuMoreItems: [
         {
-          title: "places",
-          icon: "mdi-map-marker",
-          to: "/places",
+          title: "favorite",
+          icon: "mdi-heart",
+          to: "/favorite",
         },
       ],
     };

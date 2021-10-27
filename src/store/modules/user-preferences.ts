@@ -10,8 +10,7 @@ export interface UserPreferencesState {
 export function getLocalUserPreferences(): UserPreferencesState {
   const localPreferences = window.localStorage.getItem("vuex");
 
-  // eslint-disable-next-line unicorn/no-null
-  if (localPreferences == null) {
+  if (!localPreferences) {
     return { darkMode: false, locale: "en-US" };
   }
 
