@@ -4,7 +4,7 @@
       <NavigationMenu />
       <router-view />
     </v-app>
-    <MediaModal v-if="isModalActive()" />
+    <MediaModal v-if="isModalActive" />
   </div>
 </template>
 
@@ -35,18 +35,9 @@ export default defineComponent({
 
     const { useGetters } = createNamespacedHelpers(store, "selectedMedia");
 
-    const { mediaModal } = useGetters(["mediaModal"]);
+    const { isModalActive } = useGetters(["isModalActive"]);
 
-    return { darkMode, t, mediaModal };
-  },
-  methods: {
-    isModalActive(): boolean {
-      if (!this.mediaModal) {
-        return false;
-      }
-
-      return true;
-    },
+    return { darkMode, t, isModalActive };
   },
 });
 </script>

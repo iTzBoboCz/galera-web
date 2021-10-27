@@ -16,8 +16,12 @@ const getters: GetterTree<SelectedMediaState, RootState> = {
   actionSelects: (state): Array<string> => {
     return state.actionSelects;
   },
-  mediaModal: (state): string | undefined => {
-    return state.mediaModal;
+  isModalActive: (state): boolean => {
+    if (!state.mediaModal) {
+      return false;
+    }
+
+    return true;
   },
 };
 
@@ -34,12 +38,15 @@ const actions: ActionTree<SelectedMediaState, RootState> = {
   ) {
     commit("setActionSelects", { actionSelects });
   },
-  addToActionSelects({ commit }, { actionSelect }: { actionSelect: string }) {
-    commit("addToActionSelects", { actionSelect });
+  addToActionSelects({ commit }, { mediaUuid }: { mediaUuid: string }) {
+    commit("addToActionSelects", { mediaUuid });
   },
   clearActionSelects({ commit }) {
     const actionSelects: Array<string> = [];
     commit("setActionSelects", { actionSelects });
+  },
+  removeActionSelect({ commit }, { mediaUuid }: { mediaUuid: string }) {
+    commit("removeActionSelect", { mediaUuid });
   },
 };
 
@@ -50,8 +57,13 @@ const mutations: MutationTree<SelectedMediaState> = {
   setActionSelects(state, { actionSelects }: { actionSelects: Array<string> }) {
     state.actionSelects = actionSelects;
   },
-  addToActionSelects(state, { actionSelect }: { actionSelect: string }) {
-    state.actionSelects.push(actionSelect);
+  addToActionSelects(state, { mediaUuid }: { mediaUuid: string }) {
+    state.actionSelects.push(mediaUuid);
+  },
+  removeActionSelect(state, { mediaUuid }: { mediaUuid: string }) {
+    const index = state.actionSelects.indexOf(mediaUuid);
+
+    state.actionSelects.splice(index, 1);
   },
 };
 

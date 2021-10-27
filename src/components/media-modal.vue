@@ -36,12 +36,12 @@ export default defineComponent({
   name: "MediaModal",
   setup() {
     const store = useStore();
-    const { useActions, useGetters } = createNamespacedHelpers(
+    const { useActions, useState } = createNamespacedHelpers(
       store,
       "selectedMedia"
     );
     const { setMediaModal } = useActions(["setMediaModal"]);
-    const { mediaModal } = useGetters(["mediaModal"]);
+    const { mediaModal } = useState(["mediaModal"]);
 
     return { mediaModal, setMediaModal };
   },
@@ -50,6 +50,7 @@ export default defineComponent({
   },
   methods: {
     async getMediaByUuid(media_uuid: string) {
+      // TODO: doesn't seem to work
       return api
         .routesGetMediaByUuid(
           { mediaUuid: media_uuid },
