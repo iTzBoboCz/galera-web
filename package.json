@@ -46,7 +46,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-unicorn": "^35.0.0",
-    "eslint-plugin-vue": "^7.17.0",
+    "eslint-plugin-vue": "^7.20.0",
     "husky": "^7.0.2",
     "lint-staged": "^11.2.6",
     "prettier": "^2.4.1",
