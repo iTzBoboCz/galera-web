@@ -59,6 +59,6 @@
     "vite-plugin-pages": "^0.18.0",
     "vite-plugin-vue-layouts": "^0.4.1",
     "vue-eslint-parser": "^8.0.0",
-    "vue-tsc": "^0.28.10"
+    "vue-tsc": "^0.29.6"
   }
 }
