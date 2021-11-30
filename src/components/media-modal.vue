@@ -51,7 +51,7 @@ export default defineComponent({
   methods: {
     async getMediaByUuid(media_uuid: string) {
       // TODO: doesn't seem to work
-      return api
+      return api()
         .routesGetMediaByUuid(
           { mediaUuid: media_uuid },
           { responseType: "blob" }

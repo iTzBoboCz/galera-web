@@ -21,7 +21,7 @@ export default defineComponent({
   },
   methods: {
     async getMediaByUuid(media_uuid: string) {
-      let d = api
+      let d = api()
         .routesGetMediaByUuid(
           { mediaUuid: media_uuid },
           { responseType: "blob" }

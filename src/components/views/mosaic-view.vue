@@ -114,15 +114,17 @@ export default defineComponent({
     };
   },
   async created() {
-    this.likedMedia = await api.routesGetMediaLikedList().then((response) => {
-      let media: string[] = [];
+    this.likedMedia = await api()
+      .routesGetMediaLikedList()
+      .then((response) => {
+        let media: string[] = [];
 
-      for (const m of response.data) {
-        media.push(m.uuid);
-      }
+        for (const m of response.data) {
+          media.push(m.uuid);
+        }
 
-      return media;
-    });
+        return media;
+      });
 
     this.loaded = true;
   },
@@ -140,12 +142,12 @@ export default defineComponent({
 
         // TODO: fix CORS and add .then() and .catch()
         // https://stackoverflow.com/questions/54540881/why-does-my-instance-of-axios-not-return-the-response-in-a-caught-error
-        api.routesMediaUnlike({ mediaUuid });
+        api().routesMediaUnlike({ mediaUuid });
         this.likedMedia.splice(index, 1);
         return;
       }
 
-      api.routesMediaLike({ mediaUuid });
+      api().routesMediaLike({ mediaUuid });
       this.likedMedia.push(mediaUuid);
     },
     toggleInfo(mediaUuid: string) {

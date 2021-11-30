@@ -9,6 +9,7 @@ import {
 } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
+import auth, { AuthState } from "./modules/auth";
 import fetchedMedia, { FetchedMediaState } from "./modules/fetched-media";
 import selectedMedia, { SelectedMediaState } from "./modules/selected-media";
 import userPreferences, {
@@ -24,6 +25,7 @@ export const state: RootState = {
 };
 
 export interface AppState extends RootState {
+  auth: AuthState;
   fetchedMedia: FetchedMediaState;
   userPreferences: UserPreferencesState;
   selectedMedia: SelectedMediaState;
@@ -49,13 +51,14 @@ export const store = createStore({
   actions,
   mutations,
   modules: {
+    auth,
     fetchedMedia,
     userPreferences,
     selectedMedia,
   },
   plugins: [
     createLogger(),
-    createPersistedState({ paths: ["count", "userPreferences"] }),
+    createPersistedState({ paths: ["auth", "count", "userPreferences"] }),
   ],
 });
 

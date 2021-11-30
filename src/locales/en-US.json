@@ -1,14 +1,29 @@
 {
+  "account": {
+    "alreadyHaveAnAccount": "Already have an account?",
+    "dontHaveAnAccountYet": "Don't have an account yet?",
+    "email": "Email",
+    "logIn": "Log in",
+    "password": "Password",
+    "passwordAgain": "Password again",
+    "signUp": "Sign up",
+    "username": "Username",
+    "usernameOrEmail": "Username or email"
+  },
+  "album": {
+    "create": "Create a new album"
+  },
   "albums": "Albums",
+  "favorite": "Favorite",
   "gallery": "Gallery",
   "home": "Home",
   "media": "Media",
   "more": "More",
+  "pages": {
+    "login": "Log in",
+    "signUp": "Sign up"
+  },
   "photo": "Photo",
   "photos": "Photos",
-  "favorite": "Favorite",
-  "sharedAlbums": "Shared albums",
-  "album": {
-    "create": "Create a new album"
-  }
+  "sharedAlbums": "Shared albums"
 }

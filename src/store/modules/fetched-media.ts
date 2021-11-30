@@ -51,25 +51,31 @@ const getters: GetterTree<FetchedMediaState, RootState> = {
 
 const actions: ActionTree<FetchedMediaState, RootState> = {
   async getAllMedia({ commit }) {
-    const allMedia = await api.routesMediaStructure().then((response) => {
-      return response.data;
-    });
+    const allMedia = await api()
+      .routesMediaStructure()
+      .then((response) => {
+        return response.data;
+      });
     commit("getAllMedia", { allMedia });
   },
   async getLikedMedia({ commit }) {
-    const likedMedia = await api.routesGetMediaLikedList().then((response) => {
-      return response.data;
-    });
+    const likedMedia = await api()
+      .routesGetMediaLikedList()
+      .then((response) => {
+        return response.data;
+      });
     commit("getLikedMedia", { likedMedia });
   },
   async getAlbumList({ commit }) {
-    const albumResponse = await api.routesGetAlbumList().then((response) => {
-      return response.data;
-    });
+    const albumResponse = await api()
+      .routesGetAlbumList()
+      .then((response) => {
+        return response.data;
+      });
     commit("getAlbumList", { albumResponse });
   },
   async getAlbumMedia({ commit }, { albumUuid }: { albumUuid: string }) {
-    const albumResponse = await api
+    const albumResponse = await api()
       .routesGetAlbumStructure({ albumUuid })
       .then((response) => {
         return response.data;
@@ -77,7 +83,7 @@ const actions: ActionTree<FetchedMediaState, RootState> = {
     commit("getAlbumList", { albumResponse });
   },
   async mediaUnlike({ commit }, { mediaUuid }: { mediaUuid: string }) {
-    api
+    api()
       .routesMediaUnlike({ mediaUuid })
       .then((response) => {
         commit("mediaUnlike", { mediaUuid });

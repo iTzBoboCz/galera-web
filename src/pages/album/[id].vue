@@ -36,7 +36,7 @@ export default defineComponent({
   },
   methods: {
     async getAlbumMedia(): Promise<AxiosResponse<MediaResponse[]>> {
-      return api.routesGetAlbumStructure({ albumUuid: this.id });
+      return api().routesGetAlbumStructure({ albumUuid: this.id });
     },
   },
 });

@@ -37,9 +37,11 @@ export default defineComponent({
     };
   },
   async created() {
-    this.albums = await api.routesGetAlbumList().then((response) => {
-      return response.data;
-    });
+    this.albums = await api()
+      .routesGetAlbumList()
+      .then((response) => {
+        return response.data;
+      });
 
     this.addAlbum();
   },
@@ -53,7 +55,7 @@ export default defineComponent({
       console.log(container);
     },
     createAlbum() {
-      let d = api.routesCreateAlbum({ albumInsertData: { name: "test" } });
+      let d = api().routesCreateAlbum({ albumInsertData: { name: "test" } });
       console.log(d);
     },
   },

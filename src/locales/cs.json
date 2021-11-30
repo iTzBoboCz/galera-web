@@ -1,14 +1,29 @@
 {
+  "account": {
+    "alreadyHaveAnAccount": "Už máte účet?",
+    "dontHaveAnAccountYet": "Ještě nemáte účet?",
+    "email": "Email",
+    "logIn": "Přihlásit se",
+    "password": "Heslo",
+    "passwordAgain": "Heslo znovu",
+    "signUp": "Vytvořit nový",
+    "username": "Uživatelské jméno",
+    "usernameOrEmail": "Uživatelské jméno nebo email"
+  },
+  "album": {
+    "create": "Vytvořit nové album"
+  },
   "albums": "Alba",
+  "favorite": "Oblíbené",
   "gallery": "Galerie",
   "home": "Domov",
   "media": "Media",
   "more": "Více",
+  "pages": {
+    "login": "Přihlášení",
+    "signUp": "Registrace"
+  },
   "photo": "Fotka",
   "photos": "Fotky",
-  "favorite": "Oblíbené",
-  "sharedAlbums": "Sdílená alba",
-  "album": {
-    "create": "Vytvořit nové album"
-  }
+  "sharedAlbums": "Sdílená alba"
 }
