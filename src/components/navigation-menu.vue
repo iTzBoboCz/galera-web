@@ -73,7 +73,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useI18n } from "vue-i18n";
-import { useDisplay } from "vuetify/composables";
+import { useDisplay } from "vuetify";
 
 interface MenuItem {
   title: string;
