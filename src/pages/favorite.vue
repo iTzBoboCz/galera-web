@@ -1,36 +1,12 @@
 <template>
-  <MosaicView :media-list="likedMedia" />
+  <MosaicView :media-list="fetchedMedia.likedMedia ?? []" />
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { createNamespacedHelpers } from "vuex-composition-helpers";
-
+<script setup lang="ts">
 import MosaicView from "~/components/views/mosaic-view.vue";
-import { useStore } from "~/store/index";
+import { useFetchedMediaStore } from "~/stores/fetched-media";
 
-export default defineComponent({
-  components: {
-    MosaicView,
-  },
-  setup() {
-    const store = useStore();
+const fetchedMedia = useFetchedMediaStore();
 
-    const { useActions, useGetters, useState } = createNamespacedHelpers(
-      store,
-      "fetchedMedia"
-    );
-
-    const { likedMedia } = useState(["likedMedia"]);
-
-    const { numberOfLikedMedia } = useGetters(["numberOfLikedMedia"]);
-
-    const { getLikedMedia } = useActions(["getLikedMedia"]);
-
-    return { likedMedia, getLikedMedia, numberOfLikedMedia };
-  },
-  created() {
-    this.getLikedMedia();
-  },
-});
+fetchedMedia.getLikedMedia();
 </script>

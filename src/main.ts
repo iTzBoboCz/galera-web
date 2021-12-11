@@ -1,21 +1,26 @@
 import axios from "axios";
+import { createPinia } from "pinia";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createApp } from "vue";
 import VueAxios from "vue-axios";
 
-import App from "./app.vue";
+import App from "~/app.vue";
+
 import i18n from "./i18n";
 import Vuetify from "./plugins/vuetify";
 import router from "./router";
-import { key, store } from "./store/index";
 
 const app = createApp(App);
 // TODO: add inheritLocale: true to components
 // TODO: find out what scope is better - global or local??
 
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
 app.use(Vuetify);
 app.use(i18n);
 app.use(router);
-app.use(store, key);
+app.use(pinia);
 app.use(VueAxios, axios);
 
 app.mount("#app");

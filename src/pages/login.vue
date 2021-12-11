@@ -30,17 +30,11 @@
 import { UserLogin } from "@galera/client-axios";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { createNamespacedHelpers } from "vuex-composition-helpers";
 
 import router from "~/router";
-import { useStore } from "~/store/index";
+import { useAuthStore } from "~/stores/auth";
 
-const store = useStore();
-
-const { useActions, useGetters } = createNamespacedHelpers(store, "auth");
-
-const { logIn } = useActions(["logIn"]);
-const { isLoggedIn } = useGetters(["isLoggedIn"]);
+const auth = useAuthStore();
 
 const usernameOrEmail = ref("");
 const password = ref("");
@@ -60,9 +54,9 @@ async function submitLogin() {
       password: password.value,
     };
 
-    await logIn(userLogin);
+    await auth.logIn(userLogin);
 
-    if (isLoggedIn.value) {
+    if (auth.isLoggedIn) {
       const redirectTo =
         router.currentRoute.value.query.redirect?.toString() ?? "/";
       console.log(redirectTo);

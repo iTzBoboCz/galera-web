@@ -1,5 +1,5 @@
 <template>
-  <div id="media-modal" @click="setMediaModal({})">
+  <div id="media-modal" @click="selectedMedia.setMediaModal(undefined)">
     <v-btn
       position="absolute"
       size="large"
@@ -10,7 +10,7 @@
       @click.stop
     />
     <img @click.stop />
-    <span>{{ mediaModal }}</span>
+    <span>{{ selectedMedia.mediaModal }}</span>
     <v-btn
       position="absolute"
       size="large"
@@ -24,29 +24,23 @@
 </template>
 
 <script lang="ts">
-import { MediaResponse as Media } from "@galera/client-axios";
 import { defineComponent } from "vue";
-import { createNamespacedHelpers } from "vuex-composition-helpers";
 
 import api from "~/composables/api";
 
-import { useStore } from "../store";
+import { useSelectedMediaStore } from "../stores/selected-media";
 
 export default defineComponent({
   name: "MediaModal",
   setup() {
-    const store = useStore();
-    const { useActions, useState } = createNamespacedHelpers(
-      store,
-      "selectedMedia"
-    );
-    const { setMediaModal } = useActions(["setMediaModal"]);
-    const { mediaModal } = useState(["mediaModal"]);
+    const selectedMedia = useSelectedMediaStore();
 
-    return { mediaModal, setMediaModal };
+    return { selectedMedia };
   },
   created() {
-    this.getMediaByUuid(this.mediaModal);
+    if (this.selectedMedia.mediaModal) {
+      this.getMediaByUuid(this.selectedMedia.mediaModal);
+    }
   },
   methods: {
     async getMediaByUuid(media_uuid: string) {

@@ -67,13 +67,11 @@
 import { MediaResponse } from "@galera/client-axios";
 import { defineComponent, PropType } from "vue";
 import { useI18n } from "vue-i18n";
-import { createNamespacedHelpers } from "vuex-composition-helpers";
 
 import ImageWrapper from "~/components/media/image-wrapper.vue";
 import api from "~/composables/api";
 import rfc3339 from "~/rfc3339";
-
-import { useStore } from "../../store";
+import { useSelectedMediaStore } from "~/stores/selected-media";
 
 export default defineComponent({
   name: "MosaicView",
@@ -90,10 +88,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const store = useStore();
-    const { useActions } = createNamespacedHelpers(store, "selectedMedia");
-
-    const { setMediaModal } = useActions(["setMediaModal"]);
+    const setMediaModal = useSelectedMediaStore().setMediaModal;
 
     const { d } = useI18n();
 
@@ -159,7 +154,7 @@ export default defineComponent({
       this.mediaInfo = undefined;
     },
     showImage(mediaUuid: string) {
-      this.setMediaModal({ mediaModal: mediaUuid });
+      this.setMediaModal(mediaUuid);
     },
     mediaInfoIsActive(media_uuid: string): boolean {
       if (this.mediaInfo == media_uuid) {

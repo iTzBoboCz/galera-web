@@ -19,14 +19,13 @@
     "@galera/client-axios": "git+https://github.com/galera-org/galera-client-axios.git",
     "axios": "^0.21.2",
     "iso-639-1": "^2.1.11",
+    "pinia": "^2.0.6",
+    "pinia-plugin-persistedstate": "^1.0.2",
     "vue": "^3.2.24",
     "vue-axios": "^3.3.7",
     "vue-i18n": "^9.1.7",
     "vue-router": "^4.0.12",
-    "vuetify": "3.0.0-alpha.12",
-    "vuex": "^4.0.2",
-    "vuex-composition-helpers": "^2.0.0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuetify": "3.0.0-alpha.12"
   },
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",

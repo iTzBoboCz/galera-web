@@ -9,37 +9,28 @@
 </template>
 
 <script lang="ts">
+import { storeToRefs } from "pinia";
 import { defineComponent } from "vue";
-import { useI18n } from "vue-i18n";
-import { createNamespacedHelpers } from "vuex-composition-helpers";
 
 import MediaModal from "~/components/media-modal.vue";
-import { useStore } from "~/store/index";
+import { useSelectedMediaStore } from "~/stores/selected-media";
+import { useUserPreferencesStore } from "~/stores/user-preferences";
 
 import NavigationMenu from "./components/navigation-menu.vue";
 
+// TODO: use only script setup when this issue is solved:
+// https://github.com/import-js/eslint-plugin-import/issues/2243
 export default defineComponent({
   name: "App",
-  components: {
-    NavigationMenu,
-    MediaModal,
-  },
-  setup() {
-    const { t } = useI18n();
-
-    const store = useStore();
-
-    const { useState } = createNamespacedHelpers(store, "userPreferences");
-
-    const { darkMode } = useState(["darkMode"]);
-
-    const { useGetters } = createNamespacedHelpers(store, "selectedMedia");
-
-    const { isModalActive } = useGetters(["isModalActive"]);
-
-    return { darkMode, t, isModalActive };
-  },
 });
+</script>
+¨
+<script setup lang="ts">
+const userPreferences = useUserPreferencesStore();
+const { darkMode } = storeToRefs(userPreferences);
+
+const selectedMedia = useSelectedMediaStore();
+const { isModalActive } = storeToRefs(selectedMedia);
 </script>
 
 <style>

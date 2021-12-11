@@ -1,32 +1,23 @@
 <template>
   <v-container>
-    <v-btn color="primary" @click="toggleDarkMode"
-      >switch to {{ darkMode ? "light" : "dark" }} theme</v-btn
+    <v-btn color="primary" @click="userPreferences.toggleDarkMode"
+      >switch to {{ userPreferences.darkMode ? "light" : "dark" }} theme</v-btn
     >
   </v-container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { createNamespacedHelpers } from "vuex-composition-helpers";
 
-import { useStore } from "../store/";
+import { useUserPreferencesStore } from "~/stores/user-preferences";
 
+// TODO: use only script setup when this issue is solved:
+// https://github.com/import-js/eslint-plugin-import/issues/2243
 export default defineComponent({
   name: "ThemeToggler",
-  setup() {
-    const store = useStore();
-
-    const { useActions, useState } = createNamespacedHelpers(
-      store,
-      "userPreferences"
-    );
-
-    const { darkMode } = useState(["darkMode"]);
-
-    const { toggleDarkMode } = useActions(["toggleDarkMode"]);
-
-    return { darkMode, toggleDarkMode };
-  },
 });
+</script>
+
+<script setup lang="ts">
+const userPreferences = useUserPreferencesStore();
 </script>
