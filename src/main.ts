@@ -1,8 +1,6 @@
-import axios from "axios";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createApp } from "vue";
-import VueAxios from "vue-axios";
 
 import App from "~/app.vue";
 
@@ -21,6 +19,5 @@ app.use(Vuetify);
 app.use(i18n);
 app.use(router);
 app.use(pinia);
-app.use(VueAxios, axios);
 
 app.mount("#app");
