@@ -10,7 +10,15 @@ export function getLocalUserPreferences(): UserPreferencesState {
   const localPreferences = window.localStorage.getItem("userPreferences");
 
   if (!localPreferences) {
-    return { darkMode: false, locale: "en-US" };
+    const darkMode =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? true
+        : false;
+    const locale = window.navigator.language
+      ? window.navigator.language
+      : "en-US";
+    return { darkMode, locale };
   }
 
   return JSON.parse(localPreferences);
