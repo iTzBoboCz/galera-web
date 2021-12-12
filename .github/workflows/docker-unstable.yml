@@ -1,0 +1,70 @@
+name: Docker unstable release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  static:
+    name: Build static image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Get commit hash
+        id: sha
+        run: echo "::set-output name=sha::${GITHUB_SHA::7}"
+
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+
+      - name: Setup node environment
+        uses: actions/setup-node@v2.5.0
+        with:
+          node-version: 16
+          cache: "npm"
+          check-latest: true
+
+      - name: Install dependencies
+        run: npm ci --no-audit
+
+      - name: Build client
+        run: npm run build
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1.2.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1.5.1
+
+      # TODO: consider publishing to Docker Hub too
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v1.10.0
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build images and push
+        uses: docker/build-push-action@v2.6.1
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64 # TODO: add more platforms
+          file: ".github/workflows/Dockerfile"
+          tags: |
+            ghcr.io/iTzBoboCz/galera-web:unstable
+            ghcr.io/iTzBoboCz/galera-web:unstable-static
+            ghcr.io/iTzBoboCz/galera-web:unstable-static.${{ steps.date.outputs.date }}.${{ steps.sha.outputs.sha }}
+
+# TODO: add SSR build
