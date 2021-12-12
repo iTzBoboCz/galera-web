@@ -3,7 +3,7 @@ name: Docker unstable release
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   static:
