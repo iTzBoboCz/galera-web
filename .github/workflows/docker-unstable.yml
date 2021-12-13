@@ -63,8 +63,8 @@ jobs:
           platforms: linux/amd64 # TODO: add more platforms
           file: ".github/workflows/Dockerfile"
           tags: |
-            ghcr.io/iTzBoboCz/galera-web:unstable
-            ghcr.io/iTzBoboCz/galera-web:unstable-static
-            ghcr.io/iTzBoboCz/galera-web:unstable-static.${{ steps.date.outputs.date }}.${{ steps.sha.outputs.sha }}
+            ghcr.io/itzbobocz/galera-web:unstable
+            ghcr.io/itzbobocz/galera-web:unstable-static
+            ghcr.io/itzbobocz/galera-web:unstable-static.${{ steps.date.outputs.date }}.${{ steps.sha.outputs.sha }}
 
 # TODO: add SSR build
