@@ -4,6 +4,7 @@
 </template>
 
 <script lang="ts">
+import { AxiosResponse } from "axios";
 import { defineComponent } from "vue";
 
 import api from "~/composables/api";
@@ -20,16 +21,21 @@ export default defineComponent({
     this.getMediaByUuid(this.mediaUuid);
   },
   methods: {
-    async getMediaByUuid(media_uuid: string) {
-      let d = api()
-        .routesGetMediaByUuid(
-          { mediaUuid: media_uuid },
-          { responseType: "blob" }
-        )
-        .then((response) => {
-          this.$el.src = URL.createObjectURL(response.data);
-          return URL.createObjectURL(response.data);
+    async getMediaByUuid(mediaUuid: string) {
+      const response = await api()
+        .routesGetMediaByUuid({ mediaUuid }, { responseType: "blob" })
+        // TODO: remove response type when this gets typed directly
+        .then((response: AxiosResponse<File | void>) => {
+          return response.data;
+        })
+        .catch(() => {
+          return;
         });
+
+      if (response) {
+        // Looks like this is cheaper than using a reactive variable
+        this.$el.src = URL.createObjectURL(response);
+      }
     },
   },
 });
