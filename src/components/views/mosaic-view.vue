@@ -194,6 +194,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
+img {
+  height: 200px;
+  float: left;
+}
+
 .media-container {
   display: flex;
   flex-wrap: wrap;

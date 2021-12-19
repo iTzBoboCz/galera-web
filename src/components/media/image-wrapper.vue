@@ -34,10 +34,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-img {
-  height: 200px;
-  float: left;
-}
-</style>

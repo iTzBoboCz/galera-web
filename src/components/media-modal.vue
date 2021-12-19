@@ -9,7 +9,11 @@
       variant="text"
       @click.stop
     />
-    <img @click.stop />
+    <ImageWrapper
+      v-if="selectedMedia.mediaModal"
+      :media-uuid="selectedMedia.mediaModal"
+      @click.stop
+    />
     <span>{{ selectedMedia.mediaModal }}</span>
     <v-btn
       position="absolute"
@@ -26,41 +30,18 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import api from "~/composables/api";
-
 import { useSelectedMediaStore } from "../stores/selected-media";
+import ImageWrapper from "./media/image-wrapper.vue";
 
+// TODO: use only script setup when this issue is solved:
+// https://github.com/import-js/eslint-plugin-import/issues/2243
 export default defineComponent({
   name: "MediaModal",
-  setup() {
-    const selectedMedia = useSelectedMediaStore();
-
-    return { selectedMedia };
-  },
-  created() {
-    if (this.selectedMedia.mediaModal) {
-      this.getMediaByUuid(this.selectedMedia.mediaModal);
-    }
-  },
-  methods: {
-    async getMediaByUuid(media_uuid: string) {
-      // TODO: doesn't seem to work
-      return api()
-        .routesGetMediaByUuid(
-          { mediaUuid: media_uuid },
-          { responseType: "blob" }
-        )
-        .then((response) => {
-          let image = this.$el.querySelector("img");
-          image.src = URL.createObjectURL(response.data);
-          return URL.createObjectURL(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-  },
 });
+</script>
+
+<script setup lang="ts">
+const selectedMedia = useSelectedMediaStore();
 </script>
 
 <style scoped>
