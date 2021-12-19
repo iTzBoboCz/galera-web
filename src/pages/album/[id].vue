@@ -1,6 +1,6 @@
 @@ -1,17 +1,44 @@
 <template>
-  <MosaicView :mediaList="mediaList" />
+  <MosaicView :media-list="mediaList" />
 </template>
 
 <script lang="ts">

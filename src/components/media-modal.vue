@@ -30,8 +30,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { useSelectedMediaStore } from "../stores/selected-media";
-import ImageWrapper from "./media/image-wrapper.vue";
+import ImageWrapper from "~/components/media/image-wrapper.vue";
+import { useSelectedMediaStore } from "~/stores/selected-media";
 
 // TODO: use only script setup when this issue is solved:
 // https://github.com/import-js/eslint-plugin-import/issues/2243

@@ -1,5 +1,5 @@
 <template>
-  <MosaicView :mediaList="fetchedMedia.allMedia ?? []" />
+  <MosaicView :media-list="fetchedMedia.allMedia ?? []" />
 </template>
 
 <script setup lang="ts">

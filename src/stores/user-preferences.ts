@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import availableLocales from "vue-i18n";
 
 export interface UserPreferencesState {
   darkMode: boolean;

@@ -1,9 +1,7 @@
 <template>
-  <v-container>
-    <v-btn color="primary" @click="userPreferences.toggleDarkMode"
-      >switch to {{ userPreferences.darkMode ? "light" : "dark" }} theme</v-btn
-    >
-  </v-container>
+  <v-btn color="primary" @click="userPreferences.toggleDarkMode"
+    >switch to {{ userPreferences.darkMode ? "light" : "dark" }} theme</v-btn
+  >
 </template>
 
 <script lang="ts">

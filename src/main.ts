@@ -3,10 +3,9 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import { createApp } from "vue";
 
 import App from "~/app.vue";
-
-import i18n from "./i18n";
-import Vuetify from "./plugins/vuetify";
-import router from "./router";
+import i18n from "~/i18n";
+import Vuetify from "~/plugins/vuetify";
+import router from "~/router";
 
 const app = createApp(App);
 // TODO: add inheritLocale: true to components
