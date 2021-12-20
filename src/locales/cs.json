@@ -16,6 +16,10 @@
   "albums": "Alba",
   "favorite": "Oblíbené",
   "gallery": "Galerie",
+  "general": {
+    "goBack": "Jít zpět",
+    "pageNotFound": "Tato stránka nebyla nalezena"
+  },
   "home": "Domov",
   "media": "Media",
   "more": "Více",

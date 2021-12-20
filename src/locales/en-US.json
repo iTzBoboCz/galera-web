@@ -16,6 +16,10 @@
   "albums": "Albums",
   "favorite": "Favorite",
   "gallery": "Gallery",
+  "general": {
+    "goBack": "Go back",
+    "pageNotFound": "This page could not be found"
+  },
   "home": "Home",
   "media": "Media",
   "more": "More",
