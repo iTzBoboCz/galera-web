@@ -75,3 +75,8 @@ async function submitSignup() {
   }
 }
 </script>
+
+<route lang="yaml">
+meta:
+  layout: fullpage
+</route>
