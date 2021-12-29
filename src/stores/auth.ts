@@ -80,19 +80,19 @@ export const useAuthStore = defineStore("auth", {
 
       await this.logIn(userLoginInfo);
     },
-    // TODO: not implemented
     async refreshToken() {
-      // const bearerToken = await api
-      //   .routesRefreshToken()
-      //   .then((response) => {
-      //     return response.data;
-      //   })
-      //   .catch(() => {
-      //     return;
-      //   });
-      // TODO: fix rocket
       const bearerToken = await axios
-        .post("/api/login/refresh")
+        .post(
+          "/api/login/refresh",
+          {
+            encoded_claims: this.bearerToken?.bearerTokenEncoded,
+          },
+          {
+            headers: {
+              "Content-type": "application/json",
+            },
+          }
+        )
         .then((response) => {
           return response.data;
         })
@@ -105,6 +105,8 @@ export const useAuthStore = defineStore("auth", {
           bearerTokenEncoded: bearerToken.encoded_claims,
           bearerTokenRefreshedAt: Date.now(),
         };
+      } else {
+        await this.logOut();
       }
     },
     async logOut() {
