@@ -15,7 +15,7 @@
         exact
       >
         <v-icon>{{ menuItem.icon }}</v-icon>
-        <v-list-item-title v-text="t(menuItem.title)" />
+        <v-list-item-title v-text="menuItem.title" />
       </v-list-item>
       <v-divider />
       <v-list-item
@@ -26,7 +26,7 @@
         exact
       >
         <v-icon>{{ menuItem.icon }}</v-icon>
-        <v-list-item-title v-text="t(menuItem.title)" />
+        <v-list-item-title v-text="menuItem.title" />
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
@@ -47,11 +47,11 @@
       :to="menuItem.to"
     >
       <v-icon>{{ menuItem.icon }}</v-icon>
-      <span>{{ t(menuItem.title) }}</span>
+      <span>{{ menuItem.title }}</span>
     </v-btn>
     <v-btn v-if="menuMoreItems.length > 0" @click="drawer = !drawer">
       <v-icon>mdi-menu</v-icon>
-      <span>{{ t("more") }}</span>
+      <span>{{ t("general.more") }}</span>
       <v-menu activator="parent" anchor="bottom end">
         <v-sheet>
           <v-list>
@@ -61,7 +61,7 @@
               :link="menuItem.to"
             >
               <v-icon>{{ menuItem.icon }}</v-icon>
-              <span>{{ t(menuItem.title) }}</span>
+              <span>{{ menuItem.title }}</span>
             </v-list-item>
           </v-list>
         </v-sheet>
@@ -71,9 +71,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
+
+// TODO: use only script setup when this issue is solved:
+// https://github.com/import-js/eslint-plugin-import/issues/2243
+export default defineComponent({
+  name: "NavigationMenu",
+});
+</script>
+
+<script setup lang="ts">
+const display = useDisplay();
+
+const { t } = useI18n();
+
+const drawer = ref(false);
 
 interface MenuItem {
   title: string;
@@ -81,47 +95,33 @@ interface MenuItem {
   to: string;
 }
 
-export default defineComponent({
-  name: "NavigationMenu",
-  setup() {
-    const display = useDisplay();
+const menuMainItems = computed((): MenuItem[] => {
+  return [
+    {
+      title: t("photos"),
+      icon: "mdi-image-multiple",
+      to: "/",
+    },
+    {
+      title: t("albums"),
+      icon: "mdi-folder",
+      to: "/albums",
+    },
+    {
+      title: t("sharedAlbums"),
+      icon: "mdi-folder-eye",
+      to: "/albums/shared",
+    },
+  ];
+});
 
-    const { t } = useI18n();
-
-    return { display, t };
-  },
-  data(): {
-    drawer: boolean;
-    menuMainItems: MenuItem[];
-    menuMoreItems: MenuItem[];
-  } {
-    return {
-      drawer: false,
-      menuMainItems: [
-        {
-          title: "photos",
-          icon: "mdi-image-multiple",
-          to: "/",
-        },
-        {
-          title: "albums",
-          icon: "mdi-folder",
-          to: "/albums",
-        },
-        {
-          title: "sharedAlbums",
-          icon: "mdi-folder-eye",
-          to: "/albums/shared",
-        },
-      ],
-      menuMoreItems: [
-        {
-          title: "favorite",
-          icon: "mdi-heart",
-          to: "/favorite",
-        },
-      ],
-    };
-  },
+const menuMoreItems = computed((): MenuItem[] => {
+  return [
+    {
+      title: t("favorite"),
+      icon: "mdi-heart",
+      to: "/favorite",
+    },
+  ];
 });
 </script>

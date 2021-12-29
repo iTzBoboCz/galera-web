@@ -17,9 +17,9 @@
   "favorite": "Oblíbené",
   "general": {
     "goBack": "Jít zpět",
+    "more": "Více",
     "pageNotFound": "Tato stránka nebyla nalezena"
   },
-  "more": "Více",
   "pages": {
     "login": "Přihlášení",
     "signUp": "Registrace"

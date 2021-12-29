@@ -17,9 +17,9 @@
   "favorite": "Favorite",
   "general": {
     "goBack": "Go back",
+    "more": "More",
     "pageNotFound": "This page could not be found"
   },
-  "more": "More",
   "pages": {
     "login": "Log in",
     "signUp": "Sign up"
