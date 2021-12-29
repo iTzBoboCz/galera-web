@@ -15,19 +15,15 @@
   },
   "albums": "Alba",
   "favorite": "Oblíbené",
-  "gallery": "Galerie",
   "general": {
     "goBack": "Jít zpět",
     "pageNotFound": "Tato stránka nebyla nalezena"
   },
-  "home": "Domov",
-  "media": "Media",
   "more": "Více",
   "pages": {
     "login": "Přihlášení",
     "signUp": "Registrace"
   },
-  "photo": "Fotka",
   "photos": "Fotky",
   "sharedAlbums": "Sdílená alba"
 }
