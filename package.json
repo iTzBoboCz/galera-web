@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^16.0.1",
-    "@commitlint/config-conventional": "^15.0.0",
+    "@commitlint/config-conventional": "^16.0.0",
     "@intlify/vite-plugin-vue-i18n": "^3.2.1",
     "@mdi/font": "^6.5.95",
     "@types/node": "^16.11.13",
