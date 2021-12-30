@@ -4,21 +4,22 @@
 </template>
 
 <script lang="ts">
+import { MediaResponse } from "@galera/client-axios";
 import { AxiosResponse } from "axios";
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 
 import api from "~/composables/api";
 
 export default defineComponent({
   name: "ImageWrapper",
   props: {
-    mediaUuid: {
-      type: String,
+    media: {
+      type: Object as PropType<MediaResponse>,
       required: true,
     },
   },
   created() {
-    this.getMediaByUuid(this.mediaUuid);
+    this.getMediaByUuid(this.media.uuid);
   },
   methods: {
     async getMediaByUuid(mediaUuid: string) {

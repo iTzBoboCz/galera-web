@@ -11,10 +11,12 @@
     />
     <ImageWrapper
       v-if="selectedMedia.mediaModal"
-      :media-uuid="selectedMedia.mediaModal"
+      :media="selectedMedia.mediaModal"
       @click.stop
     />
-    <span>{{ selectedMedia.mediaModal }}</span>
+    <span v-if="selectedMedia.mediaModal?.description">{{
+      selectedMedia.mediaModal.description
+    }}</span>
     <v-btn
       position="absolute"
       size="large"

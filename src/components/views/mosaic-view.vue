@@ -8,11 +8,11 @@
       loading="lazy"
     >
       <ImageWrapper
-        :media-uuid="media.uuid"
+        :media="media"
         :class="{ mediaInfo: mediaInfoIsActive(media.uuid) }"
       />
       <div class="image-inner">
-        <div class="image-inner-relative" @click="mediaClick(media.uuid)">
+        <div class="image-inner-relative" @click="mediaClick(media)">
           <span :class="{ displayNone: !mediaInfoIsActive(media.uuid) }">{{
             getLocalizedDate(new Date(media.date_taken), media.date_taken)
           }}</span>
@@ -153,8 +153,8 @@ export default defineComponent({
 
       this.mediaInfo = undefined;
     },
-    showImage(mediaUuid: string) {
-      this.setMediaModal(mediaUuid);
+    showImage(media: MediaResponse) {
+      this.setMediaModal(media);
     },
     mediaInfoIsActive(media_uuid: string): boolean {
       if (this.mediaInfo == media_uuid) {
@@ -181,13 +181,13 @@ export default defineComponent({
     isSomethingSelected(): boolean {
       return this.selectedMedia.length > 0;
     },
-    mediaClick(mediaUuid: string) {
+    mediaClick(media: MediaResponse) {
       if (this.isSomethingSelected()) {
-        this.toggleSelection(mediaUuid);
+        this.toggleSelection(media.uuid);
         return;
       }
 
-      this.showImage(mediaUuid);
+      this.showImage(media);
     },
   },
 });
