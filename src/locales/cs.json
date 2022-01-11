@@ -20,10 +20,46 @@
     "more": "Více",
     "pageNotFound": "Tato stránka nebyla nalezena"
   },
+  "links": {
+    "helpTranslating": "Pomoct překládat",
+    "projectHomePage": "Hlavní stránka projektu",
+    "readTheDocumentation": "Přečíst si dokumentaci",
+    "reportAnIssueWithWebClient": "Nahlásit problém s webovým klientem"
+  },
+  "navigation": {
+  },
   "pages": {
     "login": "Přihlášení",
     "signUp": "Registrace"
   },
   "photos": "Fotky",
+  "server": {
+    "clientVersion": "Verze klienta",
+    "operatingSystem": "Operační systém",
+    "serverName": "Název serveru",
+    "serverVersion": "Verze serveru",
+    "systemArchitecture": "Architektura systému"
+  },
+  "settings": {
+    "account": {
+      "description": "Upravit informace o uživateli",
+      "name": "Účet"
+    },
+    "homePage": {
+      "description": "Nastavit rozložení",
+      "name": "Hlavní stránka"
+    },
+    "importantLinks": "Důležité odkazy",
+    "localPreferences": "Lokální preference",
+    "server": {
+    },
+    "serverInfo": "Informace o serveru",
+    "serverSettings": "Nastavení serveru",
+    "userSettings": "Uživatelské nastavení",
+    "users": {
+      "description": "Spravovat uživatele a jejich oprávnění",
+      "name": "Správa uživatelů"
+    }
+  },
   "sharedAlbums": "Sdílená alba"
 }

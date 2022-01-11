@@ -20,10 +20,46 @@
     "more": "More",
     "pageNotFound": "This page could not be found"
   },
+  "links": {
+    "helpTranslating": "Help to translate",
+    "projectHomePage": "Project home page",
+    "readTheDocumentation": "Read the documentation",
+    "reportAnIssueWithWebClient": "Report a bug with the web client"
+  },
+  "navigation": {
+  },
   "pages": {
     "login": "Log in",
     "signUp": "Sign up"
   },
   "photos": "Photos",
+  "server": {
+    "clientVersion": "Client version",
+    "operatingSystem": "Operating system",
+    "serverName": "Server name",
+    "serverVersion": "Server version",
+    "systemArchitecture": "System architecture"
+  },
+  "settings": {
+    "account": {
+      "description": "Edit information about your account",
+      "name": "Account"
+    },
+    "homePage": {
+      "description": "Edit layout",
+      "name": "Home page"
+    },
+    "importantLinks": "Important links",
+    "localPreferences": "Local preferences",
+    "server": {
+    },
+    "serverInfo": "Server info",
+    "serverSettings": "Server settings",
+    "userSettings": "User settings",
+    "users": {
+      "description": "Manage users and their permissions",
+      "name": "User management"
+    }
+  },
   "sharedAlbums": "Shared albums"
 }

@@ -1,4 +1,8 @@
-import { AlbumResponse, MediaResponse } from "@galera/client-axios";
+import {
+  AlbumResponse,
+  MediaResponse,
+  SystemInfoPublic,
+} from "@galera/client-axios";
 import { defineStore } from "pinia";
 
 import api from "~/composables/api";
@@ -15,6 +19,7 @@ export interface FetchedMediaState {
   allMedia: Array<MediaResponse> | undefined;
   likedMedia: Array<MediaResponse> | undefined;
   albumList: Array<Album<MediaResponse>> | undefined;
+  systemInfoPublic: SystemInfoPublic | undefined;
 }
 
 export const useFetchedMediaStore = defineStore("fetchedMedia", {
@@ -22,6 +27,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
     allMedia: [],
     likedMedia: [],
     albumList: [],
+    systemInfoPublic: undefined,
   }),
   getters: {
     numberOfAllMedia: (state) => state.allMedia?.length,
@@ -92,6 +98,13 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
           return;
         });
       // TODO: finish later
+    },
+    async getSystemInfoPublic() {
+      this.systemInfoPublic = await api()
+        .routesSystemInfoPublic()
+        .then((response) => {
+          return response.data;
+        });
     },
   },
 });
