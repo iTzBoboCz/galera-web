@@ -27,6 +27,8 @@
     "reportAnIssueWithWebClient": "Nahlásit problém s webovým klientem"
   },
   "navigation": {
+    "logOut": "Odhlásit",
+    "settings": "Nastavení"
   },
   "pages": {
     "login": "Přihlášení",

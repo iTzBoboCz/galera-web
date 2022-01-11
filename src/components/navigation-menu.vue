@@ -38,7 +38,7 @@
 
     <v-app-bar-title>Application</v-app-bar-title>
     <v-spacer />
-    <v-avatar color="teal" size="56"></v-avatar>
+    <UserMenu class="mb-3" />
   </v-app-bar>
   <v-bottom-navigation v-if="display.mobile.value">
     <v-btn
@@ -74,6 +74,8 @@
 import { computed, defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
+
+import UserMenu from "~/components/user-menu.vue";
 
 // TODO: use only script setup when this issue is solved:
 // https://github.com/import-js/eslint-plugin-import/issues/2243

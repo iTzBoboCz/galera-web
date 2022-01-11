@@ -27,6 +27,8 @@
     "reportAnIssueWithWebClient": "Report a bug with the web client"
   },
   "navigation": {
+    "logOut": "Log out",
+    "settings": "Settings"
   },
   "pages": {
     "login": "Log in",
