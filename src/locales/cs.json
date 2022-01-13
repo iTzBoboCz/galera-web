@@ -64,6 +64,13 @@
       "name": "Hlavní stránka"
     },
     "importantLinks": "Důležité odkazy",
+    "library": {
+      "allFolders": "Všechny složky",
+      "completeRescan": "Kompletní přeskenování",
+      "description": "Spravovat a skenovat fotografie",
+      "name": "Knihovna",
+      "scan": "Skenovat"
+    },
     "localPreferences": "Lokální preference",
     "server": {
     },

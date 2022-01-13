@@ -64,6 +64,13 @@
       "name": "Home page"
     },
     "importantLinks": "Important links",
+    "library": {
+      "allFolders": "All folders",
+      "completeRescan": "Complete rescan",
+      "description": "Manage and scan photos",
+      "name": "Library",
+      "scan": "Scan"
+    },
     "localPreferences": "Local preferences",
     "server": {
     },

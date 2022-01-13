@@ -49,7 +49,6 @@
               :prepend-icon="item.icon"
               :title="item.name"
               :subtitle="item.description"
-              disabled
             />
           </v-list>
         </v-card>
@@ -138,6 +137,12 @@ const userSettings = computed(() => {
       name: t("settings.homePage.name"),
       description: t("settings.homePage.description"),
       to: "/settings/home",
+    },
+    {
+      icon: "mdi-library-shelves",
+      name: t("settings.library.name"),
+      description: t("settings.library.description"),
+      to: "/settings/library",
     },
   ];
 });

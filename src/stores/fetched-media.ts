@@ -106,5 +106,12 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
           return response.data;
         });
     },
+    async scanMedia() {
+      await api()
+        .routesScanMedia()
+        .then((response) => {
+          return response.data;
+        });
+    },
   },
 });
