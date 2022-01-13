@@ -70,7 +70,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
           return response.data;
         });
 
-      let albumList: Array<Album<MediaResponse>> | undefined;
+      const albumList: Array<Album<MediaResponse>> | undefined = [];
       for (const album of albumResponse) {
         albumList?.push(album);
       }
