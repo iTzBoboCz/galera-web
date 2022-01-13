@@ -61,6 +61,98 @@
       </div>
     </div>
   </div>
+  <!-- v-speed-dial is not implemented yet -->
+  <!-- <v-fab-transition>
+    <v-btn
+      v-show="isSomethingSelected()"
+      color="pink"
+      position="fixed"
+      bottom
+      right
+      fab
+      variant="contained"
+    >
+      {{ selectedMedia.length }}
+    </v-btn>
+  </v-fab-transition> -->
+  <div style="position: fixed; bottom: 10px; right: 10px">
+    <v-row>
+      <v-col cols="1">
+        <v-btn
+          v-show="isSomethingSelected()"
+          color="primary"
+          fab
+          icon="mdi-pencil"
+          variant="contained"
+          @click="openDescriptionEditor(selectedMedia[0])"
+        />
+        <v-btn
+          v-show="isSomethingSelected()"
+          color="primary"
+          fab
+          icon="mdi-folder"
+          variant="contained"
+          @click="openAddToAlbumDialog(selectedMedia)"
+        />
+      </v-col>
+    </v-row>
+  </div>
+  <v-dialog v-model="descriptionEditDialog">
+    <v-card :title="t('dialogs.editDescription.title')">
+      <v-card-text>
+        <v-text-field
+          v-model="descriptionEdit"
+          :label="t('dialogs.editDescription.description')"
+        />
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          color="primary"
+          variant="text"
+          @click="descriptionEditDialog = false"
+          >{{ t("general.cancel") }}</v-btn
+        >
+        <v-btn
+          color="primary"
+          variant="text"
+          @click="
+            descriptionEditDialog = false;
+            changeDescription(selectedMedia[0]);
+          "
+          >{{ t("general.change") }}</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <v-dialog v-model="addToAlbumDialog">
+    <v-card :title="t('dialogs.addToAlbum.title')">
+      <v-card-text>
+        <select v-model="selectedAlbumUuid">
+          <option :value="undefined" disabled></option>
+          <option
+            v-for="album in fetchedMedia.albumList"
+            :key="album.link"
+            :value="album.link"
+          >
+            {{ album.name }}
+          </option>
+        </select>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          color="primary"
+          variant="text"
+          @click="addToAlbumDialog = false"
+          >{{ t("general.cancel") }}</v-btn
+        >
+        <v-btn color="primary" variant="text" disabled>{{
+          t("general.add")
+        }}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts">
@@ -71,6 +163,7 @@ import { useI18n } from "vue-i18n";
 import ImageWrapper from "~/components/media/image-wrapper.vue";
 import api from "~/composables/api";
 import rfc3339 from "~/rfc3339";
+import { useFetchedMediaStore } from "~/stores/fetched-media";
 import { useSelectedMediaStore } from "~/stores/selected-media";
 
 export default defineComponent({
@@ -90,9 +183,11 @@ export default defineComponent({
   setup() {
     const setMediaModal = useSelectedMediaStore().setMediaModal;
 
-    const { d } = useI18n();
+    const { d, t } = useI18n();
 
-    return { d, setMediaModal };
+    const fetchedMedia = useFetchedMediaStore();
+
+    return { d, fetchedMedia, t, setMediaModal };
   },
 
   data(): {
@@ -100,12 +195,20 @@ export default defineComponent({
     likedMedia: string[];
     selectedMedia: string[];
     loaded: boolean;
+    descriptionEditDialog: boolean;
+    descriptionEdit: string | undefined;
+    addToAlbumDialog: boolean;
+    selectedAlbumUuid: number | undefined;
   } {
     return {
       mediaInfo: undefined,
       likedMedia: [],
       selectedMedia: [],
       loaded: false,
+      descriptionEditDialog: false,
+      descriptionEdit: undefined,
+      addToAlbumDialog: false,
+      selectedAlbumUuid: undefined,
     };
   },
   async created() {
@@ -188,6 +291,45 @@ export default defineComponent({
       }
 
       this.showImage(media);
+    },
+    openDescriptionEditor(uuid: string) {
+      this.descriptionEditDialog = !this.descriptionEditDialog;
+      this.descriptionEdit =
+        this.mediaList[this.selectedUuidToId(uuid)].description ?? "";
+    },
+    // may return -1, which is an invalid index
+    selectedUuidToId(uuid: string): number {
+      return this.mediaList.findIndex((media) => media.uuid == uuid);
+    },
+    async changeDescription(uuid: string) {
+      const success = await api()
+        .routesMediaUpdateDescription({
+          mediaUuid: uuid,
+          mediaDescription: { description: this.descriptionEdit },
+        })
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+
+      if (success) {
+        const selectedItem = this.selectedUuidToId(uuid);
+
+        if (selectedItem > -1 && this.mediaList[selectedItem]) {
+          // TODO: refactor this later
+          // eslint-disable-next-line vue/no-mutating-props
+          this.mediaList[selectedItem].description = this.descriptionEdit;
+        }
+      }
+    },
+    openAddToAlbumDialog(mediaUuidList: string[]) {
+      this.addToAlbumDialog = !this.addToAlbumDialog;
+
+      this.fetchedMedia.getAlbumList();
+
+      // TODO: finish later
     },
   },
 });

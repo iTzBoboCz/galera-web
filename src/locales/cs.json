@@ -14,8 +14,20 @@
     "create": "Vytvořit nové album"
   },
   "albums": "Alba",
+  "dialogs": {
+    "addToAlbum": {
+      "title": "Přidat do alba"
+    },
+    "editDescription": {
+      "description": "Popisek",
+      "title": "Změnit popisek"
+    }
+  },
   "favorite": "Oblíbené",
   "general": {
+    "add": "Přidat",
+    "cancel": "Zrušit",
+    "change": "Změnit",
     "goBack": "Jít zpět",
     "more": "Více",
     "pageNotFound": "Tato stránka nebyla nalezena"

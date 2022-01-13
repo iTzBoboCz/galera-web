@@ -14,8 +14,20 @@
     "create": "Create a new album"
   },
   "albums": "Albums",
+  "dialogs": {
+    "addToAlbum": {
+      "title": "Add to an album"
+    },
+    "editDescription": {
+      "description": "Description",
+      "title": "Edit description"
+    }
+  },
   "favorite": "Favorite",
   "general": {
+    "add": "Add",
+    "cancel": "Cancel",
+    "change": "Change",
     "goBack": "Go back",
     "more": "More",
     "pageNotFound": "This page could not be found"
