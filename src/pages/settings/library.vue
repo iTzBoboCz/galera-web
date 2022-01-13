@@ -10,7 +10,7 @@
             </option>
             <option
               v-for="folder in folders"
-              :key="folder"
+              :key="folder.uuid"
               :value="folder.uuid"
             >
               {{ folder.name }}
