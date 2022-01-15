@@ -24,7 +24,7 @@
             color="red"
             variant="text"
             position="absolute"
-            @click.stop="likeToggle(media.uuid)"
+            @click.stop="likeToggle(media)"
           >
             <v-icon v-if="isLiked(media.uuid)" color="red">mdi-heart</v-icon>
             <v-icon v-if="!isLiked(media.uuid)" color="grey"
@@ -192,7 +192,6 @@ export default defineComponent({
 
   data(): {
     mediaInfo: string | undefined;
-    likedMedia: string[];
     selectedMedia: string[];
     loaded: boolean;
     descriptionEditDialog: boolean;
@@ -202,7 +201,6 @@ export default defineComponent({
   } {
     return {
       mediaInfo: undefined,
-      likedMedia: [],
       selectedMedia: [],
       loaded: false,
       descriptionEditDialog: false,
@@ -212,17 +210,7 @@ export default defineComponent({
     };
   },
   async created() {
-    this.likedMedia = await api()
-      .routesGetMediaLikedList()
-      .then((response) => {
-        let media: string[] = [];
-
-        for (const m of response.data) {
-          media.push(m.uuid);
-        }
-
-        return media;
-      });
+    await this.fetchedMedia.getLikedMedia();
 
     this.loaded = true;
   },
@@ -234,19 +222,14 @@ export default defineComponent({
       console.log(rfc3339(date_taken) + " vs " + d);
       return this.d(date_taken, "datetime");
     },
-    likeToggle(mediaUuid: string) {
-      if (this.isLiked(mediaUuid)) {
-        const index = this.likedMedia.indexOf(mediaUuid);
+    likeToggle(media: MediaResponse) {
+      if (this.isLiked(media.uuid)) {
+        this.fetchedMedia.mediaUnlike(media.uuid);
 
-        // TODO: fix CORS and add .then() and .catch()
-        // https://stackoverflow.com/questions/54540881/why-does-my-instance-of-axios-not-return-the-response-in-a-caught-error
-        api().routesMediaUnlike({ mediaUuid });
-        this.likedMedia.splice(index, 1);
         return;
       }
 
-      api().routesMediaLike({ mediaUuid });
-      this.likedMedia.push(mediaUuid);
+      this.fetchedMedia.mediaLike(media);
     },
     toggleInfo(mediaUuid: string) {
       if (this.mediaInfo != mediaUuid) {
@@ -267,7 +250,11 @@ export default defineComponent({
       return false;
     },
     isLiked(mediaUuid: string): boolean {
-      return this.likedMedia.includes(mediaUuid);
+      return (
+        this.fetchedMedia.likedMedia?.some(
+          (media) => media.uuid == mediaUuid
+        ) ?? false
+      );
     },
     toggleSelection(mediaUuid: string) {
       if (this.isSelected(mediaUuid)) {

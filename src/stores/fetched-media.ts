@@ -86,18 +86,45 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
       // TODO: finish later
       // commit("getAlbumList", { albumResponse });
     },
-    async mediaUnlike(mediaUuid: string) {
-      api()
-        .routesMediaUnlike({ mediaUuid })
-        .then((response) => {
-          return response.status;
+    async mediaLike(media: MediaResponse) {
+      // TODO: fix CORS; looks like this always returns true
+      // https://stackoverflow.com/questions/54540881/why-does-my-instance-of-axios-not-return-the-response-in-a-caught-error
+      const success = await api()
+        .routesMediaLike({ mediaUuid: media.uuid })
+        .then(() => {
+          return true;
         })
-        .catch((error) => {
-          // TODO: doesn't seem to work
-          console.log(error);
-          return;
+        .catch(() => {
+          return false;
         });
-      // TODO: finish later
+
+      if (success && this.likedMedia) {
+        // sometimes the liked images were duplicite (probably related to CORS)
+        const alreadyExists = this.likedMedia.some((m) => m.uuid == media.uuid);
+
+        if (!alreadyExists) {
+          this.likedMedia.push(media);
+        }
+      }
+    },
+    async mediaUnlike(mediaUuid: string) {
+      const success = await api()
+        .routesMediaUnlike({ mediaUuid })
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+
+      if (success && this.likedMedia) {
+        const index = this.likedMedia.findIndex(
+          (media) => media.uuid == mediaUuid
+        );
+        if (index > -1) {
+          this.likedMedia.splice(index, 1);
+        }
+      }
     },
     async getSystemInfoPublic() {
       this.systemInfoPublic = await api()
