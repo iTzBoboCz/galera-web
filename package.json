@@ -18,7 +18,7 @@
   "dependencies": {
     "@galera/client-axios": "git+https://github.com/galera-org/galera-client-axios.git",
     "axios": "^0.25.0",
-    "iso-639-1": "^2.1.11",
+    "iso-639-1": "^2.1.12",
     "pinia": "^2.0.9",
     "pinia-plugin-persistedstate": "^1.0.3",
     "vue": "^3.2.29",
