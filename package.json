@@ -20,7 +20,7 @@
     "axios": "^0.25.0",
     "iso-639-1": "^2.1.12",
     "pinia": "^2.0.10",
-    "pinia-plugin-persistedstate": "^1.1.0",
+    "pinia-plugin-persistedstate": "^1.2.0",
     "vue": "^3.2.29",
     "vue-i18n": "^9.1.7",
     "vue-router": "^4.0.12",
