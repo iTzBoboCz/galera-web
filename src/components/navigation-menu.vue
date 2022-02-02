@@ -38,6 +38,7 @@
 
     <v-app-bar-title>Application</v-app-bar-title>
     <v-spacer />
+    <ViewChanger />
     <UserMenu class="mb-3" />
   </v-app-bar>
   <v-bottom-navigation v-if="display.mobile.value">
@@ -75,6 +76,7 @@ import { computed, defineComponent, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
 
+import ViewChanger from "~/components/buttons/view-changer.vue";
 import UserMenu from "~/components/user-menu.vue";
 
 // TODO: use only script setup when this issue is solved:

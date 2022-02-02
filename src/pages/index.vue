@@ -1,9 +1,9 @@
 <template>
-  <MosaicView :media-list="fetchedMedia.allMedia ?? []" />
+  <ViewWrapper :media-list="fetchedMedia.allMedia ?? []" />
 </template>
 
 <script setup lang="ts">
-import MosaicView from "~/components/views/mosaic-view.vue";
+import ViewWrapper from "~/components/view-wrapper.vue";
 import { useFetchedMediaStore } from "~/stores/fetched-media";
 
 const fetchedMedia = useFetchedMediaStore();

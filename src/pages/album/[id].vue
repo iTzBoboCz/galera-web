@@ -1,6 +1,6 @@
 @@ -1,17 +1,44 @@
 <template>
-  <MosaicView :media-list="mediaList" />
+  <ViewWrapper :media-list="mediaList" />
 </template>
 
 <script lang="ts">
@@ -8,11 +8,11 @@ import { MediaResponse } from "@galera/client-axios";
 import { AxiosResponse } from "axios";
 import { defineComponent } from "vue";
 
-import MosaicView from "~/components/views/mosaic-view.vue";
+import ViewWrapper from "~/components/view-wrapper.vue";
 import api from "~/composables/api";
 
 export default defineComponent({
-  components: { MosaicView },
+  components: { ViewWrapper },
   props: {
     id: {
       type: String,

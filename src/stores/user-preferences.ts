@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 export interface UserPreferencesState {
   darkMode: boolean;
   locale: string;
+  view: "mosaic" | "list" | "tile";
 }
 
 export function getLocalUserPreferences(): UserPreferencesState {
@@ -17,7 +18,8 @@ export function getLocalUserPreferences(): UserPreferencesState {
     const locale = window.navigator.language
       ? window.navigator.language
       : "en-US";
-    return { darkMode, locale };
+    const view = "mosaic";
+    return { darkMode, locale, view };
   }
 
   return JSON.parse(localPreferences);
@@ -29,6 +31,7 @@ export const useUserPreferencesStore = defineStore("userPreferences", {
   state: (): UserPreferencesState => ({
     darkMode: localUserPreferences.darkMode,
     locale: localUserPreferences.locale,
+    view: localUserPreferences.view,
   }),
   actions: {
     setLocale($i18n: any, locale: string) {
@@ -37,6 +40,13 @@ export const useUserPreferencesStore = defineStore("userPreferences", {
     },
     toggleDarkMode() {
       this.darkMode = !this.darkMode;
+    },
+    nextView() {
+      if (this.view == "tile") {
+        this.view = "mosaic";
+      } else {
+        this.view = this.view == "list" ? "tile" : "list";
+      }
     },
   },
   persist: true,
