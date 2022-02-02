@@ -13,4 +13,6 @@ const fetchedMedia = useFetchedMediaStore();
 // TODO: pass numberOfAllMedia later
 
 fetchedMedia.getAllMedia();
+
+fetchedMedia.getLikedMedia();
 </script>

@@ -1,6 +1,6 @@
 @@ -0,0 +1,289 @@
 <template>
-  <div v-if="loaded" class="media-container">
+  <div class="media-container">
     <div
       v-for="media in mediaList"
       :key="media.filename"
@@ -176,7 +176,6 @@ export default defineComponent({
 
   data(): {
     selectedMedia: string[];
-    loaded: boolean;
     descriptionEditDialog: boolean;
     descriptionEdit: string | undefined;
     addToAlbumDialog: boolean;
@@ -184,17 +183,11 @@ export default defineComponent({
   } {
     return {
       selectedMedia: [],
-      loaded: false,
       descriptionEditDialog: false,
       descriptionEdit: undefined,
       addToAlbumDialog: false,
       selectedAlbumUuid: undefined,
     };
-  },
-  async created() {
-    await this.fetchedMedia.getLikedMedia();
-
-    this.loaded = true;
   },
   methods: {
     getMediaType() {
