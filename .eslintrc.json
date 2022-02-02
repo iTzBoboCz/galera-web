@@ -26,7 +26,15 @@
     "import/no-unresolved": "off",
     "simple-import-sort/exports": "error",
     "simple-import-sort/imports": "error",
-    "unicorn/prefer-node-protocol": "off"
+    "unicorn/prefer-node-protocol": "off",
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        "allowList": {
+          "props": true
+        }
+      }
+    ]
   },
   "plugins": [
     "@typescript-eslint",
