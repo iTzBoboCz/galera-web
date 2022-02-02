@@ -17,20 +17,10 @@
             getLocalizedDate(new Date(media.date_taken), media.date_taken)
           }}</span>
           <!-- TODO: fix later; absolute prop doesn't seem to work yet -->
-          <v-btn
-            icon
-            bottom="1.5vh"
-            left="1.5vh"
-            color="red"
-            variant="text"
-            position="absolute"
-            @click.stop="likeToggle(media)"
-          >
-            <v-icon v-if="isLiked(media.uuid)" color="red">mdi-heart</v-icon>
-            <v-icon v-if="!isLiked(media.uuid)" color="grey"
-              >mdi-heart-outline</v-icon
-            >
-          </v-btn>
+          <LikeButton
+            :media="media"
+            style="position: absolute; bottom: 1.5vh; left: 1.5vh"
+          />
           <v-btn
             icon="mdi-information-outline"
             top="1.5vh"
@@ -160,6 +150,7 @@ import { MediaResponse } from "@galera/client-axios";
 import { defineComponent, PropType } from "vue";
 import { useI18n } from "vue-i18n";
 
+import LikeButton from "~/components/buttons/like-button.vue";
 import ImageWrapper from "~/components/media/image-wrapper.vue";
 import api from "~/composables/api";
 import rfc3339 from "~/rfc3339";
@@ -168,7 +159,7 @@ import { useSelectedMediaStore } from "~/stores/selected-media";
 
 export default defineComponent({
   name: "MosaicView",
-  components: { ImageWrapper },
+  components: { ImageWrapper, LikeButton },
   props: {
     mediaList: {
       type: Object as PropType<MediaResponse[]>,
@@ -222,15 +213,6 @@ export default defineComponent({
       console.log(rfc3339(date_taken) + " vs " + d);
       return this.d(date_taken, "datetime");
     },
-    likeToggle(media: MediaResponse) {
-      if (this.isLiked(media.uuid)) {
-        this.fetchedMedia.mediaUnlike(media.uuid);
-
-        return;
-      }
-
-      this.fetchedMedia.mediaLike(media);
-    },
     toggleInfo(mediaUuid: string) {
       if (this.mediaInfo != mediaUuid) {
         this.mediaInfo = mediaUuid;
@@ -248,13 +230,6 @@ export default defineComponent({
       }
 
       return false;
-    },
-    isLiked(mediaUuid: string): boolean {
-      return (
-        this.fetchedMedia.likedMedia?.some(
-          (media) => media.uuid == mediaUuid
-        ) ?? false
-      );
     },
     toggleSelection(mediaUuid: string) {
       if (this.isSelected(mediaUuid)) {
