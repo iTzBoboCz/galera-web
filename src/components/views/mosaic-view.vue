@@ -7,29 +7,22 @@
       class="media"
       loading="lazy"
     >
-      <ImageWrapper
-        :media="media"
-        :class="{ mediaInfo: mediaInfoIsActive(media.uuid) }"
-      />
+      <ImageWrapper :media="media" />
       <div class="image-inner">
         <div class="image-inner-relative" @click="mediaClick(media)">
-          <span :class="{ displayNone: !mediaInfoIsActive(media.uuid) }">{{
-            getLocalizedDate(new Date(media.date_taken), media.date_taken)
-          }}</span>
-          <!-- TODO: fix later; absolute prop doesn't seem to work yet -->
           <LikeButton
             :media="media"
             style="position: absolute; bottom: 1.5vh; left: 1.5vh"
           />
-          <v-btn
+          <!-- TODO: reconsider later -->
+          <!-- <v-btn
             icon="mdi-information-outline"
             top="1.5vh"
             right="1.5vh"
             color="grey"
             variant="text"
             position="absolute"
-            @click.stop="toggleInfo(media.uuid)"
-          />
+          /> -->
           <v-btn
             icon
             bottom="1.5vh"
@@ -174,15 +167,14 @@ export default defineComponent({
   setup() {
     const setMediaModal = useSelectedMediaStore().setMediaModal;
 
-    const { d, t } = useI18n();
+    const { t } = useI18n();
 
     const fetchedMedia = useFetchedMediaStore();
 
-    return { d, fetchedMedia, t, setMediaModal };
+    return { fetchedMedia, t, setMediaModal };
   },
 
   data(): {
-    mediaInfo: string | undefined;
     selectedMedia: string[];
     loaded: boolean;
     descriptionEditDialog: boolean;
@@ -191,7 +183,6 @@ export default defineComponent({
     selectedAlbumUuid: number | undefined;
   } {
     return {
-      mediaInfo: undefined,
       selectedMedia: [],
       loaded: false,
       descriptionEditDialog: false,
@@ -213,23 +204,8 @@ export default defineComponent({
       console.log(rfc3339(date_taken) + " vs " + d);
       return this.d(date_taken, "datetime");
     },
-    toggleInfo(mediaUuid: string) {
-      if (this.mediaInfo != mediaUuid) {
-        this.mediaInfo = mediaUuid;
-        return;
-      }
-
-      this.mediaInfo = undefined;
-    },
     showImage(media: MediaResponse) {
       this.setMediaModal(media);
-    },
-    mediaInfoIsActive(media_uuid: string): boolean {
-      if (this.mediaInfo == media_uuid) {
-        return true;
-      }
-
-      return false;
     },
     toggleSelection(mediaUuid: string) {
       if (this.isSelected(mediaUuid)) {
@@ -313,16 +289,6 @@ img {
 
 .displayNone {
   display: none;
-}
-
-.visible {
-  visibility: visible;
-}
-
-.mediaInfo {
-  display: unset;
-  filter: brightness(75%) blur(5px);
-  opacity: 0.5;
 }
 
 div.image-inner {
