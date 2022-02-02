@@ -1,5 +1,7 @@
 <template>
-  <ViewWrapper :media-list="fetchedMedia.allMedia ?? []" />
+  <v-container>
+    <ViewWrapper :media-list="fetchedMedia.allMedia ?? []" />
+  </v-container>
 </template>
 
 <script setup lang="ts">

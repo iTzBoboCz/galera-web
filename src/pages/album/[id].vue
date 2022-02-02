@@ -1,6 +1,8 @@
 @@ -1,17 +1,44 @@
 <template>
-  <ViewWrapper :media-list="mediaList" />
+  <v-container>
+    <ViewWrapper :media-list="mediaList" />
+  </v-container>
 </template>
 
 <script lang="ts">

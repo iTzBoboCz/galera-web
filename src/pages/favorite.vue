@@ -1,5 +1,7 @@
 <template>
-  <ViewWrapper :media-list="likedMedia ?? []" />
+  <v-container>
+    <ViewWrapper :media-list="likedMedia ?? []" />
+  </v-container>
 </template>
 
 <script setup lang="ts">
