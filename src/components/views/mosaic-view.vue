@@ -25,117 +25,26 @@
           /> -->
           <v-btn
             icon
+            color="white"
+            position="absolute"
             bottom="1.5vh"
             right="1.5vh"
-            color="blue"
             variant="text"
-            position="absolute"
-            :class="{ visible: isSomethingSelected() }"
-            @click.stop="toggleSelection(media.uuid)"
+            @click.stop="
+              isMediaSelected(media.uuid)
+                ? emit('unselectMedia', media)
+                : emit('selectMedia', media)
+            "
           >
-            <v-icon v-if="!isSelected(media.uuid)" color="grey"
-              >mdi-checkbox-blank-circle-outline</v-icon
-            >
-            <v-icon v-if="isSelected(media.uuid)" color="blue"
-              >mdi-checkbox-blank-circle</v-icon
-            >
+            <v-icon v-if="isMediaSelected(media.uuid)">
+              mdi-check-circle
+            </v-icon>
+            <v-icon v-else> mdi-checkbox-blank-circle-outline </v-icon>
           </v-btn>
         </div>
       </div>
     </div>
   </div>
-  <!-- v-speed-dial is not implemented yet -->
-  <!-- <v-fab-transition>
-    <v-btn
-      v-show="isSomethingSelected()"
-      color="pink"
-      position="fixed"
-      bottom
-      right
-      fab
-      variant="contained"
-    >
-      {{ selectedMedia.length }}
-    </v-btn>
-  </v-fab-transition> -->
-  <div style="position: fixed; bottom: 10px; right: 10px">
-    <v-row>
-      <v-col cols="1">
-        <v-btn
-          v-show="isSomethingSelected()"
-          color="primary"
-          fab
-          icon="mdi-pencil"
-          variant="contained"
-          @click="openDescriptionEditor(selectedMedia[0])"
-        />
-        <v-btn
-          v-show="isSomethingSelected()"
-          color="primary"
-          fab
-          icon="mdi-folder"
-          variant="contained"
-          @click="openAddToAlbumDialog(selectedMedia)"
-        />
-      </v-col>
-    </v-row>
-  </div>
-  <v-dialog v-model="descriptionEditDialog">
-    <v-card :title="t('dialogs.editDescription.title')">
-      <v-card-text>
-        <v-text-field
-          v-model="descriptionEdit"
-          :label="t('dialogs.editDescription.description')"
-        />
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn
-          color="primary"
-          variant="text"
-          @click="descriptionEditDialog = false"
-          >{{ t("general.cancel") }}</v-btn
-        >
-        <v-btn
-          color="primary"
-          variant="text"
-          @click="
-            descriptionEditDialog = false;
-            changeDescription(selectedMedia[0]);
-          "
-          >{{ t("general.change") }}</v-btn
-        >
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-  <v-dialog v-model="addToAlbumDialog">
-    <v-card :title="t('dialogs.addToAlbum.title')">
-      <v-card-text>
-        <select v-model="selectedAlbumUuid">
-          <option :value="undefined" disabled></option>
-          <option
-            v-for="album in fetchedMedia.albumList"
-            :key="album.link"
-            :value="album.link"
-          >
-            {{ album.name }}
-          </option>
-        </select>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn
-          color="primary"
-          variant="text"
-          @click="addToAlbumDialog = false"
-          >{{ t("general.cancel") }}</v-btn
-        >
-        <v-btn color="primary" variant="text" disabled>{{
-          t("general.add")
-        }}</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
 </template>
 
 <script lang="ts">
@@ -145,125 +54,55 @@ import { useI18n } from "vue-i18n";
 
 import LikeButton from "~/components/buttons/like-button.vue";
 import ImageWrapper from "~/components/media/image-wrapper.vue";
-import api from "~/composables/api";
-import rfc3339 from "~/rfc3339";
-import { useFetchedMediaStore } from "~/stores/fetched-media";
 import { useSelectedMediaStore } from "~/stores/selected-media";
 
 export default defineComponent({
   name: "MosaicView",
   components: { ImageWrapper, LikeButton },
-  props: {
-    mediaList: {
-      type: Object as PropType<MediaResponse[]>,
-      required: true,
-    },
-    loading: {
-      type: String,
-      required: false,
-      default: "auto",
-    },
-  },
   setup() {
-    const setMediaModal = useSelectedMediaStore().setMediaModal;
-
     const { t } = useI18n();
 
-    const fetchedMedia = useFetchedMediaStore();
-
-    return { fetchedMedia, t, setMediaModal };
-  },
-
-  data(): {
-    selectedMedia: string[];
-    descriptionEditDialog: boolean;
-    descriptionEdit: string | undefined;
-    addToAlbumDialog: boolean;
-    selectedAlbumUuid: number | undefined;
-  } {
-    return {
-      selectedMedia: [],
-      descriptionEditDialog: false,
-      descriptionEdit: undefined,
-      addToAlbumDialog: false,
-      selectedAlbumUuid: undefined,
-    };
-  },
-  methods: {
-    getMediaType() {
-      return;
-    },
-    getLocalizedDate(date_taken: Date, d: string) {
-      console.log(rfc3339(date_taken) + " vs " + d);
-      return this.d(date_taken, "datetime");
-    },
-    showImage(media: MediaResponse) {
-      this.setMediaModal(media);
-    },
-    toggleSelection(mediaUuid: string) {
-      if (this.isSelected(mediaUuid)) {
-        const index = this.selectedMedia.indexOf(mediaUuid);
-        this.selectedMedia.splice(index, 1);
-        return;
-      }
-
-      this.selectedMedia.push(mediaUuid);
-    },
-    isSelected(mediaUuid: string): boolean {
-      return this.selectedMedia.includes(mediaUuid);
-    },
-    isSomethingSelected(): boolean {
-      return this.selectedMedia.length > 0;
-    },
-    mediaClick(media: MediaResponse) {
-      if (this.isSomethingSelected()) {
-        this.toggleSelection(media.uuid);
-        return;
-      }
-
-      this.showImage(media);
-    },
-    openDescriptionEditor(uuid: string) {
-      this.descriptionEditDialog = !this.descriptionEditDialog;
-      this.descriptionEdit =
-        this.mediaList[this.selectedUuidToId(uuid)].description ?? "";
-    },
-    // may return -1, which is an invalid index
-    selectedUuidToId(uuid: string): number {
-      return this.mediaList.findIndex((media) => media.uuid == uuid);
-    },
-    async changeDescription(uuid: string) {
-      const success = await api()
-        .routesMediaUpdateDescription({
-          mediaUuid: uuid,
-          mediaDescription: { description: this.descriptionEdit },
-        })
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          return false;
-        });
-
-      if (success) {
-        const selectedItem = this.selectedUuidToId(uuid);
-
-        if (selectedItem > -1 && this.mediaList[selectedItem]) {
-          // TODO: refactor this later
-          // eslint-disable-next-line vue/no-mutating-props
-          this.mediaList[selectedItem].description = this.descriptionEdit;
-        }
-      }
-    },
-    openAddToAlbumDialog(mediaUuidList: string[]) {
-      this.addToAlbumDialog = !this.addToAlbumDialog;
-
-      this.fetchedMedia.getAlbumList();
-
-      // TODO: finish later
-    },
+    return { t };
   },
 });
+</script>
+
+<script setup lang="ts">
+const props = defineProps({
+  mediaList: {
+    type: Object as PropType<MediaResponse[]>,
+    required: true,
+  },
+  selectedMedia: {
+    type: Object as PropType<MediaResponse[]>,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["selectMedia", "unselectMedia"]);
+
+const setMediaModal = useSelectedMediaStore().setMediaModal;
+
+function isMediaSelected(mediaUuid: string): boolean {
+  return props.selectedMedia.some((media) => media.uuid == mediaUuid) ?? false;
+}
+
+// TODO: deduplicate
+function isSomethingSelected(): boolean {
+  return props.selectedMedia.length > 0;
+}
+
+function mediaClick(media: MediaResponse) {
+  if (isSomethingSelected()) {
+    isMediaSelected(media.uuid)
+      ? emit("unselectMedia", media)
+      : emit("selectMedia", media);
+
+    return;
+  }
+
+  setMediaModal(media);
+}
 </script>
 
 <style scoped>
