@@ -77,6 +77,37 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
 
       this.albumList = albumList;
     },
+    async createAlbum(albumName: string) {
+      const albumResponse = await api()
+        .routesCreateAlbum({
+          albumInsertData: { name: albumName },
+        })
+        .then((response) => {
+          return response.data;
+        });
+
+      // refresh list
+      this.getAlbumList();
+    },
+    async deleteAlbum(album: AlbumResponse) {
+      const success = await api()
+        .routesDeleteAlbum({
+          albumUuid: album.link,
+        })
+        .then((response) => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+
+      if (success && this.albumList) {
+        const index = this.albumList.findIndex((a) => a.link == album.link);
+        if (index > -1) {
+          this.albumList.splice(index, 1);
+        }
+      }
+    },
     async getAlbumMedia(albumUuid: string) {
       const albumResponse = await api()
         .routesGetAlbumStructure({ albumUuid })
