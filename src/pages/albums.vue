@@ -1,77 +1,108 @@
 @@ -0,0 +1,71 @@
 <template>
   <v-container>
-    <v-btn icon="mdi-plus" @click="createAlbum()">
+    <v-btn icon="mdi-plus" @click="createAlbumDialog = true">
       <v-tooltip activator="parent" :text="t('album.create')" anchor="bottom" />
     </v-btn>
-    <!-- TODO: redo this when Vuetify adds more info about grids -->
-    <div id="album-grid">
-      <v-card
-        v-for="album in albums"
+    <v-row>
+      <v-col
+        v-for="album in fetchedMedia.albumList"
         :key="album.link"
-        :to="'/album/' + album.link"
+        cols="4"
+        lg="1"
+        md="2"
+        sm="3"
       >
-        <div class="" style="width: nastavit; height: nastavit">
-          <!-- <img :src="album.thumbnail_link" /> -->
-        </div>
-        <span>{{ album }}</span>
-      </v-card>
-    </div>
+        <v-hover v-slot="{ hover, props }">
+          <v-card
+            v-bind="props"
+            :to="'/album/' + album.link"
+            min-height="10vh"
+            min-width="10vh"
+          >
+            <v-card-text>{{ album.name }}</v-card-text>
+            <!-- <img :src="album.thumbnail_link" /> -->
+            <!-- TODO: remove scroll-strategy prop in the future, because it might default to reposition -->
+            <!-- TODO: width and height might not be needed in the future too -->
+            <v-overlay
+              :model-value="hover"
+              contained
+              width="100%"
+              height="100%"
+              scroll-strategy="reposition"
+              scrim="black"
+              class="align-center justify-center"
+            >
+              <!-- TODO: fix activator -->
+              <v-menu bottom left>
+                <template #activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    icon="mdi-dots-vertical"
+                    color="white"
+                    position="absolute"
+                    top="1vh"
+                    right="1vh"
+                    variant="text"
+                    @click.prevent=""
+                  />
+                </template>
+                <v-list>
+                  <v-list-item
+                    :title="t('album.delete')"
+                    @click="fetchedMedia.deleteAlbum(album)"
+                  />
+                </v-list>
+              </v-menu>
+            </v-overlay>
+          </v-card>
+        </v-hover>
+      </v-col>
+    </v-row>
   </v-container>
+  <v-dialog v-model="createAlbumDialog">
+    <v-card :title="t('dialogs.createAlbum.title')">
+      <v-card-text>
+        <v-text-field
+          v-model="albumName"
+          :label="t('dialogs.createAlbum.albumName')"
+        />
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          color="primary"
+          variant="text"
+          @click="createAlbumDialog = false"
+          >{{ t("general.cancel") }}</v-btn
+        >
+        <v-btn
+          color="primary"
+          variant="text"
+          :disabled="albumName == ''"
+          @click="
+            createAlbumDialog = false;
+            fetchedMedia.createAlbum(albumName);
+          "
+          >{{ t("general.create") }}</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
-<script lang="ts">
-import { AlbumResponse } from "@galera/client-axios";
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
-import api from "~/composables/api";
+import { useFetchedMediaStore } from "~/stores/fetched-media";
 
-export default defineComponent({
-  setup() {
-    const { t } = useI18n();
+const { t } = useI18n();
 
-    return { t };
-  },
-  data(): { albums: AlbumResponse[] } {
-    return {
-      albums: [],
-    };
-  },
-  async created() {
-    this.albums = await api()
-      .routesGetAlbumList()
-      .then((response) => {
-        return response.data;
-      });
+const fetchedMedia = useFetchedMediaStore();
 
-    this.addAlbum();
-  },
-  methods: {
-    addAlbum() {
-      const container = document.querySelector("v-flex");
+fetchedMedia.getAlbumList();
 
-      // TODO: ask user for album name and append new album
-      // container?.append;
-
-      console.log(container);
-    },
-    createAlbum() {
-      let d = api().routesCreateAlbum({ albumInsertData: { name: "test" } });
-      console.log(d);
-    },
-  },
-});
+const createAlbumDialog = ref(false);
+const albumName = ref("");
 </script>
-
-<style scoped>
-#album-grid {
-  display: flex;
-  justify-content: start;
-}
-
-#album-grid > * {
-  display: inline-block;
-  float: left;
-}
-</style>
