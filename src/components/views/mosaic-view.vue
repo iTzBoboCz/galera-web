@@ -10,25 +10,12 @@
       <ImageWrapper :media="media" />
       <div class="image-inner">
         <div class="image-inner-relative" @click="mediaClick(media)">
-          <LikeButton
-            :media="media"
-            style="position: absolute; bottom: 1.5vh; left: 1.5vh"
-          />
-          <!-- TODO: reconsider later -->
-          <!-- <v-btn
-            icon="mdi-information-outline"
-            top="1.5vh"
-            right="1.5vh"
-            color="grey"
-            variant="text"
-            position="absolute"
-          /> -->
           <v-btn
             icon
             color="white"
             position="absolute"
-            bottom="1.5vh"
-            right="1.5vh"
+            top="1vh"
+            left="1vh"
             variant="text"
             @click.stop="
               isMediaSelected(media.uuid)
@@ -41,6 +28,19 @@
             </v-icon>
             <v-icon v-else> mdi-checkbox-blank-circle-outline </v-icon>
           </v-btn>
+          <!-- TODO: reconsider later -->
+          <!-- <v-btn
+            icon="mdi-information-outline"
+            top="1vh"
+            right="1vh"
+            color="white"
+            variant="text"
+            position="absolute"
+          /> -->
+          <LikeButton
+            :media="media"
+            style="position: absolute; bottom: 1vh; left: 1vh"
+          />
         </div>
       </div>
     </div>
