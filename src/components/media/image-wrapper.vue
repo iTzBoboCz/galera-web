@@ -1,43 +1,63 @@
-@@ -0,0 +1,42 @@
 <template>
-  <img />
+  <!-- TODO: add v-skeleton-loader when it is implemented -->
+  <v-img
+    v-if="imageSource"
+    :src="imageSource"
+    :aspect-ratio="aspectRatio"
+    :cover="aspectRatio == 1"
+  />
 </template>
 
 <script lang="ts">
 import { MediaResponse } from "@galera/client-axios";
 import { AxiosResponse } from "axios";
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, Ref, ref } from "vue";
 
 import api from "~/composables/api";
 
+// TODO: use only script setup when this issue is solved:
+// https://github.com/import-js/eslint-plugin-import/issues/2243
 export default defineComponent({
   name: "ImageWrapper",
-  props: {
-    media: {
-      type: Object as PropType<MediaResponse>,
-      required: true,
-    },
-  },
-  created() {
-    this.getMediaByUuid(this.media.uuid);
-  },
-  methods: {
-    async getMediaByUuid(mediaUuid: string) {
-      const response = await api()
-        .routesGetMediaByUuid({ mediaUuid }, { responseType: "blob" })
-        // TODO: remove response type when this gets typed directly
-        .then((response: AxiosResponse<File | void>) => {
-          return response.data;
-        })
-        .catch(() => {
-          return;
-        });
+});
+</script>
 
-      if (response) {
-        // Looks like this is cheaper than using a reactive variable
-        this.$el.src = URL.createObjectURL(response);
-      }
-    },
+<script setup lang="ts">
+const props = defineProps({
+  media: {
+    type: Object as PropType<MediaResponse>,
+    required: true,
   },
+  aspectRatio: {
+    type: Number,
+    required: false,
+    default: undefined,
+  },
+});
+
+async function getMediaByUuid(mediaUuid: string): Promise<string | undefined> {
+  const response = await api()
+    .routesGetMediaByUuid({ mediaUuid }, { responseType: "blob" })
+    // TODO: remove response type when this gets typed directly
+    .then((response: AxiosResponse<File | void>) => {
+      return response.data;
+    })
+    .catch(() => {
+      return;
+    });
+
+  if (response) {
+    return URL.createObjectURL(response);
+  }
+}
+
+const imageSource: Ref<string | undefined> = ref();
+
+// eslint-disable-next-line promise/catch-or-return
+getMediaByUuid(props.media.uuid).then((url) => {
+  // eslint-disable-next-line promise/always-return
+  if (url) {
+    imageSource.value = url;
+  }
 });
 </script>
