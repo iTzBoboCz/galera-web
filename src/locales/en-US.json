@@ -11,12 +11,17 @@
     "usernameOrEmail": "Username or email"
   },
   "album": {
-    "create": "Create a new album"
+    "create": "Create a new album",
+    "delete": "Delete this album"
   },
   "albums": "Albums",
   "dialogs": {
     "addToAlbum": {
       "title": "Add to an album"
+    },
+    "createAlbum": {
+      "albumName": "Album name",
+      "title": "Create a new album"
     },
     "editDescription": {
       "description": "Description",
@@ -28,6 +33,7 @@
     "add": "Add",
     "cancel": "Cancel",
     "change": "Change",
+    "create": "Create",
     "goBack": "Go back",
     "more": "More",
     "pageNotFound": "This page could not be found"
