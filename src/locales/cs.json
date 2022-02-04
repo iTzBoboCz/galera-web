@@ -38,6 +38,11 @@
     "readTheDocumentation": "Přečíst si dokumentaci",
     "reportAnIssueWithWebClient": "Nahlásit problém s webovým klientem"
   },
+  "media": {
+    "dateTaken": "Pořízeno",
+    "description": "Popisek",
+    "fileName": "Název souboru"
+  },
   "navigation": {
     "logOut": "Odhlásit",
     "settings": "Nastavení"

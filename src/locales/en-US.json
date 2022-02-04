@@ -38,6 +38,11 @@
     "readTheDocumentation": "Read the documentation",
     "reportAnIssueWithWebClient": "Report a bug with the web client"
   },
+  "media": {
+    "dateTaken": "Taken",
+    "description": "Description",
+    "fileName": "File name"
+  },
   "navigation": {
     "logOut": "Log out",
     "settings": "Settings"
