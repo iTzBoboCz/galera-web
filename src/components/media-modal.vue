@@ -12,14 +12,14 @@
     <v-container>
       <v-row align-content="center" style="height: 100vh">
         <v-col cols="2" align-self="center" class="button-row">
-          <v-btn
+          <!-- <v-btn
             v-if="!display.mobile.value"
             size="large"
             class="arrow"
             icon="mdi-arrow-left"
             variant="text"
             @click.stop
-          />
+          /> -->
         </v-col>
         <v-col>
           <v-card class="modal">
@@ -36,14 +36,14 @@
           }}</span>
         </v-col>
         <v-col cols="2" align-self="center" class="button-row">
-          <v-btn
+          <!-- <v-btn
             v-if="!display.mobile.value"
             size="large"
             class="arrow"
             icon="mdi-arrow-right"
             variant="text"
             @click.stop
-          />
+          /> -->
         </v-col>
       </v-row>
     </v-container>
