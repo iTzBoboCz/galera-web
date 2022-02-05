@@ -107,9 +107,18 @@
           @click="addToAlbumDialog = false"
           >{{ t("general.cancel") }}</v-btn
         >
-        <v-btn color="primary" variant="text" disabled>{{
-          t("general.add")
-        }}</v-btn>
+        <v-btn
+          color="primary"
+          variant="text"
+          :disabled="!selectedAlbumUuid"
+          @click="
+            addToAlbumDialog = false;
+            if (selectedAlbumUuid) {
+              fetchedMedia.addMediaToAlbum(selectedAlbumUuid, selectedMedia);
+            }
+          "
+          >{{ t("general.add") }}</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -204,10 +213,9 @@ function openDescriptionEditor(uuid: string) {
 
 function openAddToAlbumDialog() {
   addToAlbumDialog.value = true;
+  selectedAlbumUuid.value = undefined;
 
-  // this.fetchedMedia.getAlbumList();
-
-  // TODO: finish later
+  fetchedMedia.getAlbumList();
 }
 
 // TODO: deduplicate
