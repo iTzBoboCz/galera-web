@@ -1,4 +1,5 @@
 import {
+  AlbumAddMedia,
   AlbumResponse,
   MediaResponse,
   SystemInfoPublic,
@@ -108,6 +109,34 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
         }
       }
     },
+    async addMediaToAlbum(albumUuid: string, mediaList: MediaResponse[]) {
+      const albumAddMedia: AlbumAddMedia[] = [];
+
+      for (const media of mediaList) {
+        albumAddMedia.push({
+          album_uuid: albumUuid,
+          media_uuid: media.uuid,
+        });
+      }
+
+      const success = await api()
+        .routesAlbumAddMedia({ albumAddMedia })
+        .then(() => {
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+
+      // TODO: rethink refreshing this later
+      if (success && this.albumList) {
+        const index = this.albumList.findIndex((a) => a.link == albumUuid);
+        if (index > -1) {
+          this.getAlbumMedia(albumUuid);
+        }
+      }
+    },
+
     async getAlbumMedia(albumUuid: string) {
       const albumResponse = await api()
         .routesGetAlbumStructure({ albumUuid })
