@@ -1,45 +1,39 @@
-@@ -1,17 +1,44 @@
 <template>
   <v-container>
-    <ViewWrapper :media-list="mediaList" />
+    <ViewWrapper :media-list="albumMedia ?? []" />
   </v-container>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { MediaResponse } from "@galera/client-axios";
-import { AxiosResponse } from "axios";
-import { defineComponent } from "vue";
+import { Ref, ref } from "vue";
 
 import ViewWrapper from "~/components/view-wrapper.vue";
-import api from "~/composables/api";
+import { useFetchedMediaStore } from "~/stores/fetched-media";
 
-export default defineComponent({
-  components: { ViewWrapper },
-  props: {
-    id: {
-      type: String,
-      required: false,
-      default: "d",
-    },
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
   },
-  data(): { mediaList: MediaResponse[] } {
-    return {
-      mediaList: [],
-    };
-  },
-  async created() {
-    this.mediaList = await this.getAlbumMedia().then((response) => {
-      return response.data;
-    });
+});
 
-    for (const data of this.mediaList) {
-      console.log(data.uuid);
+const fetchedMedia = useFetchedMediaStore();
+
+const albumMedia: Ref<MediaResponse[] | undefined> = ref();
+
+// eslint-disable-next-line promise/catch-or-return
+fetchedMedia.getAlbumMedia(props.id).then(() => {
+  if (fetchedMedia.albumList) {
+    const index = fetchedMedia.albumList.findIndex(
+      (album) => album.link == props.id
+    );
+
+    if (index > -1) {
+      albumMedia.value = fetchedMedia.albumList[index].media;
     }
-  },
-  methods: {
-    async getAlbumMedia(): Promise<AxiosResponse<MediaResponse[]>> {
-      return api().routesGetAlbumStructure({ albumUuid: this.id });
-    },
-  },
+  }
+
+  return;
 });
 </script>

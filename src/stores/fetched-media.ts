@@ -27,7 +27,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
   state: (): FetchedMediaState => ({
     allMedia: [],
     likedMedia: [],
-    albumList: [],
+    albumList: undefined,
     systemInfoPublic: undefined,
   }),
   getters: {
@@ -136,15 +136,34 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
         }
       }
     },
-
     async getAlbumMedia(albumUuid: string) {
-      const albumResponse = await api()
-        .routesGetAlbumStructure({ albumUuid })
-        .then((response) => {
-          return response.data;
-        });
-      // TODO: finish later
-      // commit("getAlbumList", { albumResponse });
+      if (!this.albumList) {
+        await this.getAlbumList();
+
+        // if the albumList is still not loaded
+        if (!this.albumList) {
+          return;
+        }
+      }
+
+      const index = this.albumList.findIndex(
+        (album) => album.link == albumUuid
+      );
+
+      if (index > -1) {
+        const albumMedia = await api()
+          .routesGetAlbumStructure({ albumUuid })
+          .then((response) => {
+            return response.data;
+          })
+          .catch(() => {
+            return;
+          });
+
+        if (albumMedia) {
+          this.albumList[index].media = albumMedia;
+        }
+      }
     },
     async mediaLike(media: MediaResponse) {
       // TODO: fix CORS; looks like this always returns true
