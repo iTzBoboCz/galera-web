@@ -1,12 +1,19 @@
 <template>
   <v-container>
-    <ViewWrapper :media-list="albumMedia ?? []" />
+    <ViewWrapper
+      v-if="albumMedia && albumMedia.length > 0"
+      :media-list="albumMedia"
+    />
+    <div v-else>
+      {{ t("noContent.album") }}
+    </div>
   </v-container>
 </template>
 
 <script setup lang="ts">
 import { MediaResponse } from "@galera/client-axios";
 import { Ref, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import ViewWrapper from "~/components/view-wrapper.vue";
 import { useFetchedMediaStore } from "~/stores/fetched-media";
@@ -17,6 +24,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const { t } = useI18n();
 
 const fetchedMedia = useFetchedMediaStore();
 

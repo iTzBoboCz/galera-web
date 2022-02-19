@@ -1,15 +1,24 @@
 <template>
   <v-container>
-    <ViewWrapper v-if="loaded" :media-list="likedMedia ?? []" />
+    <ViewWrapper
+      v-if="loaded && likedMedia && likedMedia.length > 0"
+      :media-list="likedMedia"
+    />
+    <div v-else-if="loaded">
+      {{ t("noContent.favorite") }}
+    </div>
   </v-container>
 </template>
 
 <script setup lang="ts">
 import { MediaResponse } from "@galera/client-axios";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import ViewWrapper from "~/components/view-wrapper.vue";
 import { useFetchedMediaStore } from "~/stores/fetched-media";
+
+const { t } = useI18n();
 
 const fetchedMedia = useFetchedMediaStore();
 

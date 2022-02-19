@@ -53,6 +53,11 @@
     "logOut": "Odhlásit",
     "settings": "Nastavení"
   },
+  "noContent": {
+    "album": "Toto album zřejmě neobsahuje žádné fotky.",
+    "all": "Vypadá to, že nemáte žádné fotky. Pokud tomu tak není, možná je budete chtít naskenovat v nastavení.",
+    "favorite": "Vypadá to, že nemáte žádné oblíbené fotky. Můžete je přidat kliknutím na symbol srdce, který se nachází na obrázkách."
+  },
   "pages": {
     "login": "Přihlášení",
     "signUp": "Registrace"

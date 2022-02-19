@@ -1,12 +1,22 @@
 <template>
   <v-container>
-    <ViewWrapper :media-list="fetchedMedia.allMedia ?? []" />
+    <ViewWrapper
+      v-if="fetchedMedia.allMedia && fetchedMedia.allMedia.length > 0"
+      :media-list="fetchedMedia.allMedia"
+    />
+    <div v-else>
+      {{ t("noContent.all") }}
+    </div>
   </v-container>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
 import ViewWrapper from "~/components/view-wrapper.vue";
 import { useFetchedMediaStore } from "~/stores/fetched-media";
+
+const { t } = useI18n();
 
 const fetchedMedia = useFetchedMediaStore();
 
