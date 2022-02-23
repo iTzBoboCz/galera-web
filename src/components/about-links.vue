@@ -3,7 +3,7 @@
     <v-list-subheader>{{ t("settings.importantLinks") }}</v-list-subheader>
     <v-list-item
       v-for="item in linkItems"
-      :key="item"
+      :key="item.name"
       :href="item.link"
       :prepend-icon="item.icon"
       append-icon="mdi-open-in-new"
