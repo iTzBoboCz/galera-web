@@ -1,16 +1,10 @@
 <template>
   <v-btn
-    icon
-    color="white"
+    :icon="isLiked() ? 'mdi-heart' : 'mdi-heart-outline'"
     variant="text"
     :disabled="isLiked() == null"
     @click.stop="likeToggle"
-  >
-    <v-icon v-if="isLiked()" color="white">mdi-heart</v-icon>
-    <v-icon v-else :color="isLiked() == null ? 'grey' : 'white'"
-      >mdi-heart-outline</v-icon
-    >
-  </v-btn>
+  />
 </template>
 
 <script lang="ts">
