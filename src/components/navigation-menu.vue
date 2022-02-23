@@ -11,23 +11,21 @@
         v-for="menuItem in menuMainItems"
         :key="menuItem.title"
         :to="menuItem.to"
+        :title="menuItem.title"
+        :prepend-icon="menuItem.icon"
         router
         exact
-      >
-        <v-icon>{{ menuItem.icon }}</v-icon>
-        <v-list-item-title v-text="menuItem.title" />
-      </v-list-item>
+      />
       <v-divider />
       <v-list-item
         v-for="menuItem in menuMoreItems"
         :key="menuItem.title"
         :to="menuItem.to"
+        :title="menuItem.title"
+        :prepend-icon="menuItem.icon"
         router
         exact
-      >
-        <v-icon>{{ menuItem.icon }}</v-icon>
-        <v-list-item-title v-text="menuItem.title" />
-      </v-list-item>
+      />
     </v-list>
   </v-navigation-drawer>
   <v-app-bar flat border="1" app>
@@ -60,10 +58,9 @@
               v-for="menuItem in menuMoreItems"
               :key="menuItem.title"
               :to="menuItem.to"
-            >
-              <v-icon>{{ menuItem.icon }}</v-icon>
-              <span>{{ menuItem.title }}</span>
-            </v-list-item>
+              :title="menuItem.title"
+              :prepend-icon="menuItem.icon"
+            />
           </v-list>
         </v-sheet>
       </v-menu>
