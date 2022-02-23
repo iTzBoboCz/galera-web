@@ -44,7 +44,7 @@
           <v-list>
             <v-list-item
               v-for="item in userSettings"
-              :key="item"
+              :key="item.name"
               :to="item.to"
               :prepend-icon="item.icon"
               :title="item.name"
@@ -57,7 +57,7 @@
           <v-list>
             <v-list-item
               v-for="item in serverSettings"
-              :key="item"
+              :key="item.name"
               :to="item.to"
               :prepend-icon="item.icon"
               :title="item.name"
