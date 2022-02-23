@@ -59,7 +59,7 @@
             <v-list-item
               v-for="menuItem in menuMoreItems"
               :key="menuItem.title"
-              :link="menuItem.to"
+              :to="menuItem.to"
             >
               <v-icon>{{ menuItem.icon }}</v-icon>
               <span>{{ menuItem.title }}</span>
