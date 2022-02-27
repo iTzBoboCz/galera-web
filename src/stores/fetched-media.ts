@@ -25,8 +25,8 @@ export interface FetchedMediaState {
 
 export const useFetchedMediaStore = defineStore("fetchedMedia", {
   state: (): FetchedMediaState => ({
-    allMedia: [],
-    likedMedia: [],
+    allMedia: undefined,
+    likedMedia: undefined,
     albumList: undefined,
     systemInfoPublic: undefined,
   }),
