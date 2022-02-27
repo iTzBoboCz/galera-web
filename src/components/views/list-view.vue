@@ -13,7 +13,7 @@
       <tr v-for="media in mediaList" :key="media.filename">
         <td>
           <v-hover
-            v-slot="{ hover, props }"
+            v-slot="{ isHovering, props }"
             :model-value="isMediaSelected(media.uuid) ? true : undefined"
           >
             <v-card v-bind="props" @click="setMediaModal(media)">
@@ -21,7 +21,7 @@
               <!-- TODO: remove scroll-strategy prop in the future, because it might default to reposition -->
               <!-- TODO: width and height might not be needed in the future too -->
               <v-overlay
-                :model-value="hover"
+                :model-value="isHovering"
                 contained
                 width="100%"
                 height="100%"

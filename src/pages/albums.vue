@@ -13,7 +13,7 @@
         md="2"
         sm="3"
       >
-        <v-hover v-slot="{ hover, props }">
+        <v-hover v-slot="{ isHovering, props }">
           <v-card
             v-bind="props"
             :to="'/album/' + album.link"
@@ -25,7 +25,7 @@
             <!-- TODO: remove scroll-strategy prop in the future, because it might default to reposition -->
             <!-- TODO: width and height might not be needed in the future too -->
             <v-overlay
-              :model-value="hover"
+              :model-value="isHovering"
               contained
               width="100%"
               height="100%"
