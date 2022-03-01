@@ -1,7 +1,9 @@
 import {
   AlbumAddMedia,
   AlbumResponse,
+  AlbumShareLinkInsert,
   MediaResponse,
+  SharedAlbumLinkResponse,
   SystemInfoPublic,
 } from "@galera/client-axios";
 import { defineStore } from "pinia";
@@ -10,6 +12,7 @@ import api from "~/composables/api";
 
 export interface Album<MediaResponse> extends AlbumResponse {
   media?: MediaResponse[];
+  shareLinks?: SharedAlbumLinkResponse[];
 }
 
 export interface AlbumMediaCount {
@@ -162,6 +165,151 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
 
         if (albumMedia) {
           this.albumList[index].media = albumMedia;
+        }
+      }
+    },
+    async createAlbumShareLink(albumUuid: string) {
+      if (!this.albumList) {
+        await this.getAlbumList();
+
+        // if the albumList is still not loaded
+        if (!this.albumList) {
+          return;
+        }
+      }
+
+      const index = this.albumList.findIndex(
+        (album) => album.link == albumUuid
+      );
+
+      if (index > -1) {
+        const albumShareLink = await api()
+          .routesCreateAlbumShareLink({ albumUuid })
+          .then((response) => {
+            return response.data;
+          })
+          .catch(() => {
+            return;
+          });
+
+        if (albumShareLink) {
+          this.albumList[index].shareLinks?.push(albumShareLink);
+        }
+      }
+    },
+    async getAlbumShareLinks(albumUuid: string) {
+      if (!this.albumList) {
+        await this.getAlbumList();
+
+        // if the albumList is still not loaded
+        if (!this.albumList) {
+          return;
+        }
+      }
+
+      const index = this.albumList.findIndex(
+        (album) => album.link == albumUuid
+      );
+
+      if (index > -1) {
+        const albumShareLinks = await api()
+          .routesGetAlbumShareLinks({ albumUuid })
+          .then((response) => {
+            return response.data;
+          })
+          .catch(() => {
+            return;
+          });
+
+        if (albumShareLinks) {
+          this.albumList[index].shareLinks = albumShareLinks;
+        }
+      }
+    },
+    async updateAlbumShareLink(
+      albumUuid: string,
+      albumShareLinkUuid: string,
+      albumShareLinkInsert: AlbumShareLinkInsert
+    ) {
+      if (!this.albumList) {
+        await this.getAlbumList();
+
+        // if the albumList is still not loaded
+        if (!this.albumList) {
+          return;
+        }
+      }
+
+      const index = this.albumList.findIndex(
+        (album) => album.link == albumUuid
+      );
+
+      if (index > -1) {
+        const response = await api()
+          .routesUpdateAlbumShareLink({
+            albumShareLinkUuid,
+            albumShareLinkInsert,
+          })
+          .then(() => {
+            return true;
+          })
+          .catch(() => {
+            return false;
+          });
+
+        if (response) {
+          // const shareLinkIndex = this.albumList[index].shareLinks?.findIndex(
+          //   (shareLink) => shareLink.uuid == albumShareLinkUuid
+          // );
+
+          // TODO: investigate updating the value directly; getting TS2532 even though every variable is checked for undefined
+          // if (
+          //   typeof shareLinkIndex !== "undefined" &&
+          //   shareLinkIndex > -1 &&
+          //   typeof this.albumList[index].shareLinks !== "undefined" &&
+          //   typeof this.albumList[index].shareLinks[shareLinkIndex] !==
+          //     "undefined"
+          // ) {
+          //   this.albumList[index].shareLinks[shareLinkIndex].expiration =
+          //     albumShareLinkInsert.expiration;
+          // }
+
+          await this.getAlbumShareLinks(albumUuid);
+        }
+      }
+    },
+    async deleteAlbumShareLink(albumUuid: string, albumShareLinkUuid: string) {
+      if (!this.albumList) {
+        await this.getAlbumList();
+
+        // if the albumList is still not loaded
+        if (!this.albumList) {
+          return;
+        }
+      }
+
+      const index = this.albumList.findIndex(
+        (album) => album.link == albumUuid
+      );
+
+      if (index > -1) {
+        const response = await api()
+          .routesDeleteAlbumShareLink({
+            albumShareLinkUuid,
+          })
+          .then(() => {
+            return true;
+          })
+          .catch(() => {
+            return false;
+          });
+
+        if (response) {
+          this.albumList[index].shareLinks = this.albumList[
+            index
+          ].shareLinks?.filter(
+            (shareLink) => shareLink.uuid !== albumShareLinkUuid
+          );
         }
       }
     },
