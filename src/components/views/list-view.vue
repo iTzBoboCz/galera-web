@@ -39,7 +39,6 @@
         <td>
           <v-btn
             icon
-            color="white"
             variant="text"
             @click.stop="
               isMediaSelected(media.uuid)
