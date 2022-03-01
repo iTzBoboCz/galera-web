@@ -48,9 +48,14 @@
                   />
                 </template>
                 <v-list>
+                  <!-- TODO: add confirmational dialog (Are you sure you want to delete this album?) -->
                   <v-list-item
                     :title="t('album.delete')"
                     @click="fetchedMedia.deleteAlbum(album)"
+                  />
+                  <v-list-item
+                    :title="t('album.share')"
+                    @click="openAlbumShareLinkDialog(album)"
                   />
                 </v-list>
               </v-menu>
@@ -89,12 +94,48 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <!-- TODO: add scrollable prop when it is implemented -->
+  <v-dialog v-model="shareAlbumDialog">
+    <v-card :title="t('dialogs.shareAlbum.title')">
+      <v-card-text>
+        <v-expansion-panels
+          v-if="
+            currentAlbumUuid &&
+            fetchedMedia.albumList &&
+            typeof currentAlbumIndex !== 'undefined'
+          "
+        >
+          <AlbumShareLinkExpansionPanel
+            v-for="albumShareLink in fetchedMedia.albumList[currentAlbumIndex]
+              .shareLinks"
+            :key="albumShareLink.uuid"
+            :album-uuid="currentAlbumUuid"
+            :album-share-link="albumShareLink"
+          />
+        </v-expansion-panels>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn color="primary" variant="text" @click="createAlbumShareLink()">{{
+          t("general.createNew")
+        }}</v-btn>
+        <v-btn
+          color="primary"
+          variant="text"
+          @click="shareAlbumDialog = false"
+          >{{ t("general.close") }}</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { AlbumResponse } from "@galera/client-axios";
+import { Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
+import AlbumShareLinkExpansionPanel from "~/components/album-share-link-expansion-panel.vue";
 import { useFetchedMediaStore } from "~/stores/fetched-media";
 
 const { t } = useI18n();
@@ -104,5 +145,31 @@ const fetchedMedia = useFetchedMediaStore();
 fetchedMedia.getAlbumList();
 
 const createAlbumDialog = ref(false);
+const shareAlbumDialog = ref(false);
+
 const albumName = ref("");
+const currentAlbumIndex: Ref<number | undefined> = ref();
+const currentAlbumUuid: Ref<string | undefined> = ref();
+
+async function openAlbumShareLinkDialog(album: AlbumResponse) {
+  currentAlbumIndex.value = fetchedMedia.albumList?.findIndex(
+    (a) => a.link == album.link
+  );
+
+  if (
+    fetchedMedia.albumList &&
+    typeof currentAlbumIndex.value !== "undefined"
+  ) {
+    shareAlbumDialog.value = true;
+    currentAlbumUuid.value = album.link;
+
+    await fetchedMedia.getAlbumShareLinks(album.link);
+  }
+}
+
+function createAlbumShareLink() {
+  if (currentAlbumUuid.value) {
+    fetchedMedia.createAlbumShareLink(currentAlbumUuid.value);
+  }
+}
 </script>
