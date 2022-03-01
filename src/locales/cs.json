@@ -4,6 +4,7 @@
     "dontHaveAnAccountYet": "Ještě nemáte účet?",
     "email": "Email",
     "logIn": "Přihlásit se",
+    "newPassword": "Nové heslo",
     "password": "Heslo",
     "passwordAgain": "Heslo znovu",
     "signUp": "Vytvořit nový",
@@ -12,7 +13,8 @@
   },
   "album": {
     "create": "Vytvořit nové album",
-    "delete": "Smazat toto album"
+    "delete": "Smazat toto album",
+    "share": "Sdílet album"
   },
   "albums": "Alba",
   "dialogs": {
@@ -26,6 +28,9 @@
     "editDescription": {
       "description": "Popisek",
       "title": "Změnit popisek"
+    },
+    "shareAlbum": {
+      "title": "Sdílení alba"
     }
   },
   "favorite": "Oblíbené",
@@ -33,10 +38,16 @@
     "add": "Přidat",
     "cancel": "Zrušit",
     "change": "Změnit",
+    "close": "Zavřít",
     "create": "Vytvořit",
+    "createNew": "Vytvořit nový",
+    "delete": "Smazat",
+    "expiration": "Expirace",
     "goBack": "Jít zpět",
+    "link": "Odkaz",
     "more": "Více",
-    "pageNotFound": "Tato stránka nebyla nalezena"
+    "pageNotFound": "Tato stránka nebyla nalezena",
+    "save": "Uložit"
   },
   "links": {
     "helpTranslating": "Pomoct překládat",
