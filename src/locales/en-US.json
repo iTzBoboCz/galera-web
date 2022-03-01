@@ -97,6 +97,5 @@
       "description": "Manage users and their permissions",
       "name": "User management"
     }
-  },
-  "sharedAlbums": "Shared albums"
+  }
 }

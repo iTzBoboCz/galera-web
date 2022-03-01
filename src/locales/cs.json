@@ -97,6 +97,5 @@
       "description": "Spravovat uživatele a jejich oprávnění",
       "name": "Správa uživatelů"
     }
-  },
-  "sharedAlbums": "Sdílená alba"
+  }
 }

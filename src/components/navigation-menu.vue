@@ -108,11 +108,6 @@ const menuMainItems = computed((): MenuItem[] => {
       icon: "mdi-folder",
       to: "/albums",
     },
-    {
-      title: t("sharedAlbums"),
-      icon: "mdi-folder-eye",
-      to: "/albums/shared",
-    },
   ];
 });
 
