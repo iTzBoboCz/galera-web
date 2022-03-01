@@ -2,7 +2,7 @@
   <v-btn
     :icon="isLiked() ? 'mdi-heart' : 'mdi-heart-outline'"
     variant="text"
-    :color="props.color"
+    :color="isLiked() == null ? undefined : props.color"
     :disabled="isLiked() == null"
     @click.stop="likeToggle"
   />
