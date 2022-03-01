@@ -108,16 +108,15 @@ const menuMainItems = computed((): MenuItem[] => {
       icon: "mdi-folder",
       to: "/albums",
     },
-  ];
-});
-
-const menuMoreItems = computed((): MenuItem[] => {
-  return [
     {
       title: t("favorite"),
       icon: "mdi-heart",
       to: "/favorite",
     },
   ];
+});
+
+const menuMoreItems = computed((): MenuItem[] => {
+  return [];
 });
 </script>
