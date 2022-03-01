@@ -2,6 +2,7 @@
   <v-btn
     :icon="isLiked() ? 'mdi-heart' : 'mdi-heart-outline'"
     variant="text"
+    :color="props.color"
     :disabled="isLiked() == null"
     @click.stop="likeToggle"
   />
@@ -50,6 +51,10 @@ const props = defineProps({
   media: {
     type: Object as PropType<MediaResponse>,
     required: true,
+  },
+  color: {
+    type: String,
+    default: undefined,
   },
 });
 

@@ -45,6 +45,7 @@
             </v-btn>
             <LikeButton
               :media="media"
+              color="white"
               style="position: absolute; bottom: 1vh; left: 1vh"
             />
           </v-overlay>
