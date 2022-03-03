@@ -4,9 +4,9 @@
       v-if="fetchedMedia.allMedia && fetchedMedia.allMedia.length > 0"
       :media-list="fetchedMedia.allMedia"
     />
-    <div v-else>
+    <v-alert v-else type="info" variant="contained-text">
       {{ t("noContent.all") }}
-    </div>
+    </v-alert>
   </v-container>
 </template>
 

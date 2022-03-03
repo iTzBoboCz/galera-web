@@ -4,9 +4,9 @@
       v-if="loaded && likedMedia && likedMedia.length > 0"
       :media-list="likedMedia"
     />
-    <div v-else-if="loaded">
+    <v-alert v-else-if="loaded" type="info" variant="contained-text">
       {{ t("noContent.favorite") }}
-    </div>
+    </v-alert>
   </v-container>
 </template>
 

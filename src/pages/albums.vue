@@ -64,9 +64,9 @@
         </v-hover>
       </v-col>
     </v-row>
-    <div v-else>
+    <v-alert v-else type="info" variant="contained-text">
       {{ t("noContent.albums") }}
-    </div>
+    </v-alert>
   </v-container>
   <v-dialog v-model="createAlbumDialog">
     <v-card :title="t('dialogs.createAlbum.title')">
