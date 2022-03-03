@@ -29,8 +29,6 @@
               icon
               color="white"
               position="absolute"
-              top="1vh"
-              left="1vh"
               variant="text"
               @click.stop="
                 isMediaSelected(media.uuid)
@@ -46,7 +44,7 @@
             <LikeButton
               :media="media"
               color="white"
-              style="position: absolute; bottom: 1vh; left: 1vh"
+              style="position: absolute; bottom: 0; left: 0"
             />
           </v-overlay>
         </v-card>
