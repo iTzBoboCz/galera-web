@@ -66,6 +66,7 @@
   },
   "noContent": {
     "album": "This album does not seem to contain any photos.",
+    "albums": "It seems there are currently no albums. You might want to create one by clicking the add button.",
     "all": "It seems that you don't have any photos. If you do, you might want to scan them in the settings.",
     "favorite": "It seems that you don't have any favorite photos. You can add some by clicking the heart symbol on photos."
   },

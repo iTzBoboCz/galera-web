@@ -4,7 +4,7 @@
     <v-btn icon="mdi-plus" @click="createAlbumDialog = true">
       <v-tooltip activator="parent" :text="t('album.create')" anchor="bottom" />
     </v-btn>
-    <v-row>
+    <v-row v-if="fetchedMedia.albumList && fetchedMedia.albumList.length > 0">
       <v-col
         v-for="album in fetchedMedia.albumList"
         :key="album.link"
@@ -64,6 +64,9 @@
         </v-hover>
       </v-col>
     </v-row>
+    <div v-else>
+      {{ t("noContent.albums") }}
+    </div>
   </v-container>
   <v-dialog v-model="createAlbumDialog">
     <v-card :title="t('dialogs.createAlbum.title')">
