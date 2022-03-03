@@ -1,11 +1,7 @@
 <template>
-  <!-- <v-dialog
+  <v-dialog
     v-model="selectedMedia.isModalActive"
     fullscreen
-    @click="selectedMedia.setMediaModal(undefined)"
-  > -->
-  <div
-    id="media-modal"
     @keydown.esc="selectedMedia.setMediaModal(undefined)"
     @click="selectedMedia.setMediaModal(undefined)"
   >
@@ -22,7 +18,7 @@
           /> -->
         </v-col>
         <v-col>
-          <v-card class="modal">
+          <v-card>
             <!-- TODO: opravit; Lukášovy hodinky se špatně scalují -->
             <ImageWrapper
               v-if="selectedMedia.mediaModal"
@@ -47,8 +43,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
-  <!-- </v-dialog> -->
+  </v-dialog>
 </template>
 
 <script lang="ts">
@@ -72,21 +67,6 @@ const display = useDisplay();
 </script>
 
 <style scoped>
-#media-modal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  align-items: center;
-  overflow: hidden;
-  z-index: 1000;
-}
-
-.modal {
-  max-height: 80vh;
-  max-width: 80vw;
-}
-
 /* remove this when Vuetify fixes the sizes */
 .v-img {
   max-height: 80vh;
