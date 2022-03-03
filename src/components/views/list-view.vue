@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr v-for="media in mediaList" :key="media.filename">
-        <td>
+        <td class="px-0">
           <v-hover
             v-slot="{ isHovering, props }"
             :model-value="isMediaSelected(media.uuid) ? true : undefined"
