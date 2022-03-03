@@ -27,9 +27,11 @@
               @click.stop
             />
           </v-card>
-          <span v-if="selectedMedia.mediaModal?.description">{{
-            selectedMedia.mediaModal.description
-          }}</span>
+          <v-card
+            v-if="selectedMedia.mediaModal?.description"
+            :text="selectedMedia.mediaModal.description"
+            class="mt-1"
+          />
         </v-col>
         <v-col cols="2" align-self="center" class="button-row">
           <!-- <v-btn
