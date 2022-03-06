@@ -110,7 +110,7 @@ export default function api(config?: Configuration): DefaultApi {
           await auth.logOut();
           router.go(0);
 
-          return Promise.reject(error);
+          throw error;
         }
       }
     );
