@@ -15,7 +15,7 @@ function b64EncodeUnicode(unicode_string: string) {
     encodeURIComponent(unicode_string).replace(
       /%([\dA-F]{2})/g,
       (match, p1) => {
-        return String.fromCharCode(Number("0x" + p1));
+        return String.fromCodePoint(Number("0x" + p1));
       }
     )
   );
