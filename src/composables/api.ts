@@ -5,22 +5,61 @@ import { storeToRefs } from "pinia";
 import router from "~/router";
 import { useAuthStore } from "~/stores/auth";
 
+export interface AlbumShareLinkScheme {
+  albumShareLinkUuid: string;
+  password?: string;
+}
+
+function b64EncodeUnicode(unicode_string: string) {
+  return btoa(
+    encodeURIComponent(unicode_string).replace(
+      /%([\dA-F]{2})/g,
+      (match, p1) => {
+        return String.fromCharCode(Number("0x" + p1));
+      }
+    )
+  );
+}
+
+export function defaultConfiguration(
+  authenticationScheme: "bearer" | AlbumShareLinkScheme | "noAuth" = "bearer"
+): Configuration {
+  let Authorization: string | undefined;
+  // TODO: there might be a better way to check if authenticationScheme is AlbumShareLinkScheme
+  if (authenticationScheme == "bearer") {
+    const auth = useAuthStore();
+    Authorization = `Bearer ${auth.bearerToken?.bearerTokenEncoded}`;
+  } else if (
+    typeof authenticationScheme == "object" &&
+    authenticationScheme.albumShareLinkUuid
+  ) {
+    const token =
+      authenticationScheme.albumShareLinkUuid +
+      ":" +
+      (authenticationScheme.password ?? "");
+
+    // btoa() doesn't support unicode in most browsers
+    // https://developer.mozilla.org/en-US/docs/Web/API/btoa#unicode_strings
+    Authorization = `Basic ${b64EncodeUnicode(token)}`;
+  }
+
+  return new Configuration({
+    basePath: "/api",
+    baseOptions: {
+      headers: {
+        Authorization,
+        "Content-type": "application/json",
+      },
+    },
+  });
+}
+
 export default function api(config?: Configuration): DefaultApi {
   const auth = useAuthStore();
 
   const { isLoggedIn } = storeToRefs(auth);
 
-  const defaultConfiguration = new Configuration({
-    basePath: "/api",
-    baseOptions: {
-      headers: {
-        Authorization: `Bearer ${auth.bearerToken?.bearerTokenEncoded}`,
-        "Content-type": "application/json",
-      },
-    },
-  });
-
-  const finalConfiguration = config ? config : defaultConfiguration;
+  const finalConfiguration = config ? config : defaultConfiguration();
 
   const axiosInstance = axios.create();
 
