@@ -18,7 +18,7 @@ function isAuthRequired(publicPagesList: string[], pageName: string): boolean {
   return !publicPagesList.includes(pageName);
 }
 
-const publicPages = ["signup", "login"];
+const publicPages = ["signup", "login", "shared-uuid"];
 
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore();

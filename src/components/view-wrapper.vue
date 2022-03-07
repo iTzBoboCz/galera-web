@@ -3,6 +3,7 @@
     v-if="userPreferences.view == 'tile'"
     v-model:selected-media="selectedMedia"
     :media-list="mediaList"
+    :album-share-link-auth="props.albumShareLinkAuth"
     @select-media="selectMedia"
     @unselect-media="unselectMedia"
   />
@@ -10,6 +11,7 @@
     v-else-if="userPreferences.view == 'list'"
     v-model:selected-media="selectedMedia"
     :media-list="mediaList"
+    :album-share-link-auth="props.albumShareLinkAuth"
     @select-media="selectMedia"
     @unselect-media="unselectMedia"
   />
@@ -17,6 +19,7 @@
     v-else
     v-model:selected-media="selectedMedia"
     :media-list="mediaList"
+    :album-share-link-auth="props.albumShareLinkAuth"
     @select-media="selectMedia"
     @unselect-media="unselectMedia"
   />
@@ -132,7 +135,7 @@ import { useI18n } from "vue-i18n";
 import ListView from "~/components/views/list-view.vue";
 import MosaicView from "~/components/views/mosaic-view.vue";
 import TileView from "~/components/views/tile-view.vue";
-import api from "~/composables/api";
+import api, { AlbumShareLinkScheme } from "~/composables/api";
 import { useFetchedMediaStore } from "~/stores/fetched-media";
 import { useUserPreferencesStore } from "~/stores/user-preferences";
 
@@ -148,6 +151,10 @@ const props = defineProps({
   mediaList: {
     type: Object as PropType<MediaResponse[]>,
     required: true,
+  },
+  albumShareLinkAuth: {
+    type: Object as PropType<AlbumShareLinkScheme>,
+    default: undefined,
   },
 });
 

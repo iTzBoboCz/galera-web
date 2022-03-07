@@ -13,7 +13,10 @@ import { MediaResponse } from "@galera/client-axios";
 import { AxiosResponse } from "axios";
 import { defineComponent, PropType, Ref, ref } from "vue";
 
-import api from "~/composables/api";
+import api, {
+  AlbumShareLinkScheme,
+  defaultConfiguration,
+} from "~/composables/api";
 
 // TODO: use only script setup when this issue is solved:
 // https://github.com/import-js/eslint-plugin-import/issues/2243
@@ -33,10 +36,14 @@ const props = defineProps({
     required: false,
     default: undefined,
   },
+  albumShareLinkAuth: {
+    type: Object as PropType<AlbumShareLinkScheme>,
+    default: undefined,
+  },
 });
 
 async function getMediaByUuid(mediaUuid: string): Promise<string | undefined> {
-  const response = await api()
+  const response = await api(defaultConfiguration(props.albumShareLinkAuth))
     .routesGetMediaByUuid({ mediaUuid }, { responseType: "blob" })
     // TODO: remove response type when this gets typed directly
     .then((response: AxiosResponse<File | void>) => {

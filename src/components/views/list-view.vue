@@ -13,15 +13,19 @@
       <tr v-for="media in mediaList" :key="media.filename">
         <td class="px-0">
           <v-hover
-            v-slot="{ isHovering, props }"
+            v-slot="hoverProps"
             :model-value="isMediaSelected(media.uuid) ? true : undefined"
           >
-            <v-card v-bind="props" @click="setMediaModal(media)">
-              <ImageWrapper :media="media" :aspect-ratio="1" />
+            <v-card v-bind="hoverProps.props" @click="setMediaModal(media)">
+              <ImageWrapper
+                :media="media"
+                :aspect-ratio="1"
+                :album-share-link-auth="props.albumShareLinkAuth"
+              />
               <!-- TODO: remove scroll-strategy prop in the future, because it might default to reposition -->
               <!-- TODO: width and height might not be needed in the future too -->
               <v-overlay
-                :model-value="isHovering"
+                :model-value="hoverProps.isHovering"
                 contained
                 width="100%"
                 height="100%"
@@ -65,6 +69,7 @@ import { useI18n } from "vue-i18n";
 
 import LikeButton from "~/components/buttons/like-button.vue";
 import ImageWrapper from "~/components/media/image-wrapper.vue";
+import { AlbumShareLinkScheme } from "~/composables/api";
 import { useSelectedMediaStore } from "~/stores/selected-media";
 
 // TODO: use only script setup when this issue is solved:
@@ -83,6 +88,10 @@ const props = defineProps({
   selectedMedia: {
     type: Object as PropType<MediaResponse[]>,
     required: true,
+  },
+  albumShareLinkAuth: {
+    type: Object as PropType<AlbumShareLinkScheme>,
+    default: undefined,
   },
 });
 
