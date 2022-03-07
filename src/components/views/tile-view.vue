@@ -12,7 +12,7 @@
         v-slot="hoverProps"
         :model-value="isMediaSelected(media.uuid) ? true : undefined"
       >
-        <v-card v-bind="props" @click="mediaClick(media)">
+        <v-card v-bind="hoverProps.props" @click="mediaClick(media)">
           <ImageWrapper
             :media="media"
             :aspect-ratio="1"
