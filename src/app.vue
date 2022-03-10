@@ -21,3 +21,14 @@ export default defineComponent({
 const userPreferences = useUserPreferencesStore();
 const { darkMode } = storeToRefs(userPreferences);
 </script>
+
+<style>
+/* temporary Vuetify fixes */
+.v-container {
+  min-height: 100vh;
+}
+
+.v-field__input {
+  color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
+}
+</style>
