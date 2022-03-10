@@ -8,6 +8,7 @@
       :prepend-icon="item.icon"
       append-icon="mdi-open-in-new"
       :title="item.name"
+      :disabled="item.disabled"
       target="_blank"
       rel="noreferrer noopener"
       class="text-left"
@@ -39,11 +40,13 @@ const linkItems = computed(() => {
       icon: "mdi-book",
       name: t("links.readTheDocumentation"),
       link: "",
+      disabled: true,
     },
     {
       icon: "mdi-translate",
       name: t("links.helpTranslating"),
       link: "",
+      disabled: true,
     },
     {
       icon: "mdi-bug",
