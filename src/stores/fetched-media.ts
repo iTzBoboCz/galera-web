@@ -93,10 +93,10 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
       // refresh list
       this.getAlbumList();
     },
-    async deleteAlbum(album: AlbumResponse) {
+    async deleteAlbum(albumUuid: string) {
       const success = await api()
         .routesDeleteAlbum({
-          albumUuid: album.link,
+          albumUuid,
         })
         .then((response) => {
           return true;
@@ -106,7 +106,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
         });
 
       if (success && this.albumList) {
-        const index = this.albumList.findIndex((a) => a.link == album.link);
+        const index = this.albumList.findIndex((a) => a.link == albumUuid);
         if (index > -1) {
           this.albumList.splice(index, 1);
         }
