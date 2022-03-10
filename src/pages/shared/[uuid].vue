@@ -1,9 +1,13 @@
 <template>
   <v-container>
     <div v-if="albumShareLinkBasic">
-      <div v-if="albumShareLinkBasic.is_expired">
+      <v-alert
+        v-if="albumShareLinkBasic.is_expired"
+        type="warning"
+        variant="contained-text"
+      >
         {{ t("dialogs.albumShareLink.expired") }}
-      </div>
+      </v-alert>
       <div v-else-if="albumShareLinkBasic.is_password_protected && !albumMedia">
         <form @submit.prevent>
           <v-text-field v-model="albumShareLinkPassword" required />
