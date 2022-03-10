@@ -21,6 +21,9 @@
     "addToAlbum": {
       "title": "Přidat do alba"
     },
+    "albumShareLink": {
+      "expired": "Odkaz na toto album expiroval."
+    },
     "createAlbum": {
       "albumName": "Název alba",
       "title": "Vytvořit nové album"

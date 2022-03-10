@@ -21,6 +21,9 @@
     "addToAlbum": {
       "title": "Add to an album"
     },
+    "albumShareLink": {
+      "expired": "Link to this album has expired."
+    },
     "createAlbum": {
       "albumName": "Album name",
       "title": "Create a new album"
