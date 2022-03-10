@@ -51,7 +51,7 @@ const linkItems = computed(() => {
     {
       icon: "mdi-bug",
       name: t("links.reportAnIssueWithWebClient"),
-      link: "https://github.com/galera/galera-web/issues/new",
+      link: "https://github.com/iTzBoboCz/galera-web/issues/new",
     },
   ];
 });
