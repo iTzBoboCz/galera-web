@@ -41,7 +41,7 @@
                 <!-- TODO: add confirmational dialog (Are you sure you want to delete this album?) -->
                 <v-list-item
                   :title="t('album.delete')"
-                  @click="fetchedMedia.deleteAlbum(album)"
+                  @click="openAlbumDeleteDialog(album)"
                 />
                 <v-list-item
                   :title="t('album.share')"
@@ -120,6 +120,32 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <v-dialog v-model="deleteAlbumDialog">
+    <v-card :title="t('dialogs.deleteAlbum.title')">
+      <v-card-text>{{ t("dialogs.deleteAlbum.irreversible") }} </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          color="primary"
+          variant="text"
+          @click="deleteAlbumDialog = false"
+          >{{ t("general.cancel") }}</v-btn
+        >
+        <v-btn
+          color="red"
+          variant="text"
+          :disabled="typeof currentAlbumUuid === 'undefined'"
+          @click="
+            deleteAlbumDialog = false;
+            if (currentAlbumUuid) {
+              fetchedMedia.deleteAlbum(currentAlbumUuid);
+            }
+          "
+          >{{ t("general.delete") }}</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -138,6 +164,7 @@ fetchedMedia.getAlbumList();
 
 const createAlbumDialog = ref(false);
 const shareAlbumDialog = ref(false);
+const deleteAlbumDialog = ref(false);
 
 const albumName = ref("");
 const currentAlbumIndex: Ref<number | undefined> = ref();
@@ -156,6 +183,20 @@ async function openAlbumShareLinkDialog(album: AlbumResponse) {
     currentAlbumUuid.value = album.link;
 
     await fetchedMedia.getAlbumShareLinks(album.link);
+  }
+}
+
+async function openAlbumDeleteDialog(album: AlbumResponse) {
+  currentAlbumIndex.value = fetchedMedia.albumList?.findIndex(
+    (a) => a.link == album.link
+  );
+
+  if (
+    fetchedMedia.albumList &&
+    typeof currentAlbumIndex.value !== "undefined"
+  ) {
+    deleteAlbumDialog.value = true;
+    currentAlbumUuid.value = album.link;
   }
 }
 

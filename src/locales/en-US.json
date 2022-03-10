@@ -25,6 +25,10 @@
       "albumName": "Album name",
       "title": "Create a new album"
     },
+    "deleteAlbum": {
+      "irreversible": "This action is irreversible.",
+      "title": "Are you sure you want to delete this album?"
+    },
     "editDescription": {
       "description": "Description",
       "title": "Edit description"

@@ -25,6 +25,10 @@
       "albumName": "Název alba",
       "title": "Vytvořit nové album"
     },
+    "deleteAlbum": {
+      "irreversible": "Tato akce je nevratná.",
+      "title": "Jste si jisti, že chcete toto album smazat?"
+    },
     "editDescription": {
       "description": "Popisek",
       "title": "Změnit popisek"
