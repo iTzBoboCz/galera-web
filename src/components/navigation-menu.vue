@@ -33,8 +33,6 @@
       v-if="!display.mobile.value"
       @click="drawer = !drawer"
     />
-
-    <v-app-bar-title>Application</v-app-bar-title>
     <v-spacer />
     <ViewChanger />
     <UserMenu class="mb-3" />
