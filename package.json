@@ -27,7 +27,7 @@
     "vuetify": "3.0.0-alpha.13"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.1",
+    "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
     "@intlify/vite-plugin-vue-i18n": "^3.3.1",
     "@mdi/font": "^6.5.95",
