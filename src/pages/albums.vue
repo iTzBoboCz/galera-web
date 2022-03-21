@@ -1,7 +1,7 @@
 @@ -0,0 +1,71 @@
 <template>
   <v-container>
-    <v-btn icon="mdi-plus" @click="createAlbumDialog = true">
+    <v-btn icon="mdi-plus" @click="openCreateAlbumDialog()">
       <v-tooltip activator="parent" :text="t('album.create')" anchor="bottom" />
     </v-btn>
     <v-row v-if="fetchedMedia.albumList && fetchedMedia.albumList.length > 0">
@@ -169,6 +169,11 @@ const deleteAlbumDialog = ref(false);
 const albumName = ref("");
 const currentAlbumIndex: Ref<number | undefined> = ref();
 const currentAlbumUuid: Ref<string | undefined> = ref();
+
+function openCreateAlbumDialog() {
+  albumName.value = "";
+  createAlbumDialog.value = true;
+}
 
 async function openAlbumShareLinkDialog(album: AlbumResponse) {
   currentAlbumIndex.value = fetchedMedia.albumList?.findIndex(
