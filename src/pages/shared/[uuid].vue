@@ -10,13 +10,22 @@
       </v-alert>
       <div v-else-if="albumShareLinkBasic.is_password_protected && !albumMedia">
         <form @submit.prevent>
-          <v-text-field v-model="albumShareLinkPassword" required />
+          <v-text-field
+            v-model="albumShareLinkPassword"
+            :label="t('account.password')"
+            :type="isPasswordShown ? 'text' : 'password'"
+            append-inner-icon="mdi-eye"
+            required
+            @click:append-inner="isPasswordShown = !isPasswordShown"
+          />
           <v-btn
             @click.prevent="
               if (albumShareLinkBasic)
                 getAlbumShareLinkMediaStructure(albumShareLinkBasic.album_uuid);
             "
-          />
+          >
+            {{ t("general.unlock") }}
+          </v-btn>
         </form>
       </div>
       <div v-else>
@@ -57,6 +66,8 @@ const albumMedia: Ref<MediaResponse[] | undefined> = ref();
 const albumShareLinkBasic: Ref<AlbumShareLinkBasic | undefined> = ref();
 const albumShareLinkPassword: Ref<string | undefined> = ref();
 const albumShareLinkAuth: Ref<AlbumShareLinkScheme | undefined> = ref();
+
+const isPasswordShown = ref(false);
 
 async function getAlbumShareLinkBasicInfo() {
   const response = await api(defaultConfiguration("noAuth"))
