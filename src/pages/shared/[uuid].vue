@@ -14,7 +14,7 @@
             v-model="albumShareLinkPassword"
             :label="t('account.password')"
             :type="isPasswordShown ? 'text' : 'password'"
-            append-inner-icon="mdi-eye"
+            :append-inner-icon="isPasswordShown ? 'mdi-eye-off' : 'mdi-eye'"
             required
             @click:append-inner="isPasswordShown = !isPasswordShown"
           />
