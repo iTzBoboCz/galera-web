@@ -19,16 +19,22 @@
           <v-text-field
             v-model="password"
             :label="t('account.password')"
-            type="password"
+            :type="isPasswordShown ? 'text' : 'password'"
+            :append-inner-icon="isPasswordShown ? 'mdi-eye-off' : 'mdi-eye'"
             variant="outlined"
             required
+            @click:append-inner="isPasswordShown = !isPasswordShown"
           />
           <v-text-field
             v-model="passwordAgain"
             :label="t('account.passwordAgain')"
-            type="password"
+            :type="isPasswordAgainShown ? 'text' : 'password'"
+            :append-inner-icon="
+              isPasswordAgainShown ? 'mdi-eye-off' : 'mdi-eye'
+            "
             variant="outlined"
             required
+            @click:append-inner="isPasswordAgainShown = !isPasswordAgainShown"
           />
           <v-row align="center" justify="center" no-gutters>
             <v-col>
@@ -63,6 +69,9 @@ const username = ref("");
 const email = ref("");
 const password = ref("");
 const passwordAgain = ref("");
+
+const isPasswordShown = ref(false);
+const isPasswordAgainShown = ref(false);
 
 const { t } = useI18n();
 

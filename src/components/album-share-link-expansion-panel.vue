@@ -18,7 +18,9 @@
           <v-text-field
             v-model="newPassword"
             :label="t('account.newPassword')"
-            type="password"
+            :type="isPasswordShown ? 'text' : 'password'"
+            :append-inner-icon="isPasswordShown ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append-inner="isPasswordShown = !isPasswordShown"
           />
         </v-col>
       </v-row>
@@ -87,6 +89,8 @@ const expiration: Ref<string | undefined> = ref(
     ? new Date(props.albumShareLink.expiration).toISOString().split("T")[0]
     : undefined
 );
+
+const isPasswordShown = ref(false);
 
 function updateAlbumShareLink() {
   if (newPassword.value?.length === 0) {

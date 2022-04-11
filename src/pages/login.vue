@@ -13,9 +13,11 @@
           <v-text-field
             v-model="password"
             :label="t('account.password')"
-            type="password"
+            :type="isPasswordShown ? 'text' : 'password'"
+            :append-inner-icon="isPasswordShown ? 'mdi-eye-off' : 'mdi-eye'"
             variant="outlined"
             required
+            @click:append-inner="isPasswordShown = !isPasswordShown"
           />
           <v-row align="center" justify="center" no-gutters>
             <v-col>
@@ -48,6 +50,8 @@ const auth = useAuthStore();
 
 const usernameOrEmail = ref("");
 const password = ref("");
+
+const isPasswordShown = ref(false);
 
 const { t } = useI18n();
 
