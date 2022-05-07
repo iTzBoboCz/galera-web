@@ -22,7 +22,7 @@
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^1.2.3",
     "vue": "^3.2.33",
-    "vue-i18n": "^9.1.9",
+    "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.15",
     "vuetify": "3.0.0-beta.0"
   },
