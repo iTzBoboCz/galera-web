@@ -19,7 +19,7 @@
     "@galera/client-axios": "git+https://github.com/galera-org/galera-client-axios.git",
     "axios": "^0.27.2",
     "iso-639-1": "^2.1.13",
-    "pinia": "^2.0.13",
+    "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^1.2.3",
     "vue": "^3.2.33",
     "vue-i18n": "^9.1.9",
@@ -27,7 +27,7 @@
     "vuetify": "3.0.0-beta.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.3",
+    "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.1",
     "@intlify/vite-plugin-vue-i18n": "^3.4.0",
     "@mdi/font": "^6.6.96",
@@ -56,6 +56,6 @@
     "vite-plugin-pages": "^0.23.0",
     "vite-plugin-vue-layouts": "^0.6.0",
     "vue-eslint-parser": "^8.3.0",
-    "vue-tsc": "^0.34.10"
+    "vue-tsc": "^0.34.11"
   }
 }
