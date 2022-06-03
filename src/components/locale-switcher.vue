@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import ISO6391 from "iso-639-1";
+import ISO6391, { LanguageCode } from "iso-639-1";
 import { defineComponent } from "vue";
 
 import { useUserPreferencesStore } from "~/stores/user-preferences";
@@ -36,8 +36,9 @@ function getNativeLanguageName(language_code: string): string {
   // remove country code if present
   let sanitized_language_code = language_code.split("-")[0];
 
+  // TODO: properly check if language is supported
   // get native name of a language
-  let name = ISO6391.getNativeName(sanitized_language_code);
+  let name = ISO6391.getNativeName(sanitized_language_code as LanguageCode);
 
   // TODO: return in format: English (US) if country code present
   // capitalize the first letter
