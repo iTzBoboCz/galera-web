@@ -1,12 +1,12 @@
 <template>
-  <v-app :theme="darkMode ? 'dark' : 'light'">
+  <v-app>
     <router-view />
   </v-app>
 </template>
 
 <script lang="ts">
-import { storeToRefs } from "pinia";
-import { defineComponent } from "vue";
+import { defineComponent, watchEffect } from "vue";
+import { useTheme } from "vuetify";
 
 import { useUserPreferencesStore } from "~/stores/user-preferences";
 
@@ -19,7 +19,12 @@ export default defineComponent({
 ¨
 <script setup lang="ts">
 const userPreferences = useUserPreferencesStore();
-const { darkMode } = storeToRefs(userPreferences);
+
+const theme = useTheme();
+
+watchEffect(() => {
+  theme.name.value = userPreferences.darkMode ? "dark" : "light";
+});
 </script>
 
 <style>

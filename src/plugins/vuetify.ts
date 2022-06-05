@@ -8,7 +8,4 @@ import * as directives from "vuetify/directives";
 export default createVuetify({
   components,
   directives,
-  theme: {
-    defaultTheme: "white",
-  },
 });
