@@ -1,6 +1,5 @@
 <template>
   <v-list>
-    <v-list-subheader>{{ t("settings.importantLinks") }}</v-list-subheader>
     <v-list-item
       v-for="item in linkItems"
       :key="item.name"

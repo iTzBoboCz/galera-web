@@ -21,7 +21,8 @@
             </tbody>
           </v-table>
         </v-card>
-        <v-card>
+        <v-card class="mb-4 py-3">
+          <v-card-subtitle>{{ t("settings.importantLinks") }}</v-card-subtitle>
           <AboutLinks />
         </v-card>
       </v-col>
