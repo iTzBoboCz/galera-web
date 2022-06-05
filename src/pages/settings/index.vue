@@ -3,14 +3,9 @@
     <v-row class="pt-4" justify="center">
       <v-col cols="12" lg="5" md="4">
         <v-card class="mb-4 pb-3">
-          <v-img
-            id="logo"
-            :height="100"
-            alt="Vue logo"
-            class="my-3"
-            contain
-            :src="logo"
-          />
+          <v-card-header>
+            <v-img id="logo" :height="100" alt="Vue logo" contain :src="logo" />
+          </v-card-header>
           <v-card-subtitle>{{ t("settings.serverInfo") }}</v-card-subtitle>
           <v-table>
             <tbody>
