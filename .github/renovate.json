@@ -15,7 +15,8 @@
       "matchDepTypes": ["devDependencies"],
       "labels": ["dependencies", "javascript"],
       "groupSlug": "deps-dev",
-      "groupName": "development dependencies"
+      "groupName": "development dependencies",
+      "semanticCommitScope": "deps-dev"
     },
     {
       "matchManagers": ["github-actions"],
