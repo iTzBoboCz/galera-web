@@ -20,7 +20,7 @@
     },
     {
       "matchManagers": ["github-actions"],
-      "labels": ["github_actions"],
+      "labels": ["dependencies", "github_actions"],
       "groupSlug": "deps-ci",
       "groupName": "CI dependencies"
     }
