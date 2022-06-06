@@ -1,6 +1,6 @@
 {
   "dependencyDashboard": false,
-  "extends": ["config:base", "schedule:monthly", "allNonMajor"],
+  "extends": ["config:base", "schedule:monthly", "group:allNonMajor"],
   "labels": ["dependencies"],
   "packageRules": [
     {
