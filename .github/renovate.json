@@ -1,11 +1,6 @@
 {
   "dependencyDashboard": false,
-  "extends": [
-    "config:base",
-    "semanticCommits",
-    "schedule:monthly",
-    "allNonMajor"
-  ],
+  "extends": ["config:base", "schedule:monthly", "allNonMajor"],
   "labels": ["dependencies"],
   "packageRules": [
     {
@@ -28,5 +23,6 @@
       "groupSlug": "deps-ci",
       "groupName": "CI dependencies"
     }
-  ]
+  ],
+  "semanticCommits": true
 }
