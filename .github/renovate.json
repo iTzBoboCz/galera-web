@@ -1,6 +1,11 @@
 {
   "dependencyDashboard": false,
-  "extends": ["config:base", "semanticCommits", "schedule:monthly", "allNonMajor"],
+  "extends": [
+    "config:base",
+    "semanticCommits",
+    "schedule:monthly",
+    "allNonMajor"
+  ],
   "labels": ["dependencies"],
   "packageRules": [
     {
@@ -22,9 +27,6 @@
       "labels": ["github_actions"],
       "groupSlug": "deps-ci",
       "groupName": "CI dependencies"
-    },
-    {
-      "docker-compose"
     }
   ]
 }
