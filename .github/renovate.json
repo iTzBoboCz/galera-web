@@ -1,5 +1,30 @@
 {
-  "extends": [
-    "config:base"
+  "dependencyDashboard": false,
+  "extends": ["config:base", "semanticCommits", "schedule:monthly", "allNonMajor"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["dependencies"],
+      "labels": ["dependencies", "javascript"],
+      "groupSlug": "deps",
+      "groupName": "dependencies"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["devDependencies"],
+      "labels": ["dependencies", "javascript"],
+      "groupSlug": "deps-dev",
+      "groupName": "development dependencies"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "labels": ["github_actions"],
+      "groupSlug": "deps-ci",
+      "groupName": "CI dependencies"
+    },
+    {
+      "docker-compose"
+    }
   ]
 }
