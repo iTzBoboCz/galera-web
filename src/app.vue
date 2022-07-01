@@ -23,7 +23,7 @@ const userPreferences = useUserPreferencesStore();
 const theme = useTheme();
 
 watchEffect(() => {
-  theme.name.value = userPreferences.darkMode ? "dark" : "light";
+  theme.global.name.value = userPreferences.darkMode ? "dark" : "light";
 });
 </script>
 
