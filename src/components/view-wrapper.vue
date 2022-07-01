@@ -45,7 +45,7 @@
           color="primary"
           fab
           icon="mdi-pencil"
-          variant="contained"
+          variant="elevated"
           @click="openDescriptionEditor(selectedMedia[0].uuid)"
         />
         <v-btn
@@ -53,7 +53,7 @@
           color="primary"
           fab
           icon="mdi-folder"
-          variant="contained"
+          variant="elevated"
           @click="openAddToAlbumDialog()"
         />
       </v-col>

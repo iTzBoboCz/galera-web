@@ -4,7 +4,7 @@
       <v-alert
         v-if="albumShareLinkBasic.is_expired"
         type="warning"
-        variant="contained-text"
+        variant="tonal"
       >
         {{ t("dialogs.albumShareLink.expired") }}
       </v-alert>
@@ -34,7 +34,7 @@
           :media-list="albumMedia"
           :album-share-link-auth="albumShareLinkAuth"
         />
-        <v-alert v-else type="info" variant="contained-text">
+        <v-alert v-else type="info" variant="tonal">
           {{ t("noContent.album") }}
         </v-alert>
       </div>

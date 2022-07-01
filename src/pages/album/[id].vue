@@ -4,7 +4,7 @@
       v-if="albumMedia && albumMedia.length > 0"
       :media-list="albumMedia"
     />
-    <v-alert v-else type="info" variant="contained-text">
+    <v-alert v-else type="info" variant="tonal">
       {{ t("noContent.album") }}
     </v-alert>
   </v-container>

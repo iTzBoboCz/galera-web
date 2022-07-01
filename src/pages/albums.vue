@@ -53,7 +53,7 @@
         </v-hover>
       </v-col>
     </v-row>
-    <v-alert v-else type="info" variant="contained-text">
+    <v-alert v-else type="info" variant="tonal">
       {{ t("noContent.albums") }}
     </v-alert>
   </v-container>
