@@ -2,10 +2,7 @@
   <div id="media-container" ref="mosaicView">
     <div v-if="processedMedia">
       <div v-for="media in processedMedia" :key="media.filename">
-        <v-hover
-          v-slot="hoverProps"
-          :model-value="isMediaSelected(media.uuid) ? true : undefined"
-        >
+        <v-hover v-slot="hoverProps">
           <v-card
             v-bind="hoverProps.props"
             :style="{
@@ -22,7 +19,9 @@
             <!-- TODO: remove scroll-strategy prop in the future, because it might default to reposition -->
             <!-- TODO: width and height might not be needed in the future too -->
             <v-overlay
-              :model-value="hoverProps.isHovering"
+              :model-value="
+                hoverProps.isHovering || isMediaSelected(media.uuid)
+              "
               contained
               width="100%"
               height="100%"
