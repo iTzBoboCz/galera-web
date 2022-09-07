@@ -91,16 +91,13 @@
   <v-dialog v-model="addToAlbumDialog">
     <v-card :title="t('dialogs.addToAlbum.title')">
       <v-card-text>
-        <select v-model="selectedAlbumUuid">
-          <option :value="undefined" disabled></option>
-          <option
-            v-for="album in fetchedMedia.albumList"
-            :key="album.link"
-            :value="album.link"
-          >
-            {{ album.name }}
-          </option>
-        </select>
+        <v-autocomplete
+          v-model="selectedAlbumUuids"
+          :items="fetchedMedia.albumList"
+          item-title="name"
+          item-value="link"
+          multiple
+        />
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -113,12 +110,10 @@
         <v-btn
           color="primary"
           variant="text"
-          :disabled="!selectedAlbumUuid"
+          :disabled="selectedAlbumUuids.length === 0"
           @click="
             addToAlbumDialog = false;
-            if (selectedAlbumUuid) {
-              fetchedMedia.addMediaToAlbum(selectedAlbumUuid, selectedMedia);
-            }
+            addMediaToAlbums(selectedAlbumUuids, selectedMedia);
           "
           >{{ t("general.add") }}</v-btn
         >
@@ -128,7 +123,7 @@
 </template>
 
 <script lang="ts">
-import { MediaResponse } from "@galera/client-axios";
+import { AlbumResponse, MediaResponse } from "@galera/client-axios";
 import { defineComponent, PropType, Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
@@ -220,7 +215,7 @@ function openDescriptionEditor(uuid: string) {
 
 function openAddToAlbumDialog() {
   addToAlbumDialog.value = true;
-  selectedAlbumUuid.value = undefined;
+  selectedAlbumUuids.value = [];
 
   fetchedMedia.getAlbumList();
 }
@@ -230,8 +225,19 @@ function isSomethingSelected(): boolean {
   return selectedMedia.value.length > 0;
 }
 
+function addMediaToAlbums(
+  selectedAlbumUuids: string[],
+  selectedMedia: MediaResponse[]
+) {
+  if (selectedAlbumUuids) {
+    for (const selectedAlbumUuid of selectedAlbumUuids) {
+      fetchedMedia.addMediaToAlbum(selectedAlbumUuid, selectedMedia);
+    }
+  }
+}
+
 const descriptionEditDialog = ref(false);
 const newDescription = ref("");
 const addToAlbumDialog = ref(false);
-const selectedAlbumUuid: Ref<string | undefined> = ref();
+const selectedAlbumUuids: Ref<string[]> = ref([]);
 </script>
