@@ -2,7 +2,7 @@
   <v-container class="fill-height">
     <v-row align="center" justify="center">
       <v-col sm="10" md="7" lg="5" cols="auto">
-        <h1 class="text-h4 mb-6 text-center">{{ $t("pages.signUp") }}</h1>
+        <h1 class="text-h4 mb-6 text-center">{{ t("pages.signUp") }}</h1>
         <form @submit.prevent="submitSignup">
           <v-text-field
             v-model="username"
