@@ -34,9 +34,8 @@ export const useUserPreferencesStore = defineStore("userPreferences", {
     view: localUserPreferences.view,
   }),
   actions: {
-    setLocale($i18n: any, locale: string) {
+    setLocale(locale: string) {
       this.locale = locale;
-      $i18n.value = locale;
     },
     toggleDarkMode() {
       this.darkMode = !this.darkMode;

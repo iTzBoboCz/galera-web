@@ -1,19 +1,15 @@
 <template>
-  <select v-model="$i18n.locale">
-    <option
-      v-for="locale in $i18n.availableLocales"
-      :key="`locale-${locale}`"
-      :value="locale"
-      @click="userPreferences.setLocale($i18n, locale)"
-    >
-      {{ getNativeLanguageName(locale) }}
-    </option>
-  </select>
+  <v-autocomplete
+    v-model="locale"
+    :items="localeList"
+    @update:model-value="userPreferences.setLocale(locale)"
+  />
 </template>
 
 <script lang="ts">
 import ISO6391 from "iso-639-1";
-import { defineComponent } from "vue";
+import { defineComponent, Ref, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import { useUserPreferencesStore } from "~/stores/user-preferences";
 
@@ -26,6 +22,17 @@ export default defineComponent({
 
 <script setup lang="ts">
 const userPreferences = useUserPreferencesStore();
+
+const { availableLocales, locale } = useI18n();
+
+const localeList: Ref<{ value: string; title: string }[]> = ref([]);
+
+for (const language of availableLocales) {
+  localeList.value.push({
+    value: language,
+    title: getNativeLanguageName(language),
+  });
+}
 
 /**
  * Gets native language name from passed language_code.
