@@ -7,9 +7,7 @@ import { getLocalUserPreferences } from "~/stores/user-preferences";
 const localUserPreferences = getLocalUserPreferences();
 
 const i18n = createI18n({
-  // TODO: do this without globalInjection
   locale: localUserPreferences.locale,
-  globalInjection: true,
   legacy: false,
   fallbackLocale: "en-US",
   messages,
