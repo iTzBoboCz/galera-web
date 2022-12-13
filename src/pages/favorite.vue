@@ -27,7 +27,7 @@ const loaded = ref(false);
 // we need to cache this so the liked images remain there even after unliking
 const likedMedia: MediaResponse[] = [];
 
-// eslint-disable-next-line promise/catch-or-return
+// eslint-disable-next-line promise/catch-or-return, unicorn/prefer-top-level-await, unicorn/prefer-top-level-await
 fetchedMedia.getLikedMedia().then(() => {
   if (fetchedMedia.likedMedia) {
     likedMedia.push(...fetchedMedia.likedMedia);

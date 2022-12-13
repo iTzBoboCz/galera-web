@@ -123,7 +123,7 @@
 </template>
 
 <script lang="ts">
-import { AlbumResponse, MediaResponse } from "@galera/client-axios";
+import { MediaResponse } from "@galera/client-axios";
 import { defineComponent, PropType, Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 

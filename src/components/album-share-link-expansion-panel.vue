@@ -49,10 +49,7 @@
 </template>
 
 <script lang="ts">
-import {
-  AlbumShareLinkInsert,
-  SharedAlbumLinkResponse,
-} from "@galera/client-axios";
+import { SharedAlbumLinkResponse } from "@galera/client-axios";
 import { defineComponent, PropType, Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 

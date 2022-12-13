@@ -82,7 +82,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
       this.albumList = albumList;
     },
     async createAlbum(albumName: string) {
-      const albumResponse = await api()
+      await api()
         .routesCreateAlbum({
           albumInsertData: { name: albumName },
         })
@@ -98,7 +98,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
         .routesDeleteAlbum({
           albumUuid,
         })
-        .then((response) => {
+        .then(() => {
           return true;
         })
         .catch(() => {

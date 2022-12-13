@@ -12,7 +12,7 @@ export const useSelectedMediaStore = defineStore("selectedMedia", {
     mediaModal: undefined,
   }),
   getters: {
-    isModalActive: (state) => (!state.mediaModal ? false : true),
+    isModalActive: (state) => (state.mediaModal ? true : false),
   },
   actions: {
     setMediaModal(mediaModal: MediaResponse | undefined) {

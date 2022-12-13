@@ -108,8 +108,7 @@
       "scan": "Scan"
     },
     "localPreferences": "Local preferences",
-    "server": {
-    },
+    "server": {},
     "serverInfo": "Server info",
     "serverSettings": "Server settings",
     "userSettings": "User settings",

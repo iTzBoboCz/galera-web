@@ -108,8 +108,7 @@
       "scan": "Skenovat"
     },
     "localPreferences": "Lokální preference",
-    "server": {
-    },
+    "server": {},
     "serverInfo": "Informace o serveru",
     "serverSettings": "Nastavení serveru",
     "userSettings": "Uživatelské nastavení",

@@ -15,9 +15,7 @@ export function getLocalUserPreferences(): UserPreferencesState {
       window.matchMedia("(prefers-color-scheme: dark)").matches
         ? true
         : false;
-    const locale = window.navigator.language
-      ? window.navigator.language
-      : "en-US";
+    const locale = window.navigator.language || "en-US";
     const view = "mosaic";
     return { darkMode, locale, view };
   }

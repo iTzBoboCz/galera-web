@@ -55,7 +55,7 @@ export function defaultConfiguration(
 }
 
 export default function api(config?: Configuration): DefaultApi {
-  const finalConfiguration = config ? config : defaultConfiguration();
+  const finalConfiguration = config ?? defaultConfiguration();
 
   const axiosInstance = axios.create();
 

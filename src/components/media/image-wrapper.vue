@@ -60,7 +60,7 @@ async function getMediaByUuid(mediaUuid: string): Promise<string | undefined> {
 
 const imageSource: Ref<string | undefined> = ref();
 
-// eslint-disable-next-line promise/catch-or-return
+// eslint-disable-next-line promise/catch-or-return, unicorn/prefer-top-level-await
 getMediaByUuid(props.media.uuid).then((url) => {
   // eslint-disable-next-line promise/always-return
   if (url) {

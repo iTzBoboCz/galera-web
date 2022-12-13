@@ -84,7 +84,7 @@ async function getAlbumShareLinkBasicInfo() {
   }
 }
 
-// eslint-disable-next-line promise/catch-or-return
+// eslint-disable-next-line promise/catch-or-return, unicorn/prefer-top-level-await
 getAlbumShareLinkBasicInfo().then(() => {
   if (
     albumShareLinkBasic.value &&

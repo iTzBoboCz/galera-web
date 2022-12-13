@@ -31,7 +31,7 @@ const fetchedMedia = useFetchedMediaStore();
 
 const albumMedia: Ref<MediaResponse[] | undefined> = ref();
 
-// eslint-disable-next-line promise/catch-or-return
+// eslint-disable-next-line promise/catch-or-return, unicorn/prefer-top-level-await
 fetchedMedia.getAlbumMedia(props.id).then(() => {
   if (fetchedMedia.albumList) {
     const index = fetchedMedia.albumList.findIndex(
