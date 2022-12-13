@@ -60,6 +60,7 @@
     </v-row>
   </div>
   <!-- TODO: put dialogs into separate components -->
+  <!-- FIXME: too wide, should be fixed by Vuetify -->
   <v-dialog v-model="descriptionEditDialog">
     <v-card :title="t('dialogs.editDescription.title')">
       <v-card-text>
@@ -88,6 +89,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <!-- FIXME: too wide, should be fixed by Vuetify -->
   <v-dialog v-model="addToAlbumDialog">
     <v-card :title="t('dialogs.addToAlbum.title')">
       <v-card-text>
