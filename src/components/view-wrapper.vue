@@ -1,4 +1,6 @@
 <template>
+  <!-- potřeba k zobrazení @dragenter.prevent="uploadDialog = true"
+        ale pak nefunguje preventDefault (blokování stáhnutí zpět prohlížečem) -->
   <TileView
     v-if="userPreferences.view == 'tile'"
     v-model:selected-media="selectedMedia"
@@ -6,6 +8,9 @@
     :album-share-link-auth="props.albumShareLinkAuth"
     @select-media="selectMedia"
     @unselect-media="unselectMedia"
+    @drop.prevent="onFileDrop"
+    @dragenter.prevent="uploadDialog = true"
+    @dragover.prevent
   />
   <ListView
     v-else-if="userPreferences.view == 'list'"
@@ -14,6 +19,9 @@
     :album-share-link-auth="props.albumShareLinkAuth"
     @select-media="selectMedia"
     @unselect-media="unselectMedia"
+    @drop.prevent="onFileDrop"
+    @dragenter.prevent="uploadDialog = true"
+    @dragover.prevent
   />
   <MosaicView
     v-else
@@ -22,6 +30,9 @@
     :album-share-link-auth="props.albumShareLinkAuth"
     @select-media="selectMedia"
     @unselect-media="unselectMedia"
+    @drop.prevent="onFileDrop"
+    @dragenter.prevent="uploadDialog = true"
+    @dragover.prevent
   />
   <!-- TODO: refactor this when v-speed-dial gets released -->
   <!-- <v-fab-transition>
@@ -119,6 +130,9 @@
         >
       </v-card-actions>
     </v-card>
+  </v-dialog>
+  <v-dialog v-if="uploadable" v-model="uploadDialog">
+    <v-card text="test"></v-card>
   </v-dialog>
 </template>
 
@@ -236,8 +250,24 @@ function addMediaToAlbums(
   }
 }
 
+function onFileDrop(event: DragEvent) {
+  if (!event.dataTransfer) {
+    return;
+  }
+
+  console.error(event.dataTransfer.files, event.dataTransfer.files.length);
+}
+
+function test() {
+  console.error("test");
+}
+
 const descriptionEditDialog = ref(false);
 const newDescription = ref("");
 const addToAlbumDialog = ref(false);
 const selectedAlbumUuids: Ref<string[]> = ref([]);
+
+const uploadable = true;
+
+const uploadDialog = ref(false);
 </script>
