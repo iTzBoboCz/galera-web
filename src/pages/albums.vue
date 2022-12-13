@@ -66,6 +66,7 @@
       {{ t("noContent.albums") }}
     </v-alert>
   </v-container>
+  <!-- FIXME: too wide, should be fixed by Vuetify -->
   <v-dialog v-model="createAlbumDialog">
     <v-card :title="t('dialogs.createAlbum.title')">
       <v-card-text>
@@ -96,6 +97,7 @@
     </v-card>
   </v-dialog>
   <!-- TODO: add scrollable prop when it is implemented -->
+  <!-- FIXME: too wide, should be fixed by Vuetify -->
   <v-dialog v-model="shareAlbumDialog">
     <v-card :title="t('dialogs.shareAlbum.title')">
       <v-card-text>
@@ -129,6 +131,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <!-- FIXME: too wide, should be fixed by Vuetify -->
   <v-dialog v-model="deleteAlbumDialog">
     <v-card :title="t('dialogs.deleteAlbum.title')">
       <v-card-text>{{ t("dialogs.deleteAlbum.irreversible") }} </v-card-text>
