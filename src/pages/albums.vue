@@ -15,40 +15,49 @@
       >
         <v-hover v-slot="hoverProps">
           <v-card
-            v-bind="hoverProps.props"
             :to="'/album/' + album.link"
             min-height="10vh"
             min-width="10vh"
           >
-            <v-card-text>{{ album.name }}</v-card-text>
+            <!-- TODO: remove position when Vuetify fixes this -->
+            <v-layout full-height>
+              <v-app-bar
+                density="comfortable"
+                theme="dark"
+                style="position: relative !important"
+              >
+                <v-app-bar-title class="text-h6">{{
+                  album.name
+                }}</v-app-bar-title>
+                <template v-slot:append>
+                  <v-menu bottom left v-bind="hoverProps.props">
+                    <template #activator="menuActivator">
+                      <v-btn
+                        v-bind="menuActivator.props"
+                        icon="mdi-dots-vertical"
+                        color="white"
+                        position="relative"
+                        variant="text"
+                        @click.prevent=""
+                      />
+                    </template>
+                    <v-list>
+                      <v-list-item
+                        :title="t('album.delete')"
+                        @click="openAlbumDeleteDialog(album)"
+                      />
+                      <v-list-item
+                        :title="t('album.share')"
+                        @click="openAlbumShareLinkDialog(album)"
+                      />
+                    </v-list>
+                  </v-menu>
+                </template>
+              </v-app-bar>
+            </v-layout>
             <!-- <img :src="album.thumbnail_link" /> -->
             <!-- TODO: width and height might not be needed in the future too -->
             <!-- TODO: hide menu by default, show on hover -->
-            <v-menu bottom left>
-              <template #activator="menuActivator">
-                <v-btn
-                  v-bind="menuActivator.props"
-                  icon="mdi-dots-vertical"
-                  color="white"
-                  position="absolute"
-                  top="1vh"
-                  right="1vh"
-                  variant="text"
-                  @click.prevent=""
-                />
-              </template>
-              <v-list>
-                <!-- TODO: add confirmational dialog (Are you sure you want to delete this album?) -->
-                <v-list-item
-                  :title="t('album.delete')"
-                  @click="openAlbumDeleteDialog(album)"
-                />
-                <v-list-item
-                  :title="t('album.share')"
-                  @click="openAlbumShareLinkDialog(album)"
-                />
-              </v-list>
-            </v-menu>
           </v-card>
         </v-hover>
       </v-col>
