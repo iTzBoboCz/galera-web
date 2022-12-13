@@ -180,7 +180,7 @@ async function openAlbumShareLinkDialog(album: AlbumResponse) {
     (a) => a.link == album.link
   );
 
-  if (fetchedMedia.albumList && currentAlbumIndex.value !== "undefined") {
+  if (fetchedMedia.albumList && currentAlbumIndex.value !== undefined) {
     shareAlbumDialog.value = true;
     currentAlbumUuid.value = album.link;
 
@@ -193,7 +193,7 @@ async function openAlbumDeleteDialog(album: AlbumResponse) {
     (a) => a.link == album.link
   );
 
-  if (fetchedMedia.albumList && currentAlbumIndex.value !== "undefined") {
+  if (fetchedMedia.albumList && currentAlbumIndex.value !== undefined) {
     deleteAlbumDialog.value = true;
     currentAlbumUuid.value = album.link;
   }
