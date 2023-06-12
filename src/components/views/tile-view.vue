@@ -8,6 +8,7 @@
       md="2"
       sm="3"
     >
+      <!-- FIX: overlay is broken when you click outside -->
       <v-hover v-slot="hoverProps">
         <v-card v-bind="hoverProps.props" @click="mediaClick(media)">
           <ImageWrapper
