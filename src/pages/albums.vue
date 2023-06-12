@@ -1,9 +1,16 @@
 @@ -0,0 +1,71 @@
 <template>
   <v-container>
-    <v-btn icon="mdi-plus" @click="openCreateAlbumDialog()">
-      <v-tooltip activator="parent" :text="t('album.create')" anchor="bottom" />
-    </v-btn>
+    <!-- https://github.com/vuetifyjs/vuetify/issues/16587 -->
+    <v-tooltip :text="t('album.create')" location="end">
+      <template v-slot:activator="{ props }">
+        <v-btn
+          v-bind="props"
+          icon="mdi-plus"
+          @click="openCreateAlbumDialog()"
+        />
+      </template>
+    </v-tooltip>
     <v-row v-if="fetchedMedia.albumList && fetchedMedia.albumList.length > 0">
       <v-col
         v-for="album in fetchedMedia.albumList"
