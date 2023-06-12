@@ -81,7 +81,7 @@ export default function api(config?: Configuration): DefaultApi {
           await auth.refreshToken();
 
           // if there are no headers, we can't send a request with certainty because the server could only accept some content-type, etc.
-          if (isLoggedIn.value && error.config.headers) {
+          if (isLoggedIn.value && error.config?.headers) {
             // retry last request
             const headers = error.config.headers;
             headers.Authorization = `Bearer ${auth.bearerToken?.bearerTokenEncoded}`;
