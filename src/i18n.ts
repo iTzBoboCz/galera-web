@@ -1,4 +1,4 @@
-import messages from "@intlify/vite-plugin-vue-i18n/messages";
+import messages from "@intlify/unplugin-vue-i18n/messages";
 import { createI18n } from "vue-i18n";
 
 import { getLocalUserPreferences } from "~/stores/user-preferences";

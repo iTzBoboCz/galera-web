@@ -15,7 +15,7 @@
       "vite/client",
       "vite-plugin-vue-layouts/client",
       "vite-plugin-pages/client",
-      "@intlify/vite-plugin-vue-i18n/client"
+      "@intlify/unplugin-vue-i18n/messages"
     ],
     "paths": {
       "~/*": ["src/*"]
