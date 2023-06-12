@@ -12,7 +12,7 @@ export interface AlbumShareLinkScheme {
 
 function b64EncodeUnicode(unicode_string: string) {
   return btoa(
-    encodeURIComponent(unicode_string).replace(
+    encodeURIComponent(unicode_string).replaceAll(
       /%([\dA-F]{2})/g,
       (match, p1) => {
         return String.fromCodePoint(Number("0x" + p1));
