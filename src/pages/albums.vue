@@ -3,7 +3,7 @@
   <v-container>
     <!-- https://github.com/vuetifyjs/vuetify/issues/16587 -->
     <v-tooltip :text="t('album.create')" location="end">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn
           v-bind="props"
           icon="mdi-plus"
@@ -36,7 +36,7 @@
                 <v-app-bar-title class="text-h6">{{
                   album.name
                 }}</v-app-bar-title>
-                <template v-slot:append>
+                <template #append>
                   <v-menu bottom left v-bind="hoverProps.props">
                     <template #activator="menuActivator">
                       <v-btn
