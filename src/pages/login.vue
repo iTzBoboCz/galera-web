@@ -32,6 +32,16 @@
               }}</v-btn>
             </v-col>
           </v-row>
+          <v-row align="center" justify="center" no-gutters>
+            <v-btn
+              v-for="provider in auth.serverConfig?.auth.oidc"
+              :key="provider.key"
+              :href="'/api' + provider.login_url"
+              block
+              class="mt-3"
+              >{{ t("account.logInWith") + " " + provider.display_name }}</v-btn
+            >
+          </v-row>
         </form>
       </v-col>
     </v-row>
@@ -47,6 +57,7 @@ import router from "~/router";
 import { useAuthStore } from "~/stores/auth";
 
 const auth = useAuthStore();
+auth.getServerConfig(); // loads OIDC providers
 
 const usernameOrEmail = ref("");
 const password = ref("");

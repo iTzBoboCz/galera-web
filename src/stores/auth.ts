@@ -12,13 +12,29 @@ export interface BearerToken {
   bearerTokenRefreshedAt: number;
 }
 
+export interface ServerConfig {
+  auth: AuthConfig;
+}
+
+export interface AuthConfig {
+  oidc: ProviderConfig[];
+}
+
+export interface ProviderConfig {
+  key: string;
+  display_name: string;
+  login_url: string;
+}
+
 export interface AuthState {
+  serverConfig?: ServerConfig;
   userInfo?: UserInfo;
   bearerToken?: BearerToken;
 }
 
 export const useAuthStore = defineStore("auth", {
   state: (): AuthState => ({
+    serverConfig: undefined,
     userInfo: undefined,
     bearerToken: undefined,
   }),
@@ -26,6 +42,25 @@ export const useAuthStore = defineStore("auth", {
     isLoggedIn: (state) => (state.userInfo && state.bearerToken ? true : false),
   },
   actions: {
+    async getServerConfig() {
+      const response = await axios
+        .get<ServerConfig>("/api/public/config", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          return response.data;
+        })
+        .catch(() => {
+          return;
+        });
+
+      if (response) {
+        this.serverConfig = { auth: response.auth };
+        console.error(this);
+      }
+    },
     async logIn(userLogin: UserLogin) {
       // Doesn't work because server doesn't accept stringified JSON objects.
       // issue: https://github.com/OpenAPITools/openapi-generator/issues/5717
