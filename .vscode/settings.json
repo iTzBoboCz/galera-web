@@ -4,7 +4,6 @@
   "i18n-ally.localesPaths": "src/locales",
   "i18n-ally.sortKeys": true,
   "i18n-ally.sourceLanguage": "en-US",
-  "vetur.format.defaultFormatter.html": "prettier",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.exclude": {
     "**/.git": true,
