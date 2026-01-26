@@ -46,7 +46,7 @@ async function getMediaByUuid(mediaUuid: string): Promise<string | undefined> {
   const response = await api(defaultConfiguration(props.albumShareLinkAuth))
     .routesGetMediaByUuid({ mediaUuid }, { responseType: "blob" })
     // TODO: remove response type when this gets typed directly
-    .then((response: AxiosResponse<File | void>) => {
+    .then((response) => {
       return response.data;
     })
     .catch(() => {

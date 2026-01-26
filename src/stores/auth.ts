@@ -110,7 +110,7 @@ export const useAuthStore = defineStore("auth", {
 
       const userLoginInfo: UserLogin = {
         username_or_email: newUser.username,
-        password: newUser.password,
+        password: newUser.password ?? "",
       };
 
       await this.logIn(userLoginInfo);

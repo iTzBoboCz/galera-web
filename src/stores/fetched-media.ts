@@ -184,7 +184,10 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
 
       if (index > -1) {
         const albumShareLink = await api()
-          .routesCreateAlbumShareLink({ albumUuid })
+          .routesCreateAlbumShareLink({
+            albumUuid,
+            albumShareLinkInsert: {},
+          })
           .then((response) => {
             return response.data;
           })

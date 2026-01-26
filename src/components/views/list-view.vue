@@ -35,7 +35,7 @@
           </v-hover>
         </td>
         <td>{{ media.description }}</td>
-        <td>
+        <td v-if="media.date_taken">
           {{ d(new Date(media.date_taken), "datetime") }}
         </td>
         <td>{{ media.filename }}</td>
