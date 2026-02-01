@@ -41,6 +41,11 @@
       "title": "Album sharing"
     }
   },
+  "error": {
+    "auth": {
+      "signupDisabled": "Signups are disabled."
+    }
+  },
   "favorite": "Favorite",
   "general": {
     "add": "Add",

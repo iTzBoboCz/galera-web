@@ -41,6 +41,11 @@
       "title": "Sdílení alba"
     }
   },
+  "error": {
+    "auth": {
+      "signupDisabled": "Registrace jsou zablokované."
+    }
+  },
   "favorite": "Oblíbené",
   "general": {
     "add": "Přidat",

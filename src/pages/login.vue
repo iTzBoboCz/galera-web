@@ -4,34 +4,38 @@
       <v-col sm="10" md="7" lg="5" cols="auto">
         <h1 class="text-h4 mb-6 text-center">{{ t("pages.login") }}</h1>
         <form @submit.prevent="submitLogin">
-          <v-text-field
-            v-model="usernameOrEmail"
-            :label="t('account.usernameOrEmail')"
-            variant="outlined"
-            required
-          />
-          <v-text-field
-            v-model="password"
-            :label="t('account.password')"
-            :type="isPasswordShown ? 'text' : 'password'"
-            :append-inner-icon="isPasswordShown ? 'mdi-eye-off' : 'mdi-eye'"
-            variant="outlined"
-            required
-            @click:append-inner="isPasswordShown = !isPasswordShown"
-          />
-          <v-row align="center" justify="center" no-gutters>
-            <v-col>
-              <span>
-                {{ t("account.dontHaveAnAccountYet") }}
-                <v-btn to="/signup">{{ t("account.signUp") }}</v-btn>
-              </span>
-            </v-col>
-            <v-col>
-              <v-btn color="primary" type="submit" block>{{
-                t("account.logIn")
-              }}</v-btn>
-            </v-col>
-          </v-row>
+          <template v-if="!auth.serverConfig?.auth.policy.disable_local_auth">
+            <v-text-field
+              v-model="usernameOrEmail"
+              :label="t('account.usernameOrEmail')"
+              variant="outlined"
+              required
+            />
+            <v-text-field
+              v-model="password"
+              :label="t('account.password')"
+              :type="isPasswordShown ? 'text' : 'password'"
+              :append-inner-icon="isPasswordShown ? 'mdi-eye-off' : 'mdi-eye'"
+              variant="outlined"
+              required
+              @click:append-inner="isPasswordShown = !isPasswordShown"
+            />
+            <v-row align="center" justify="center" no-gutters>
+              <v-col
+                v-if="!auth.serverConfig?.auth.policy.disable_local_signups"
+              >
+                <span>
+                  {{ t("account.dontHaveAnAccountYet") }}
+                  <v-btn to="/signup">{{ t("account.signUp") }}</v-btn>
+                </span>
+              </v-col>
+              <v-col>
+                <v-btn color="primary" type="submit" block>{{
+                  t("account.logIn")
+                }}</v-btn>
+              </v-col>
+            </v-row>
+          </template>
           <v-row align="center" justify="center" no-gutters>
             <v-btn
               v-for="provider in auth.serverConfig?.auth.oidc"

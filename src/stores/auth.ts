@@ -1,4 +1,5 @@
 import {
+  AuthConfig,
   LoginResponse,
   NewUser,
   UserInfo,
@@ -7,6 +8,8 @@ import {
 import axios from "axios";
 import { defineStore } from "pinia";
 
+import api, { defaultConfiguration } from "~/composables/api";
+
 export interface BearerToken {
   bearerTokenEncoded: string;
   bearerTokenRefreshedAt: number;
@@ -14,16 +17,6 @@ export interface BearerToken {
 
 export interface ServerConfig {
   auth: AuthConfig;
-}
-
-export interface AuthConfig {
-  oidc: ProviderConfig[];
-}
-
-export interface ProviderConfig {
-  key: string;
-  display_name: string;
-  login_url: string;
 }
 
 export interface AuthState {
@@ -43,12 +36,8 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     async getServerConfig() {
-      const response = await axios
-        .get<ServerConfig>("/api/public/config", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+      const response = await api(defaultConfiguration("noAuth"))
+        .routesGetServerConfig()
         .then((response) => {
           return response.data;
         })
