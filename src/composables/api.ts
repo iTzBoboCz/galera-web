@@ -28,7 +28,9 @@ export function defaultConfiguration(
   // TODO: there might be a better way to check if authenticationScheme is AlbumShareLinkScheme
   if (authenticationScheme == "bearer") {
     const auth = useAuthStore();
-    Authorization = `Bearer ${auth.bearerToken?.bearerTokenEncoded}`;
+    if (auth.bearerToken?.bearerTokenEncoded) {
+      Authorization = `Bearer ${auth.bearerToken.bearerTokenEncoded}`;
+    }
   } else if (
     typeof authenticationScheme == "object" &&
     authenticationScheme.albumShareLinkUuid
@@ -57,34 +59,30 @@ export function defaultConfiguration(
 export default function api(config?: Configuration): DefaultApi {
   const finalConfiguration = config ?? defaultConfiguration();
 
-  const axiosInstance = axios.create();
+  const axiosInstance = axios.create({
+    withCredentials: true,
+  });
 
-  // Tries to refresh user's token when request fails
-  // used only for BearerAuth
   if (
-    finalConfiguration.baseOptions &&
-    finalConfiguration.baseOptions.headers &&
-    finalConfiguration.baseOptions.headers.Authorization &&
+    finalConfiguration.baseOptions?.headers?.Authorization &&
     finalConfiguration.baseOptions.headers.Authorization.startsWith("Bearer")
   ) {
     const auth = useAuthStore();
-
     const { isLoggedIn } = storeToRefs(auth);
 
     axiosInstance.interceptors.response.use(
-      (response) => {
-        return response;
-      },
+      (response) => response,
       async (error: AxiosError) => {
-        // refresh token if server responds with Unauthorized
-        if (error.response?.status == 401) {
+        if (error.response?.status === 401) {
+          // cookie-based refresh (no bearer needed)
           await auth.refreshToken();
 
-          // if there are no headers, we can't send a request with certainty because the server could only accept some content-type, etc.
           if (isLoggedIn.value && error.config?.headers) {
-            // retry last request
-            const headers = error.config.headers;
-            headers.Authorization = `Bearer ${auth.bearerToken?.bearerTokenEncoded}`;
+            // retry with new bearer
+            const headers = error.config.headers as any;
+            headers.Authorization = auth.bearerToken?.bearerTokenEncoded
+              ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
+              : undefined;
 
             // eslint-disable-next-line promise/no-promise-in-callback
             const retry = await axios({
@@ -93,25 +91,21 @@ export default function api(config?: Configuration): DefaultApi {
               data: error.config.data,
               headers,
               responseType: error.config.responseType,
+              withCredentials: true, // keep cookies on retry too
             })
-              .then((response) => {
-                // must be response, not response.data
-                return response;
-              })
+              .then((r) => r)
               .catch(() => {
                 return;
               });
 
-            if (retry) {
-              return retry;
-            }
+            if (retry) return retry;
           }
 
           await auth.logOut();
           router.go(0);
-
-          throw error;
         }
+
+        throw error;
       }
     );
   }

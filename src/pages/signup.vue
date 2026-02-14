@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { NewUser } from "@galera/client-axios";
+import { UserInsert } from "@galera/client-axios";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
@@ -99,7 +99,7 @@ async function submitSignup() {
     return;
   }
 
-  const newUser: NewUser = {
+  const newUser: UserInsert = {
     username: username.value,
     email: email.value,
     password: password.value,

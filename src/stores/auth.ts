@@ -1,8 +1,7 @@
 import {
   AuthConfig,
-  LoginResponse,
-  NewUser,
   UserInfo,
+  UserInsert,
   UserLogin,
 } from "@galera/client-axios";
 import axios from "axios";
@@ -54,15 +53,9 @@ export const useAuthStore = defineStore("auth", {
       // Doesn't work because server doesn't accept stringified JSON objects.
       // issue: https://github.com/OpenAPITools/openapi-generator/issues/5717
       // const response = await api.routesLogin({ userLogin }).then((response) => {
-      const response = await axios
-        .post<LoginResponse>("/api/login", userLogin, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          return response.data;
-        })
+      const response = await api(defaultConfiguration("noAuth"))
+        .routesLogin({ userLogin })
+        .then((r) => r.data)
         .catch(() => {
           return;
         });
@@ -76,7 +69,7 @@ export const useAuthStore = defineStore("auth", {
         console.error(this);
       }
     },
-    async signUp(newUser: NewUser) {
+    async signUp(newUser: UserInsert) {
       // Doesn't work because server doesn't accept stringified JSON objects.
       // issue: https://github.com/OpenAPITools/openapi-generator/issues/5717
       // const success = await api.routesCreateUser({ userRegisterInfo: userRegisterInfo }).then(() => {
@@ -104,39 +97,38 @@ export const useAuthStore = defineStore("auth", {
 
       await this.logIn(userLoginInfo);
     },
-    async refreshToken() {
-      const bearerToken = await axios
-        .post(
-          "/api/login/refresh",
-          {
-            encoded_claims: this.bearerToken?.bearerTokenEncoded,
-          },
-          {
-            headers: {
-              "Content-type": "application/json",
-            },
-          }
-        )
-        .then((response) => {
-          return response.data;
-        })
+    async refreshToken(): Promise<boolean> {
+      const response = await api(defaultConfiguration("noAuth"))
+        .routesRefreshToken()
+        .then((r) => r.data)
         .catch(() => {
           return;
         });
 
-      if (bearerToken) {
-        this.bearerToken = {
-          bearerTokenEncoded: bearerToken.encoded_claims,
-          bearerTokenRefreshedAt: Date.now(),
-        };
-      } else {
-        await this.logOut();
+      if (!response) {
+        this.userInfo = undefined;
+        this.bearerToken = undefined;
+        return false;
       }
+
+      this.userInfo = response.user_info;
+      this.bearerToken = {
+        bearerTokenEncoded: response.bearer_token,
+        bearerTokenRefreshedAt: Date.now(),
+      };
+      return true;
     },
     async logOut() {
+      await api(defaultConfiguration("noAuth"))
+        .routesLogout()
+        .then((r) => r)
+        .catch(() => {
+          return;
+        });
+
       this.userInfo = undefined;
       this.bearerToken = undefined;
     },
   },
-  persist: true,
+  persist: false,
 });
