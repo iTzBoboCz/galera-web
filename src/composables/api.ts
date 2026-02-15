@@ -88,7 +88,7 @@ export default function api(config?: Configuration): DefaultApi {
 
       if (error.response?.status === 401) {
         // cookie-based refresh (no bearer needed)
-        const refreshSuccesful = await auth.refreshToken();
+        const refreshSuccesful = await auth.refreshTokenOnce();
 
         if (refreshSuccesful && error.config?.headers) {
           // retry with new bearer

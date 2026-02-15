@@ -25,6 +25,7 @@ export interface AuthState {
   userInfo?: UserInfo;
   bearerToken?: BearerToken;
   sessionReady?: boolean; // undefined = new page load, false = logged out/failed, true = logged in
+  tokenRefreshPending?: Promise<boolean>;
 }
 
 export const useAuthStore = defineStore("auth", {
@@ -33,6 +34,7 @@ export const useAuthStore = defineStore("auth", {
     userInfo: undefined,
     bearerToken: undefined,
     sessionReady: undefined,
+    tokenRefreshPending: undefined,
   }),
   getters: {
     isLoggedIn: (state) => state.sessionReady === true,
@@ -145,18 +147,28 @@ export const useAuthStore = defineStore("auth", {
       this.userInfo = undefined;
       this.bearerToken = undefined;
       this.sessionReady = false;
+      this.tokenRefreshPending = undefined;
     },
     async sessionBootstrap(): Promise<boolean> {
       if (this.sessionReady !== undefined) return this.sessionReady;
 
-      return await this.refreshToken();
+      return await this.refreshTokenOnce();
     },
     async ensureFreshToken(): Promise<boolean> {
       if (this.sessionReady === undefined) await this.sessionBootstrap();
       if (this.sessionReady !== true) return false; // if sessionReady is false or undefined
       if (this.isTokenFresh) return true;
 
-      return await this.refreshToken();
+      return await this.refreshTokenOnce();
+    },
+    async refreshTokenOnce(): Promise<boolean> {
+      if (!this.tokenRefreshPending) {
+        this.tokenRefreshPending = this.refreshToken().finally(() => {
+          this.tokenRefreshPending = undefined;
+        });
+      }
+
+      return this.tokenRefreshPending;
     },
   },
   persist: false,
