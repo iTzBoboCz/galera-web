@@ -9,6 +9,8 @@ import { defineStore } from "pinia";
 
 import api, { defaultConfiguration } from "~/composables/api";
 
+const ACCESS_TOKEN_TTL_MS = 15 * 60 * 1000; // 15 minutes (same as backend)
+
 export interface BearerToken {
   bearerTokenEncoded: string;
   bearerTokenRefreshedAt: number;
@@ -22,6 +24,7 @@ export interface AuthState {
   serverConfig?: ServerConfig;
   userInfo?: UserInfo;
   bearerToken?: BearerToken;
+  sessionReady?: boolean; // undefined = new page load, false = logged out/failed, true = logged in
 }
 
 export const useAuthStore = defineStore("auth", {
@@ -29,9 +32,19 @@ export const useAuthStore = defineStore("auth", {
     serverConfig: undefined,
     userInfo: undefined,
     bearerToken: undefined,
+    sessionReady: undefined,
   }),
   getters: {
-    isLoggedIn: (state) => (state.userInfo && state.bearerToken ? true : false),
+    isLoggedIn: (state) => state.sessionReady === true,
+    isTokenFresh: (state) => {
+      if (!state.bearerToken?.bearerTokenEncoded) return false;
+
+      const age = Math.max(
+        0,
+        Date.now() - state.bearerToken.bearerTokenRefreshedAt
+      ); // in case bearerTokenRefreshedAt is in the future
+      return age < ACCESS_TOKEN_TTL_MS * 0.01; // refresh at 80% of ACCESS_TOKEN_TTL_MS
+    },
   },
   actions: {
     async getServerConfig() {
@@ -66,6 +79,7 @@ export const useAuthStore = defineStore("auth", {
           bearerTokenEncoded: response.bearer_token,
           bearerTokenRefreshedAt: Date.now(),
         };
+        this.sessionReady = true;
         console.error(this);
       }
     },
@@ -108,6 +122,7 @@ export const useAuthStore = defineStore("auth", {
       if (!response) {
         this.userInfo = undefined;
         this.bearerToken = undefined;
+        this.sessionReady = false;
         return false;
       }
 
@@ -116,6 +131,7 @@ export const useAuthStore = defineStore("auth", {
         bearerTokenEncoded: response.bearer_token,
         bearerTokenRefreshedAt: Date.now(),
       };
+      this.sessionReady = true;
       return true;
     },
     async logOut() {
@@ -128,6 +144,19 @@ export const useAuthStore = defineStore("auth", {
 
       this.userInfo = undefined;
       this.bearerToken = undefined;
+      this.sessionReady = false;
+    },
+    async sessionBootstrap(): Promise<boolean> {
+      if (this.sessionReady !== undefined) return this.sessionReady;
+
+      return await this.refreshToken();
+    },
+    async ensureFreshToken(): Promise<boolean> {
+      if (this.sessionReady === undefined) await this.sessionBootstrap();
+      if (this.sessionReady !== true) return false; // if sessionReady is false or undefined
+      if (this.isTokenFresh) return true;
+
+      return await this.refreshToken();
     },
   },
   persist: false,

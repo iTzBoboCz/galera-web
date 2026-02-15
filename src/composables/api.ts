@@ -1,6 +1,5 @@
 import { Configuration, DefaultApi } from "@galera/client-axios";
 import axios, { AxiosError } from "axios";
-import { storeToRefs } from "pinia";
 
 import router from "~/router";
 import { useAuthStore } from "~/stores/auth";
@@ -24,13 +23,16 @@ function b64EncodeUnicode(unicode_string: string) {
 export function defaultConfiguration(
   authenticationScheme: "bearer" | AlbumShareLinkScheme | "noAuth" = "bearer"
 ): Configuration {
-  let Authorization: string | undefined;
+  const headers: Record<string, string> = {
+    "Content-type": "application/json",
+  };
+
   // TODO: there might be a better way to check if authenticationScheme is AlbumShareLinkScheme
   if (authenticationScheme == "bearer") {
     const auth = useAuthStore();
-    if (auth.bearerToken?.bearerTokenEncoded) {
-      Authorization = `Bearer ${auth.bearerToken.bearerTokenEncoded}`;
-    }
+    headers.Authorization = auth.bearerToken?.bearerTokenEncoded
+      ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
+      : "Bearer";
   } else if (
     typeof authenticationScheme == "object" &&
     authenticationScheme.albumShareLinkUuid
@@ -42,17 +44,12 @@ export function defaultConfiguration(
 
     // btoa() doesn't support unicode in most browsers
     // https://developer.mozilla.org/en-US/docs/Web/API/btoa#unicode_strings
-    Authorization = `Basic ${b64EncodeUnicode(token)}`;
+    headers.Authorization = `Basic ${b64EncodeUnicode(token)}`;
   }
 
   return new Configuration({
     basePath: "/api",
-    baseOptions: {
-      headers: {
-        Authorization,
-        "Content-type": "application/json",
-      },
-    },
+    baseOptions: { headers },
   });
 }
 
@@ -63,52 +60,68 @@ export default function api(config?: Configuration): DefaultApi {
     withCredentials: true,
   });
 
-  if (
-    finalConfiguration.baseOptions?.headers?.Authorization &&
-    finalConfiguration.baseOptions.headers.Authorization.startsWith("Bearer")
-  ) {
-    const auth = useAuthStore();
-    const { isLoggedIn } = storeToRefs(auth);
+  const auth = useAuthStore();
 
-    axiosInstance.interceptors.response.use(
-      (response) => response,
-      async (error: AxiosError) => {
-        if (error.response?.status === 401) {
-          // cookie-based refresh (no bearer needed)
-          await auth.refreshToken();
+  axiosInstance.interceptors.request.use(async (config) => {
+    const headers = (config.headers ?? {}) as any;
+    const authHeader = (headers.Authorization?.toString() ?? "").trim();
+    if (!authHeader.startsWith("Bearer")) return config;
 
-          if (isLoggedIn.value && error.config?.headers) {
-            // retry with new bearer
-            const headers = error.config.headers as any;
-            headers.Authorization = auth.bearerToken?.bearerTokenEncoded
-              ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
-              : undefined;
+    const isFresh = await auth.ensureFreshToken();
 
-            // eslint-disable-next-line promise/no-promise-in-callback
-            const retry = await axios({
-              method: error.config.method,
-              url: error.config.url,
-              data: error.config.data,
-              headers,
-              responseType: error.config.responseType,
-              withCredentials: true, // keep cookies on retry too
-            })
-              .then((r) => r)
-              .catch(() => {
-                return;
-              });
+    headers.Authorization =
+      isFresh && auth.bearerToken?.bearerTokenEncoded
+        ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
+        : "Bearer"; // empty Bearer if no bearerTokenEncoded
 
-            if (retry) return retry;
-          }
+    config.headers = headers;
+    config.withCredentials = true;
+    return config;
+  });
 
-          await auth.logOut();
-          router.go(0);
+  axiosInstance.interceptors.response.use(
+    (response) => response,
+    async (error: AxiosError) => {
+      const headers = (error.config?.headers ?? {}) as any;
+      const authHeader = (headers.Authorization?.toString() ?? "").trim();
+      if (!authHeader.startsWith("Bearer")) throw error;
+
+      if (error.response?.status === 401) {
+        // cookie-based refresh (no bearer needed)
+        const refreshSuccesful = await auth.refreshToken();
+
+        if (refreshSuccesful && error.config?.headers) {
+          // retry with new bearer
+          const headers = error.config.headers as any;
+          headers.Authorization = auth.bearerToken?.bearerTokenEncoded
+            ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
+            : "Bearer";
+
+          // eslint-disable-next-line promise/no-promise-in-callback
+          const retry = await axiosInstance({
+            method: error.config.method,
+            url: error.config.url,
+            data: error.config.data,
+            headers,
+            responseType: error.config.responseType,
+            withCredentials: true, // keep cookies on retry too
+          })
+            .then((r) => r)
+            .catch(() => {
+              return;
+            });
+
+          if (retry) return retry;
         }
 
-        throw error;
+        await auth.logOut();
+        const current = router.currentRoute.value.fullPath;
+        router.replace({ path: "/login", query: { redirect: current } });
       }
-    );
-  }
+
+      throw error;
+    }
+  );
 
   return new DefaultApi(
     finalConfiguration,

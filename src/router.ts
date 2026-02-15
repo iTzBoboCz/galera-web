@@ -20,8 +20,10 @@ function isAuthRequired(publicPagesList: string[], pageName: string): boolean {
 
 const publicPages = ["signup", "login", "shared-uuid"];
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const auth = useAuthStore();
+
+  await auth.sessionBootstrap();
 
   if (
     to.name &&
@@ -43,9 +45,7 @@ router.beforeEach((to, from, next) => {
       });
     }
   } else if (auth.isLoggedIn && (to.name == "login" || to.name == "signup")) {
-    // TODO: doesn't work (always redirects to "/")
-    const redirectTo =
-      router.currentRoute.value.query.redirect?.toString() ?? "/";
+    const redirectTo = to.query.redirect?.toString() ?? "/";
 
     next(redirectTo);
   } else {
