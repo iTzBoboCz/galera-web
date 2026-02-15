@@ -18,39 +18,44 @@ function isAuthRequired(publicPagesList: string[], pageName: string): boolean {
   return !publicPagesList.includes(pageName);
 }
 
-const publicPages = ["signup", "login", "shared-uuid"];
+const publicGeneralPages = ["shared-uuid"];
+const publicAuthPages = ["signup", "login"];
+const publicPages = [...publicAuthPages, ...publicGeneralPages];
 
 router.beforeEach(async (to, from, next) => {
   const auth = useAuthStore();
 
-  await auth.sessionBootstrap();
+  const isAuthPage = publicAuthPages.includes(to.name?.toString() ?? "");
+  const needsAuth =
+    !!to.name && isAuthRequired(publicPages, to.name.toString());
 
-  if (
-    to.name &&
-    isAuthRequired(publicPages, to.name.toString()) &&
-    !auth.isLoggedIn
-  ) {
-    console.error(
-      "You need to be authenticated to see this page. Redirecting to login page..."
-    );
-    if (from.name == "signup") {
-      next({
-        path: "/signup",
-        query: { redirect: to.fullPath },
-      });
-    } else {
-      next({
-        path: "/login",
-        query: { redirect: to.fullPath },
-      });
-    }
-  } else if (auth.isLoggedIn && (to.name == "login" || to.name == "signup")) {
-    const redirectTo = to.query.redirect?.toString() ?? "/";
+  console.error(needsAuth);
 
-    next(redirectTo);
-  } else {
-    next();
+  // try sessionBootstrap (silent login)
+  if (needsAuth || isAuthPage) {
+    await auth.sessionBootstrap();
   }
-});
 
+  // Protected pages: ensure we have a valid access token
+  if (needsAuth) {
+    const isFresh = await auth.ensureFreshToken();
+    if (!isFresh) {
+      console.error(
+        "You need to be authenticated to see this page. Redirecting to login page..."
+      );
+      next({ path: "/login", query: { redirect: to.fullPath } });
+
+      return;
+    }
+  }
+
+  if (auth.isLoggedIn && (to.name == "login" || to.name == "signup")) {
+    const redirectTo = to.query.redirect?.toString() ?? "/";
+    next(redirectTo);
+
+    return;
+  }
+
+  next();
+});
 export default router;
