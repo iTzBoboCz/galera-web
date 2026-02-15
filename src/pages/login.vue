@@ -40,7 +40,12 @@
             <v-btn
               v-for="provider in auth.serverConfig?.auth.oidc"
               :key="provider.key"
-              :href="'/api' + provider.login_url"
+              :href="
+                '/api' +
+                provider.login_url +
+                '?redirect=' +
+                (router.currentRoute.value.query.redirect?.toString() ?? '/')
+              "
               block
               class="mt-3"
               >{{ t("account.logInWith") + " " + provider.display_name }}</v-btn

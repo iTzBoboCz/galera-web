@@ -19,7 +19,7 @@ function isAuthRequired(publicPagesList: string[], pageName: string): boolean {
 }
 
 const publicGeneralPages = ["shared-uuid"];
-const publicAuthPages = ["signup", "login"];
+const publicAuthPages = ["signup", "login", "auth-oidc-callback"];
 const publicPages = [...publicAuthPages, ...publicGeneralPages];
 
 router.beforeEach(async (to, from, next) => {
