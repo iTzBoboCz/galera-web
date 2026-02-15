@@ -53,75 +53,75 @@ export function defaultConfiguration(
   });
 }
 
-export default function api(config?: Configuration): DefaultApi {
-  const finalConfiguration = config ?? defaultConfiguration();
+const axiosInstance = axios.create({
+  withCredentials: true,
+});
 
-  const axiosInstance = axios.create({
-    withCredentials: true,
-  });
+axiosInstance.interceptors.request.use(async (config) => {
+  const headers = (config.headers ?? {}) as any;
+  const authHeader = (headers.Authorization?.toString() ?? "").trim();
+  if (!authHeader.startsWith("Bearer")) return config;
 
   const auth = useAuthStore();
+  const isFresh = await auth.ensureFreshToken();
 
-  axiosInstance.interceptors.request.use(async (config) => {
-    const headers = (config.headers ?? {}) as any;
+  headers.Authorization =
+    isFresh && auth.bearerToken?.bearerTokenEncoded
+      ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
+      : "Bearer"; // empty Bearer if no bearerTokenEncoded
+
+  config.headers = headers;
+  config.withCredentials = true;
+  return config;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    const headers = (error.config?.headers ?? {}) as any;
     const authHeader = (headers.Authorization?.toString() ?? "").trim();
-    if (!authHeader.startsWith("Bearer")) return config;
+    if (!authHeader.startsWith("Bearer")) throw error;
 
-    const isFresh = await auth.ensureFreshToken();
+    if (error.response?.status === 401) {
+      const auth = useAuthStore();
+      // cookie-based refresh (no bearer needed)
+      const refreshSuccesful = await auth.refreshTokenOnce();
 
-    headers.Authorization =
-      isFresh && auth.bearerToken?.bearerTokenEncoded
-        ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
-        : "Bearer"; // empty Bearer if no bearerTokenEncoded
+      if (refreshSuccesful && error.config?.headers) {
+        // retry with new bearer
+        const headers = error.config.headers as any;
+        headers.Authorization = auth.bearerToken?.bearerTokenEncoded
+          ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
+          : "Bearer";
 
-    config.headers = headers;
-    config.withCredentials = true;
-    return config;
-  });
+        // eslint-disable-next-line promise/no-promise-in-callback
+        const retry = await axiosInstance({
+          method: error.config.method,
+          url: error.config.url,
+          data: error.config.data,
+          headers,
+          responseType: error.config.responseType,
+          withCredentials: true, // keep cookies on retry too
+        })
+          .then((r) => r)
+          .catch(() => {
+            return;
+          });
 
-  axiosInstance.interceptors.response.use(
-    (response) => response,
-    async (error: AxiosError) => {
-      const headers = (error.config?.headers ?? {}) as any;
-      const authHeader = (headers.Authorization?.toString() ?? "").trim();
-      if (!authHeader.startsWith("Bearer")) throw error;
-
-      if (error.response?.status === 401) {
-        // cookie-based refresh (no bearer needed)
-        const refreshSuccesful = await auth.refreshTokenOnce();
-
-        if (refreshSuccesful && error.config?.headers) {
-          // retry with new bearer
-          const headers = error.config.headers as any;
-          headers.Authorization = auth.bearerToken?.bearerTokenEncoded
-            ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
-            : "Bearer";
-
-          // eslint-disable-next-line promise/no-promise-in-callback
-          const retry = await axiosInstance({
-            method: error.config.method,
-            url: error.config.url,
-            data: error.config.data,
-            headers,
-            responseType: error.config.responseType,
-            withCredentials: true, // keep cookies on retry too
-          })
-            .then((r) => r)
-            .catch(() => {
-              return;
-            });
-
-          if (retry) return retry;
-        }
-
-        await auth.logOut();
-        const current = router.currentRoute.value.fullPath;
-        router.replace({ path: "/login", query: { redirect: current } });
+        if (retry) return retry;
       }
 
-      throw error;
+      await auth.logOut();
+      const current = router.currentRoute.value.fullPath;
+      router.replace({ path: "/login", query: { redirect: current } });
     }
-  );
+
+    throw error;
+  }
+);
+
+export default function api(config?: Configuration): DefaultApi {
+  const finalConfiguration = config ?? defaultConfiguration();
 
   return new DefaultApi(
     finalConfiguration,
