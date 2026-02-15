@@ -38,15 +38,6 @@ export const useAuthStore = defineStore("auth", {
   }),
   getters: {
     isLoggedIn: (state) => state.sessionReady === true,
-    isTokenFresh: (state) => {
-      if (!state.bearerToken?.bearerTokenEncoded) return false;
-
-      const age = Math.max(
-        0,
-        Date.now() - state.bearerToken.bearerTokenRefreshedAt
-      ); // in case bearerTokenRefreshedAt is in the future
-      return age < ACCESS_TOKEN_TTL_MS * 0.01; // refresh at 80% of ACCESS_TOKEN_TTL_MS
-    },
   },
   actions: {
     async getServerConfig() {
@@ -154,10 +145,22 @@ export const useAuthStore = defineStore("auth", {
 
       return await this.refreshTokenOnce();
     },
+    // Doesnt work as a getter for some reason (probably caching?)
+    isTokenFresh(): boolean {
+      if (!this.bearerToken?.bearerTokenEncoded) return false;
+
+      const age = Math.max(
+        0,
+        Date.now() - this.bearerToken.bearerTokenRefreshedAt
+      ); // in case bearerTokenRefreshedAt is in the future
+      const threshold = ACCESS_TOKEN_TTL_MS * 0.8; // refresh at 80% of ACCESS_TOKEN_TTL_MS
+
+      return age < threshold;
+    },
     async ensureFreshToken(): Promise<boolean> {
       if (this.sessionReady === undefined) await this.sessionBootstrap();
       if (this.sessionReady !== true) return false; // if sessionReady is false or undefined
-      if (this.isTokenFresh) return true;
+      if (this.isTokenFresh()) return true;
 
       return await this.refreshTokenOnce();
     },
