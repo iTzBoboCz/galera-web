@@ -1,6 +1,7 @@
 {
   "name": "galera-web",
   "version": "0.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -21,8 +22,8 @@
     "vite-plugin-vue-layouts": "0.11",
     "vue": "3.5",
     "vue-i18n": "9.2.2",
-    "vue-router": "4.2.2",
-    "vuetify": "3.2.0"
+    "vue-router": "4",
+    "vuetify": "3.12"
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "0.11.0",
@@ -41,10 +42,10 @@
     "eslint-plugin-vue": "9.14.1",
     "postcss-html": "1.5.0",
     "prettier": "2.8.8",
-    "sass": "1.63.3",
-    "stylelint": "15.7.0",
-    "stylelint-config-recommended-vue": "1.4.0",
-    "stylelint-config-standard": "33.0.0",
+    "sass": "1",
+    "stylelint": "17",
+    "stylelint-config-recommended-vue": "1.6",
+    "stylelint-config-standard": "40",
     "typescript": "6",
     "vite": "5",
     "vue-tsc": "3"
