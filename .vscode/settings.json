@@ -10,5 +10,8 @@
     "**/.DS_Store": true,
     "**/node_modules": true
   },
-  "stylelint.validate": ["vue"]
+  "stylelint.validate": [
+    "vue"
+  ],
+  "eslint.useFlatConfig": false
 }
