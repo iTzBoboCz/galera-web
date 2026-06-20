@@ -54,7 +54,6 @@ import { type PropType, type Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import LinkField from "~/components/inputs/link-field.vue";
-import rfc3339 from "~/rfc3339";
 import { useFetchedMediaStore } from "~/stores/fetched-media";
 
 defineOptions({
@@ -98,9 +97,7 @@ function updateAlbumShareLink() {
     props.albumUuid,
     props.albumShareLink.uuid,
     {
-      expiration: expiration.value
-        ? rfc3339(new Date(expiration.value))
-        : undefined,
+      expiration: expiration.value ? new Date(expiration.value) : undefined,
       password: newPassword.value,
     }
   );

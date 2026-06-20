@@ -56,23 +56,22 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
     async getAllMedia() {
       this.allMedia = await api()
         .routesMediaStructure()
-        .then((response) => {
-          return response.data;
-        });
+        .catch(() => undefined);
     },
     async getLikedMedia() {
       this.likedMedia = await api()
         .routesGetMediaLikedList()
-        .then((response) => {
-          return response.data;
-        });
+        .catch(() => undefined);
     },
     async getAlbumList() {
       const albumResponse = await api()
         .routesGetAlbumList()
-        .then((response) => {
-          return response.data;
-        });
+        .catch(() => undefined);
+
+      if (!albumResponse) {
+        this.albumList = undefined;
+        return;
+      }
 
       const albumList: Array<Album<MediaResponse>> | undefined = [];
       for (const album of albumResponse) {
@@ -86,9 +85,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
         .routesCreateAlbum({
           albumInsertData: { name: albumName },
         })
-        .then((response) => {
-          return response.data;
-        });
+        .catch(() => undefined);
 
       // refresh list
       this.getAlbumList();
@@ -98,12 +95,8 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
         .routesDeleteAlbum({
           albumUuid,
         })
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          return false;
-        });
+        .then(() => true)
+        .catch(() => false);
 
       if (success && this.albumList) {
         const index = this.albumList.findIndex((a) => a.link == albumUuid);
@@ -124,12 +117,8 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
 
       const success = await api()
         .routesAlbumAddMedia({ albumAddMedia })
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          return false;
-        });
+        .then(() => true)
+        .catch(() => false);
 
       // TODO: rethink refreshing this later
       if (success && this.albumList) {
@@ -156,12 +145,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
       if (index > -1) {
         const albumMedia = await api()
           .routesGetAlbumStructure({ albumUuid })
-          .then((response) => {
-            return response.data;
-          })
-          .catch(() => {
-            return;
-          });
+          .catch(() => undefined);
 
         if (albumMedia) {
           this.albumList[index].media = albumMedia;
@@ -188,12 +172,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
             albumUuid,
             albumShareLinkInsert: {},
           })
-          .then((response) => {
-            return response.data;
-          })
-          .catch(() => {
-            return;
-          });
+          .catch(() => undefined);
 
         if (albumShareLink) {
           this.albumList[index].shareLinks?.push(albumShareLink);
@@ -217,12 +196,7 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
       if (index > -1) {
         const albumShareLinks = await api()
           .routesGetAlbumShareLinks({ albumUuid })
-          .then((response) => {
-            return response.data;
-          })
-          .catch(() => {
-            return;
-          });
+          .catch(() => undefined);
 
         if (albumShareLinks) {
           this.albumList[index].shareLinks = albumShareLinks;
@@ -253,12 +227,8 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
             albumShareLinkUuid,
             albumShareLinkInsert,
           })
-          .then(() => {
-            return true;
-          })
-          .catch(() => {
-            return false;
-          });
+          .then(() => true)
+          .catch(() => false);
 
         if (response) {
           // const shareLinkIndex = this.albumList[index].shareLinks?.findIndex(
@@ -300,12 +270,8 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
           .routesDeleteAlbumShareLink({
             albumShareLinkUuid,
           })
-          .then(() => {
-            return true;
-          })
-          .catch(() => {
-            return false;
-          });
+          .then(() => true)
+          .catch(() => false);
 
         if (response) {
           this.albumList[index].shareLinks = this.albumList[
@@ -321,12 +287,8 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
       // https://stackoverflow.com/questions/54540881/why-does-my-instance-of-axios-not-return-the-response-in-a-caught-error
       const success = await api()
         .routesMediaLike({ mediaUuid: media.uuid })
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          return false;
-        });
+        .then(() => true)
+        .catch(() => false);
 
       if (success && this.likedMedia) {
         // sometimes the liked images were duplicite (probably related to CORS)
@@ -340,12 +302,8 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
     async mediaUnlike(mediaUuid: string) {
       const success = await api()
         .routesMediaUnlike({ mediaUuid })
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          return false;
-        });
+        .then(() => true)
+        .catch(() => false);
 
       if (success && this.likedMedia) {
         const index = this.likedMedia.findIndex(
@@ -359,16 +317,12 @@ export const useFetchedMediaStore = defineStore("fetchedMedia", {
     async getSystemInfoPublic() {
       this.systemInfoPublic = await api()
         .routesSystemInfoPublic()
-        .then((response) => {
-          return response.data;
-        });
+        .catch(() => undefined);
     },
     async scanMedia() {
       await api()
         .routesScanMedia()
-        .then((response) => {
-          return response.data;
-        });
+        .catch(() => undefined);
     },
   },
 });

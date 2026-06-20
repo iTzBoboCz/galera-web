@@ -39,13 +39,9 @@ const props = defineProps({
 
 async function getMediaByUuid(mediaUuid: string): Promise<string | undefined> {
   const response = await api(defaultConfiguration(props.albumShareLinkAuth))
-    .routesGetMediaByUuid({ mediaUuid }, { responseType: "blob" })
-    // TODO: remove response type when this gets typed directly
+    .routesGetMediaByUuid({ mediaUuid })
     .then((response) => {
-      return response.data;
-    })
-    .catch(() => {
-      return;
+      return response;
     });
 
   if (response) {

@@ -4,7 +4,6 @@ import type {
   UserInsert,
   UserLogin,
 } from "@galera/api-client";
-import axios from "axios";
 import { defineStore } from "pinia";
 
 import api, { defaultConfiguration } from "~/composables/api";
@@ -43,12 +42,7 @@ export const useAuthStore = defineStore("auth", {
     async getServerConfig() {
       const response = await api(defaultConfiguration("noAuth"))
         .routesGetServerConfig()
-        .then((response) => {
-          return response.data;
-        })
-        .catch(() => {
-          return;
-        });
+        .catch(() => undefined);
 
       if (response) {
         this.serverConfig = { auth: response.auth };
@@ -61,10 +55,7 @@ export const useAuthStore = defineStore("auth", {
       // const response = await api.routesLogin({ userLogin }).then((response) => {
       const response = await api(defaultConfiguration("noAuth"))
         .routesLogin({ userLogin })
-        .then((r) => r.data)
-        .catch(() => {
-          return;
-        });
+        .catch(() => undefined);
 
       if (response) {
         this.userInfo = response.user_info;
@@ -77,21 +68,10 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     async signUp(newUser: UserInsert) {
-      // Doesn't work because server doesn't accept stringified JSON objects.
-      // issue: https://github.com/OpenAPITools/openapi-generator/issues/5717
-      // const success = await api.routesCreateUser({ userRegisterInfo: userRegisterInfo }).then(() => {
-      const success = await axios
-        .post("/api/user", newUser, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then(() => {
-          return true;
-        })
-        .catch(() => {
-          return false;
-        });
+      const success = await api(defaultConfiguration("noAuth"))
+        .routesCreateUser({ userInsert: newUser })
+        .then(() => true)
+        .catch(() => false);
 
       if (!success) {
         return;
@@ -107,10 +87,7 @@ export const useAuthStore = defineStore("auth", {
     async refreshToken(): Promise<boolean> {
       const response = await api(defaultConfiguration("noAuth"))
         .routesRefreshToken()
-        .then((r) => r.data)
-        .catch(() => {
-          return;
-        });
+        .catch(() => undefined);
 
       if (!response) {
         this.userInfo = undefined;

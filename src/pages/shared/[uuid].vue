@@ -72,12 +72,7 @@ const isPasswordShown = ref(false);
 async function getAlbumShareLinkBasicInfo() {
   const response = await api(defaultConfiguration("noAuth"))
     .routesGetAlbumShareLink({ albumShareLinkUuid: props.uuid })
-    .then((response) => {
-      return response.data;
-    })
-    .catch(() => {
-      return;
-    });
+    .catch(() => undefined);
 
   if (response) {
     albumShareLinkBasic.value = response;
@@ -106,12 +101,7 @@ async function getAlbumShareLinkMediaStructure(albumUuid: string) {
     })
   )
     .routesGetAlbumStructure({ albumUuid })
-    .then((response) => {
-      return response.data;
-    })
-    .catch(() => {
-      return;
-    });
+    .catch(() => undefined);
 
   if (response) {
     albumShareLinkAuth.value = {

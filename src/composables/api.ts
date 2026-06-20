@@ -1,5 +1,4 @@
-import { Configuration, DefaultApi } from "@galera/api-client";
-import axios, { type AxiosError } from "axios";
+import { Configuration, DefaultApi, type Middleware } from "@galera/api-client";
 
 import router from "~/router";
 import { useAuthStore } from "~/stores/auth";
@@ -47,88 +46,86 @@ export function defaultConfiguration(
     headers.Authorization = `Basic ${b64EncodeUnicode(token)}`;
   }
 
-  return new Configuration({
-    basePath: "/api",
-    baseOptions: { headers },
-  });
-}
+  const authMiddleware: Middleware = {
+    // request
+    pre: async (context) => {
+      context.init.credentials = "include";
 
-const axiosInstance = axios.create({
-  withCredentials: true,
-});
-
-axiosInstance.interceptors.request.use(async (config) => {
-  // biome-ignore lint/suspicious/noExplicitAny: Axios incompatibility
-  const headers = (config.headers ?? {}) as any;
-  const authHeader = (headers.Authorization?.toString() ?? "").trim();
-  if (!authHeader.startsWith("Bearer")) return config;
-
-  const auth = useAuthStore();
-  const isFresh = await auth.ensureFreshToken();
-
-  headers.Authorization =
-    isFresh && auth.bearerToken?.bearerTokenEncoded
-      ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
-      : "Bearer"; // empty Bearer if no bearerTokenEncoded
-
-  config.headers = headers;
-  config.withCredentials = true;
-  return config;
-});
-
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    // biome-ignore lint/suspicious/noExplicitAny: Axios incompatibility
-    const headers = (error.config?.headers ?? {}) as any;
-    const authHeader = (headers.Authorization?.toString() ?? "").trim();
-    if (!authHeader.startsWith("Bearer")) throw error;
-
-    if (error.response?.status === 401) {
+      const currentHeaders = { ...context.init.headers } as Record<
+        string,
+        string
+      >;
+      const authHeader = (
+        currentHeaders.Authorization?.toString() ?? ""
+      ).trim();
+      if (!authHeader.startsWith("Bearer")) return context;
       const auth = useAuthStore();
-      // cookie-based refresh (no bearer needed)
-      const refreshSuccesful = await auth.refreshTokenOnce();
+      const isFresh = await auth.ensureFreshToken();
 
-      if (refreshSuccesful && error.config?.headers) {
-        // retry with new bearer
-        // biome-ignore lint/suspicious/noExplicitAny: Axios incompatibility
-        const headers = error.config.headers as any;
-        headers.Authorization = auth.bearerToken?.bearerTokenEncoded
+      currentHeaders.Authorization =
+        isFresh && auth.bearerToken?.bearerTokenEncoded
           ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
-          : "Bearer";
+          : "Bearer"; // empty Bearer if no bearerTokenEncoded
 
-        // eslint-disable-next-line promise/no-promise-in-callback
-        const retry = await axiosInstance({
-          method: error.config.method,
-          url: error.config.url,
-          data: error.config.data,
-          headers,
-          responseType: error.config.responseType,
-          withCredentials: true, // keep cookies on retry too
-        })
-          .then((r) => r)
-          .catch(() => {
-            return;
-          });
+      context.init.headers = currentHeaders;
+      return context;
+    },
 
-        if (retry) return retry;
+    // response
+    post: async (context) => {
+      context.init.credentials = "include"; // keep cookies on retry too
+      const currentHeaders = { ...context.init.headers } as Record<
+        string,
+        string
+      >;
+      const authHeader = (
+        currentHeaders.Authorization?.toString() ?? ""
+      ).trim();
+
+      if (context.response.ok) {
+        return context.response;
       }
 
-      await auth.logOut();
-      const current = router.currentRoute.value.fullPath;
-      router.replace({ path: "/login", query: { redirect: current } });
-    }
+      if (!authHeader.startsWith("Bearer")) throw context.response;
 
-    throw error;
-  }
-);
+      if (context.response.status === 401) {
+        const auth = useAuthStore();
+        // cookie-based refresh (no bearer needed)
+        const refreshSuccesful = await auth.refreshTokenOnce();
+
+        if (refreshSuccesful) {
+          currentHeaders.Authorization = auth.bearerToken?.bearerTokenEncoded
+            ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
+            : "Bearer";
+
+          try {
+            const retryResponse = await fetch(context.url, context.init);
+
+            if (retryResponse.ok) return retryResponse;
+            throw retryResponse;
+          } catch (e) {
+            // logout
+          }
+        }
+
+        await auth.logOut();
+        const current = router.currentRoute.value.fullPath;
+        router.replace({ path: "/login", query: { redirect: current } });
+      }
+
+      throw context.response;
+    },
+  };
+
+  return new Configuration({
+    basePath: "/api",
+    headers,
+    middleware: [authMiddleware],
+  });
+}
 
 export default function api(config?: Configuration): DefaultApi {
   const finalConfiguration = config ?? defaultConfiguration();
 
-  return new DefaultApi(
-    finalConfiguration,
-    finalConfiguration.basePath,
-    axiosInstance
-  );
+  return new DefaultApi(finalConfiguration);
 }
