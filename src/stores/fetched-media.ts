@@ -5,7 +5,7 @@ import type {
   MediaResponse,
   SharedAlbumLinkResponse,
   SystemInfoPublic,
-} from "@galera/client-axios";
+} from "@galera/api-client";
 import { defineStore } from "pinia";
 
 import api from "~/composables/api";

@@ -14,7 +14,7 @@
     "biome:format": "biome format --write ."
   },
   "dependencies": {
-    "@galera/client-axios": "github:galera-org/galera-client-axios",
+    "@galera/api-client": "0.2",
     "@mdi/font": "7",
     "axios": "1",
     "iso-639-1": "3.1",

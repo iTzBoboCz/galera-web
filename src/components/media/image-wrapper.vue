@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import type { MediaResponse } from "@galera/client-axios";
+import type { MediaResponse } from "@galera/api-client";
 import { type PropType, type Ref, ref } from "vue";
 
 import api, {

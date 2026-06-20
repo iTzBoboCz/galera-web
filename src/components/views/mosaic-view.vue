@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-import type { MediaResponse } from "@galera/client-axios";
+import type { MediaResponse } from "@galera/api-client";
 import { onMounted, type PropType, type Ref, ref } from "vue";
 
 import LikeButton from "~/components/buttons/like-button.vue";

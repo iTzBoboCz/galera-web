@@ -168,7 +168,7 @@
 </template>
 
 <script setup lang="ts">
-import type { AlbumResponse } from "@galera/client-axios";
+import type { AlbumResponse } from "@galera/api-client";
 import { type Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 

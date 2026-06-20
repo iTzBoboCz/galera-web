@@ -1,4 +1,4 @@
-import { Configuration, DefaultApi } from "@galera/client-axios";
+import { Configuration, DefaultApi } from "@galera/api-client";
 import axios, { type AxiosError } from "axios";
 
 import router from "~/router";

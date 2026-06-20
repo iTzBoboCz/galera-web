@@ -68,7 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import type { UserInsert } from "@galera/client-axios";
+import type { UserInsert } from "@galera/api-client";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 

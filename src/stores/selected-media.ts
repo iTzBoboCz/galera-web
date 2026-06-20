@@ -1,4 +1,4 @@
-import type { MediaResponse } from "@galera/client-axios";
+import type { MediaResponse } from "@galera/api-client";
 import { defineStore } from "pinia";
 
 export interface SelectedMediaState {

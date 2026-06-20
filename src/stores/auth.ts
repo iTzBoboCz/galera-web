@@ -3,7 +3,7 @@ import type {
   UserInfo,
   UserInsert,
   UserLogin,
-} from "@galera/client-axios";
+} from "@galera/api-client";
 import axios from "axios";
 import { defineStore } from "pinia";
 
