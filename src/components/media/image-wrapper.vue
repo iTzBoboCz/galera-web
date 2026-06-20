@@ -8,24 +8,19 @@
   />
 </template>
 
-<script lang="ts">
-import { MediaResponse } from "@galera/client-axios";
-import { AxiosResponse } from "axios";
-import { defineComponent, PropType, Ref, ref } from "vue";
+<script setup lang="ts">
+import type { MediaResponse } from "@galera/client-axios";
+import { type PropType, type Ref, ref } from "vue";
 
 import api, {
-  AlbumShareLinkScheme,
+  type AlbumShareLinkScheme,
   defaultConfiguration,
 } from "~/composables/api";
 
-// TODO: use only script setup when this issue is solved:
-// https://github.com/import-js/eslint-plugin-import/issues/2243
-export default defineComponent({
+defineOptions({
   name: "ImageWrapper",
 });
-</script>
 
-<script setup lang="ts">
 const props = defineProps({
   media: {
     type: Object as PropType<MediaResponse>,

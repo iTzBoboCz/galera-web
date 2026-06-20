@@ -68,11 +68,10 @@
 </template>
 
 <script setup lang="ts">
-import { UserInsert } from "@galera/client-axios";
+import type { UserInsert } from "@galera/client-axios";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
-// eslint-disable-next-line import/default
 import ErrorDisabledLayout from "~/layouts/error-disabled.vue";
 import router from "~/router";
 import { useAuthStore } from "~/stores/auth";

@@ -66,22 +66,18 @@
   </v-bottom-navigation>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useDisplay } from "vuetify";
 
 import ViewChanger from "~/components/buttons/view-changer.vue";
 import UserMenu from "~/components/user-menu.vue";
 
-// TODO: use only script setup when this issue is solved:
-// https://github.com/import-js/eslint-plugin-import/issues/2243
-export default defineComponent({
+defineOptions({
   name: "NavigationMenu",
 });
-</script>
 
-<script setup lang="ts">
 const display = useDisplay();
 
 const { t } = useI18n();

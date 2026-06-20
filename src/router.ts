@@ -22,7 +22,7 @@ const publicGeneralPages = ["shared-uuid"];
 const publicAuthPages = ["signup", "login", "auth-oidc-callback"];
 const publicPages = [...publicAuthPages, ...publicGeneralPages];
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   const auth = useAuthStore();
 
   const isAuthPage = publicAuthPages.includes(to.name?.toString() ?? "");

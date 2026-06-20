@@ -55,17 +55,11 @@
     "ecmaVersion": 2020,
     "parser": "@typescript-eslint/parser",
     "sourceType": "module",
-    "extraFileExtensions": [
-      ".vue"
-    ]
+    "extraFileExtensions": [".vue"]
   },
   "settings": {
     "import/parsers": {
-      "vue-eslint-parser": [
-        ".ts",
-        ".tsx",
-        ".vue"
-      ]
+      "vue-eslint-parser": [".ts", ".tsx", ".vue"]
     },
     "import/resolver": {
       "typescript": {
@@ -73,26 +67,17 @@
         "project": "."
       }
     },
-    "import/extensions": [
-      ".ts",
-      ".tsx",
-      ".vue"
-    ]
+    "import/extensions": [".ts", ".tsx", ".vue"]
   },
   "overrides": [
     {
-      "files": [
-        "src/locales/*.json"
-      ],
+      "files": ["src/locales/*.json"],
       "rules": {
         "unicorn/filename-case": "off"
       }
     },
     {
-      "files": [
-        "src/pages/**/*.vue",
-        "src/layouts/**/*.vue"
-      ],
+      "files": ["src/pages/**/*.vue", "src/layouts/**/*.vue"],
       "rules": {
         "vue/multi-word-component-names": "off"
       }

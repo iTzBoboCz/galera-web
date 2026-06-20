@@ -1,5 +1,5 @@
 import { Configuration, DefaultApi } from "@galera/client-axios";
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 
 import router from "~/router";
 import { useAuthStore } from "~/stores/auth";
@@ -13,7 +13,7 @@ function b64EncodeUnicode(unicode_string: string) {
   return btoa(
     encodeURIComponent(unicode_string).replaceAll(
       /%([\dA-F]{2})/g,
-      (match, p1) => {
+      (_match, p1) => {
         return String.fromCodePoint(Number("0x" + p1));
       }
     )
@@ -28,13 +28,13 @@ export function defaultConfiguration(
   };
 
   // TODO: there might be a better way to check if authenticationScheme is AlbumShareLinkScheme
-  if (authenticationScheme == "bearer") {
+  if (authenticationScheme === "bearer") {
     const auth = useAuthStore();
     headers.Authorization = auth.bearerToken?.bearerTokenEncoded
       ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`
       : "Bearer";
   } else if (
-    typeof authenticationScheme == "object" &&
+    typeof authenticationScheme === "object" &&
     authenticationScheme.albumShareLinkUuid
   ) {
     const token =
@@ -58,6 +58,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(async (config) => {
+  // biome-ignore lint/suspicious/noExplicitAny: Axios incompatibility
   const headers = (config.headers ?? {}) as any;
   const authHeader = (headers.Authorization?.toString() ?? "").trim();
   if (!authHeader.startsWith("Bearer")) return config;
@@ -78,6 +79,7 @@ axiosInstance.interceptors.request.use(async (config) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
+    // biome-ignore lint/suspicious/noExplicitAny: Axios incompatibility
     const headers = (error.config?.headers ?? {}) as any;
     const authHeader = (headers.Authorization?.toString() ?? "").trim();
     if (!authHeader.startsWith("Bearer")) throw error;
@@ -89,6 +91,7 @@ axiosInstance.interceptors.response.use(
 
       if (refreshSuccesful && error.config?.headers) {
         // retry with new bearer
+        // biome-ignore lint/suspicious/noExplicitAny: Axios incompatibility
         const headers = error.config.headers as any;
         headers.Authorization = auth.bearerToken?.bearerTokenEncoded
           ? `Bearer ${auth.bearerToken.bearerTokenEncoded}`

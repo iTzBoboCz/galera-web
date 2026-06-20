@@ -4,18 +4,12 @@
   >
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script setup lang="ts">
 import { useUserPreferencesStore } from "~/stores/user-preferences";
 
-// TODO: use only script setup when this issue is solved:
-// https://github.com/import-js/eslint-plugin-import/issues/2243
-export default defineComponent({
+defineOptions({
   name: "ThemeToggler",
 });
-</script>
 
-<script setup lang="ts">
 const userPreferences = useUserPreferencesStore();
 </script>

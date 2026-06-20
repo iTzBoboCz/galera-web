@@ -1,4 +1,4 @@
-import { MediaResponse } from "@galera/client-axios";
+import type { MediaResponse } from "@galera/client-axios";
 import { defineStore } from "pinia";
 
 export interface SelectedMediaState {
@@ -12,7 +12,7 @@ export const useSelectedMediaStore = defineStore("selectedMedia", {
     mediaModal: undefined,
   }),
   getters: {
-    isModalActive: (state) => (state.mediaModal ? true : false),
+    isModalActive: (state) => !!state.mediaModal,
   },
   actions: {
     setMediaModal(mediaModal: MediaResponse | undefined) {

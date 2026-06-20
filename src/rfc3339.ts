@@ -24,9 +24,8 @@ function timezoneOffset(offset: number) {
     return "Z";
   }
 
-  // eslint-disable-next-line prefer-const
-  let sign = offset > 0 ? "-" : "+";
-  offset = Math.abs(offset);
+  const sign = offset > 0 ? "-" : "+";
+  const absOffset = Math.abs(offset);
 
-  return sign + pad(Math.floor(offset / 60)) + ":" + pad(offset % 60);
+  return sign + pad(Math.floor(absOffset / 60)) + ":" + pad(absOffset % 60);
 }

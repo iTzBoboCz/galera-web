@@ -6,21 +6,17 @@
   />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import ISO6391 from "iso-639-1";
-import { defineComponent, Ref, ref } from "vue";
+import { type Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useUserPreferencesStore } from "~/stores/user-preferences";
 
-// TODO: use only script setup when this issue is solved:
-// https://github.com/import-js/eslint-plugin-import/issues/2243
-export default defineComponent({
+defineOptions({
   name: "LocaleSwitcher",
 });
-</script>
 
-<script setup lang="ts">
 const userPreferences = useUserPreferencesStore();
 
 const { availableLocales, locale } = useI18n();

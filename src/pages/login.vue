@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { UserLogin } from "@galera/client-axios";
+import type { UserLogin } from "@galera/client-axios";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 

@@ -2,8 +2,7 @@
   "recommendations": [
     "EditorConfig.EditorConfig",
     "Vue.volar",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
+    "biomejs.biome",
     "lokalise.i18n-ally"
   ],
   "unwantedRecommendations": []

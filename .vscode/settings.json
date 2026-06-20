@@ -4,14 +4,15 @@
   "i18n-ally.localesPaths": "src/locales",
   "i18n-ally.sortKeys": true,
   "i18n-ally.sourceLanguage": "en-US",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "biomejs.biome",
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
     "**/node_modules": true
   },
-  "stylelint.validate": [
-    "vue"
-  ],
-  "eslint.useFlatConfig": false
+  "stylelint.validate": ["vue"],
+  "eslint.useFlatConfig": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "always"
+  }
 }

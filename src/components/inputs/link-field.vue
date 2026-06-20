@@ -7,18 +7,14 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
-// TODO: use only script setup when this issue is solved:
-// https://github.com/import-js/eslint-plugin-import/issues/2243
-export default defineComponent({
+defineOptions({
   name: "LinkField",
 });
-</script>
 
-<script setup lang="ts">
 const props = defineProps({
   url: {
     type: String,

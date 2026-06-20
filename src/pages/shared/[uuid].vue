@@ -43,13 +43,13 @@
 </template>
 
 <script setup lang="ts">
-import { AlbumShareLinkBasic, MediaResponse } from "@galera/client-axios";
-import { Ref, ref } from "vue";
+import type { AlbumShareLinkBasic, MediaResponse } from "@galera/client-axios";
+import { type Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import ViewWrapper from "~/components/view-wrapper.vue";
 import api, {
-  AlbumShareLinkScheme,
+  type AlbumShareLinkScheme,
   defaultConfiguration,
 } from "~/composables/api";
 

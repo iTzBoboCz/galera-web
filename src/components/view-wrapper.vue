@@ -124,24 +124,22 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import { MediaResponse } from "@galera/client-axios";
-import { defineComponent, PropType, Ref, ref } from "vue";
+<script setup lang="ts">
+import type { MediaResponse } from "@galera/client-axios";
+import { type PropType, type Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import ListView from "~/components/views/list-view.vue";
 import MosaicView from "~/components/views/mosaic-view.vue";
 import TileView from "~/components/views/tile-view.vue";
-import api, { AlbumShareLinkScheme } from "~/composables/api";
+import api, { type AlbumShareLinkScheme } from "~/composables/api";
 import { useFetchedMediaStore } from "~/stores/fetched-media";
 import { useUserPreferencesStore } from "~/stores/user-preferences";
 
-export default defineComponent({
+defineOptions({
   name: "ViewWrapper",
 });
-</script>
 
-<script setup lang="ts">
 const userPreferences = useUserPreferencesStore();
 
 const props = defineProps({

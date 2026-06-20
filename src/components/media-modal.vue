@@ -48,21 +48,16 @@
   </v-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
 import { useDisplay } from "vuetify";
 
 import ImageWrapper from "~/components/media/image-wrapper.vue";
 import { useSelectedMediaStore } from "~/stores/selected-media";
 
-// TODO: use only script setup when this issue is solved:
-// https://github.com/import-js/eslint-plugin-import/issues/2243
-export default defineComponent({
+defineOptions({
   name: "MediaModal",
 });
-</script>
 
-<script setup lang="ts">
 const selectedMedia = useSelectedMediaStore();
 
 const display = useDisplay();

@@ -8,20 +8,16 @@
   />
 </template>
 
-<script lang="ts">
-import { MediaResponse } from "@galera/client-axios";
-import { defineComponent, PropType } from "vue";
+<script setup lang="ts">
+import type { MediaResponse } from "@galera/client-axios";
+import type { PropType } from "vue";
 
 import { useFetchedMediaStore } from "~/stores/fetched-media";
 
-// TODO: use only script setup when this issue is solved:
-// https://github.com/import-js/eslint-plugin-import/issues/2243
-export default defineComponent({
+defineOptions({
   name: "LikeButton",
 });
-</script>
 
-<script setup lang="ts">
 function isLiked(): boolean | undefined {
   if (!fetchedMedia.likedMedia) {
     console.warn(

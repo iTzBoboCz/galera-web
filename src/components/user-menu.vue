@@ -16,19 +16,17 @@
   </v-menu>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 
 import router from "~/router";
 import { useAuthStore } from "~/stores/auth";
 
-export default {
+defineOptions({
   name: "UserMenu",
-};
-</script>
+});
 
-<script setup lang="ts">
 const { t } = useI18n();
 
 const auth = useAuthStore();

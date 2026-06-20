@@ -60,23 +60,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { MediaResponse } from "@galera/client-axios";
-import { defineComponent, onMounted, PropType, Ref, ref } from "vue";
+<script setup lang="ts">
+import type { MediaResponse } from "@galera/client-axios";
+import { onMounted, type PropType, type Ref, ref } from "vue";
 
 import LikeButton from "~/components/buttons/like-button.vue";
 import ImageWrapper from "~/components/media/image-wrapper.vue";
-import { AlbumShareLinkScheme } from "~/composables/api";
+import type { AlbumShareLinkScheme } from "~/composables/api";
 import { useSelectedMediaStore } from "~/stores/selected-media";
 
-// TODO: use only script setup when this issue is solved:
-// https://github.com/import-js/eslint-plugin-import/issues/2243
-export default defineComponent({
+defineOptions({
   name: "MosaicView",
 });
-</script>
 
-<script setup lang="ts">
 const props = defineProps({
   mediaList: {
     type: Object as PropType<MediaResponse[]>,

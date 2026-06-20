@@ -168,8 +168,8 @@
 </template>
 
 <script setup lang="ts">
-import { AlbumResponse } from "@galera/client-axios";
-import { Ref, ref } from "vue";
+import type { AlbumResponse } from "@galera/client-axios";
+import { type Ref, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import AlbumShareLinkExpansionPanel from "~/components/album-share-link-expansion-panel.vue";
