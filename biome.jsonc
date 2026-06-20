@@ -17,13 +17,18 @@
   },
   "linter": {
     "enabled": true,
+    "domains": {
+      "vue": "all",
+      "types": "all"
+    },
     "rules": {
       "preset": "recommended",
       "style": {
         "useTemplate": "off"
       },
       "suspicious": {
-        "noDoubleEquals": "off"
+        "noDoubleEquals": "off",
+        "noNestedPromises": "warn"
       }
     }
   },
