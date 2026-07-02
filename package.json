@@ -27,11 +27,11 @@
     "vuetify": "3.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.0",
+    "@biomejs/biome": "2.5.2",
     "@intlify/unplugin-vue-i18n": "11.2",
     "@types/node": "24",
     "@vitejs/plugin-vue": "6",
-    "postcss-html": "1.8.0",
+    "postcss-html": "1.8.1",
     "sass": "1",
     "stylelint": "17",
     "stylelint-config-recommended-vue": "1.6",
