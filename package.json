@@ -31,12 +31,12 @@
     "@intlify/unplugin-vue-i18n": "11.2",
     "@types/node": "24",
     "@vitejs/plugin-vue": "6",
-    "postcss-html": "1.8.0",
+    "postcss-html": "2.0.0",
     "sass": "1",
     "stylelint": "17",
-    "stylelint-config-recommended-vue": "1.6",
+    "stylelint-config-recommended-vue": "2.0",
     "stylelint-config-standard": "40",
-    "typescript": "6",
+    "typescript": "7",
     "vite": "8",
     "vue-tsc": "3"
   }
